@@ -1,0 +1,110 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\actividad_proyecto,
+    App\cualidad,
+    App\proyecto,
+    App\area_proyecto;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class ActividadesProyectosController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index($id_proyecto,$id_area)
+    {
+        $cualidades = cualidad::all();
+        $actividad = DB::select('SELECT ac.id,ac.Nombre_actividad,ac.Descripcion,ac.Evaluacion,ar.Nombre_area,p.Nombre_proyecto,ac.proyecto_id,ac.area_proyecto_id
+                                 FROM actividad_proyectos ac, area_proyectos ar, proyectos p 
+                                 WHERE ac.area_proyecto_id = ar.id AND ac.proyecto_id = p.id AND ar.id = ? AND p.id = ?',
+                                 [$id_area,$id_proyecto]);
+
+        return view('Proyectos.index_actividad',compact( 'actividad','cualidades'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create($id_proyecto,$id_area)
+    {
+        $p = proyecto::find($id_proyecto);
+        $a = area_proyecto::find($id_area);
+        return view('Proyectos.create_actividad',compact('p', 'a'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request, $id_proyecto,$id_area)
+    {
+        DB::insert('INSERT INTO actividad_proyectos (Nombre_actividad,Descripcion,proyecto_id,area_proyecto_id)
+                            VALUES (?,?,?,?)', [$request->get('nom_act'),
+                                                $request->get('nom_act'),
+                                                $id_proyecto,
+                                                $id_area]);
+        return redirect()->action('ActividadesProyectosController@index',[$id_proyecto,$id_area]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id, $id_proyecto, $id_area)
+    {
+        $p = proyecto::find($id_proyecto);
+        $a = area_proyecto::find($id_area);
+        $act = actividad_proyecto::find($id);
+        return view('Proyectos.create_actividad',compact('p', 'a', 'act'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id, $id_proyecto,$id_area)
+    {
+        DB::update('UPDATE actividad_proyectos SET Nombre_actividad = ?, Descripcion = ?
+                            WHERE id = ?',[$request->get('nom_act'),
+                                           $request->get('descripcion'),
+                                           $id]);
+        return redirect()->action('ActividadesProyectosController@index',[$id_proyecto,$id_area]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id, $id_proyecto,$id_area)
+    {
+        DB::delete('DELETE FROM actividad_proyectos WHERE id = ?',[$id]);
+        return redirect()->action('ActividadesProyectosController@index',[$id_proyecto,$id_area]);
+    }
+}
