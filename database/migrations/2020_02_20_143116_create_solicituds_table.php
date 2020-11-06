@@ -24,10 +24,10 @@ class CreateSolicitudsTable extends Migration
 
             $table->integer('solicitante_id')->unsigned()->nullable();
             $table->foreign('solicitante_id')->references('id')
-                ->on('users')->onDelete('cascade');
+                ->on('usuario')->onDelete('cascade');
             $table->integer('destino_id')->unsigned()->nullable();
             $table->foreign('destino_id')->references('id')
-                ->on('users')->onDelete('cascade');
+                ->on('usuario')->onDelete('cascade');
             $table->timestamps();
         });
     }

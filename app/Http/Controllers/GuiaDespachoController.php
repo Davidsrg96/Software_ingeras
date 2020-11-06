@@ -6,7 +6,7 @@ use App\almacenamiento;
 use App\bodega;
 use App\proveedor;
 use App\guia_despacho;
-use App\User;
+use App\usuario;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,21 +28,21 @@ class GuiaDespachoController extends Controller
         $almacen = almacenamiento::find($request->almacen);
         $producto = bodega::all();
         $proveedores = proveedor::all();
-        $solicitante = user::find($id);
-        $usuarios = DB::select('SELECT id,Nombre FROM users WHERE NOT id = ?',[$id]);
+        $solicitante = usuario::find($id);
+        $usuarios = DB::select('SELECT id,Nombre FROM usuario WHERE NOT id = ?',[$id]);
         return view('Abastecimiento.create_despacho',compact('almacen','producto','proveedores','usuarios','solicitante'));
     }
 
     public function movimientoProducto(Request $request, $id)
     {
         $idu = Auth::id();
-        $solicitante = user::find($idu);
+        $solicitante = usuario::find($idu);
         $almacen_origen = almacenamiento::find($id);
         $almacen_destino = almacenamiento::find($request->get('almacen'));
         $producto = DB::select('SELECT a.Cantidad_almacenada,b.id,b.Codigo,b.proveedor_id,b.Nombre_producto FROM bodegas b,almacenamiento_stocks a WHERE b.id = a.bodega_id
                                         AND a.almacenamiento_id = ?',[$id]);
         //dd($producto);
-        $usuarios = DB::select('SELECT * FROM users u, cargos c WHERE c.id = u.cargo_id AND Tipo_cargo = ?',['Abastecimiento']);
+        $usuarios = DB::select('SELECT * FROM usuario u, cargos c WHERE c.id = u.cargo_id AND Tipo_cargo = ?',['Abastecimiento']);
         $proveedores = proveedor::all();
         return view('Abastecimiento.movimiento_almacenes',compact('almacen_origen','almacen_destino','producto','proveedores','usuarios','solicitante'));
     }
@@ -80,7 +80,7 @@ class GuiaDespachoController extends Controller
         $id = Auth::id();
         $titulo = 'Guia de Despacho';
         $mensaje = 'Movimiento de articulos de stock hacia el almacen '. $almacen[0]->Nombre .' a traves de una guia de despacho';
-        $destinatario = user::find($request->get('receptor'));
+        $destinatario = usuario::find($request->get('receptor'));
         DB::insert('INSERT INTO solicituds (Titulo,Mensaje,solicitante_id,destino_id,Fecha_inicio,Fecha_termino)
                             VALUES (?,?,?,?,?,?)', [$titulo,
                                                     $mensaje,
@@ -164,7 +164,7 @@ class GuiaDespachoController extends Controller
         $id = Auth::id();
         $titulo = 'Movimiento entre almacenes';
         $mensaje = 'Movimiento de articulos de stock del almacen '.$almacen_origen[0]->Nombre.' hacia el almacen '. $almacen_destino[0]->Nombre .' a traves de una guia de despacho';
-        $destinatario = user::find($request->get('receptor'));
+        $destinatario = usuario::find($request->get('receptor'));
         DB::insert('INSERT INTO solicituds (Titulo,Mensaje,solicitante_id,destino_id,Fecha_inicio,Fecha_termino)
                             VALUES (?,?,?,?,?,?)', [$titulo,
                                                     $mensaje,

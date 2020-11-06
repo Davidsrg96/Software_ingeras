@@ -16,7 +16,7 @@ class CreateUsuarioDepartamentosTable extends Migration
         Schema::create('usuario_departamentos', function (Blueprint $table) {
             $table->integer('usuario_id')->unsigned()->nullable();
             $table->foreign('usuario_id')->references('id')
-                ->on('users')->onDelete('cascade');
+                ->on('usuario')->onDelete('cascade');
 
             $table->integer('departamento_id')->unsigned()->nullable();
             $table->foreign('departamento_id')->references('id')

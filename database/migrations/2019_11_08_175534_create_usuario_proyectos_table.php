@@ -18,7 +18,7 @@ class CreateUsuarioProyectosTable extends Migration
             $table->integer('Carga');
             $table->integer('usuario_id')->unsigned()->nullable();
             $table->foreign('usuario_id')->references('id')
-                ->on('users')->onDelete('cascade');
+                ->on('usuario')->onDelete('cascade');
             $table->integer('proyecto_id')->unsigned()->nullable();
             $table->foreign('proyecto_id')->references('id')
                 ->on('proyectos')->onDelete('cascade');

@@ -11,14 +11,11 @@
 |
 */
 
+Route::get('/', 'Auth\LoginController@formLogin')->name('fLogin');
+Route::post('login', 'Auth\LoginController@login')->name('login');
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/', function () {
-    if(Auth::guest()){
-        return view('auth.login');
-    }else{
-        return view('home');
-    }
-});
+Route::get('home', 'HomeController@index')->name('home.index');
 
 
 //Rutas de actividad por departamento
@@ -156,4 +153,3 @@ Route::post('proyectos/{proyecto}/{area}/actividades/crear-actividad', 'Activida
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');

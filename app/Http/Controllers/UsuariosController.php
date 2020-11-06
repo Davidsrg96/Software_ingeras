@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\cargo;
-use App\user;
+use App\usuario;
 use App\tipo_usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +14,7 @@ class UsuariosController extends Controller
 
     public function index()
     {
-        $usuarios = user::orderBy('id','ASC')->paginate();
+        $usuarios = usuario::orderBy('id','ASC')->paginate();
         $tipos = tipo_usuario::all();
         $cargos = cargo::all();
         return view('Usuarios.index_usuarios',compact('usuarios', 'tipos', 'cargos'));
@@ -30,7 +30,7 @@ class UsuariosController extends Controller
 
     public function store(Request $request)
     {
-        DB::insert('INSERT INTO users (Nombre,Rut,password,email,Es_externo,Confiabilidad,Ciudad,cargo_id,tipo_usuario_id) 
+        DB::insert('INSERT INTO usuario (Nombre,Rut,password,email,Es_externo,Confiabilidad,Ciudad,cargo_id,tipo_usuario_id) 
                                 VALUES (?,?,?,?,?,?,?,?,?)',[$request->get('nombre'),
                                                            $request->get('rut'),
                                                            bcrypt($request->get('contraseña')),
@@ -63,7 +63,7 @@ class UsuariosController extends Controller
     public function update(Request $request, $id)
     {
 
-        DB::update('UPDATE users SET Nombre = ?, Rut = ?, password = ?, email = ?
+        DB::update('UPDATE usuario SET Nombre = ?, Rut = ?, password = ?, email = ?
                                     Es_externo = ?, Confiabilidad = ?,Ciudad = ?, cargo_id = ?, tipo_usuario_id = ?
                            WHERE id = ?',     [$request->get('nombre'),
                                                $request->get('rut'),
@@ -81,7 +81,7 @@ class UsuariosController extends Controller
 
     public function destroy($id)
     {
-        DB::delete('DELETE FROM users WHERE id = ?',[$id]);
+        DB::delete('DELETE FROM usuario WHERE id = ?',[$id]);
         return redirect()->route('usuarios.index');
     }
 }

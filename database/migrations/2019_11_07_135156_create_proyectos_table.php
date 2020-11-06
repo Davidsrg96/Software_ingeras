@@ -25,7 +25,7 @@ class CreateProyectosTable extends Migration
 
             $table->integer('encargado_id')->unsigned()->nullable();
             $table->foreign('encargado_id')->references('id')
-                ->on('users')->onDelete('cascade');
+                ->on('usuario')->onDelete('cascade');
             $table->timestamps();
         });
     }
