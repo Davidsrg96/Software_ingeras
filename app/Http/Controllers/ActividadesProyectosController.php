@@ -11,11 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class ActividadesProyectosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index($id_proyecto,$id_area)
     {
         $cualidades = cualidad::all();
@@ -27,11 +23,6 @@ class ActividadesProyectosController extends Controller
         return view('Proyectos.index_actividad',compact( 'actividad','cualidades'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create($id_proyecto,$id_area)
     {
         $p = proyecto::find($id_proyecto);
@@ -39,12 +30,6 @@ class ActividadesProyectosController extends Controller
         return view('Proyectos.create_actividad',compact('p', 'a'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request, $id_proyecto,$id_area)
     {
         DB::insert('INSERT INTO actividad_proyectos (Nombre_actividad,Descripcion,proyecto_id,area_proyecto_id)
@@ -55,23 +40,11 @@ class ActividadesProyectosController extends Controller
         return redirect()->action('ActividadesProyectosController@index',[$id_proyecto,$id_area]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id, $id_proyecto, $id_area)
     {
         $p = proyecto::find($id_proyecto);
@@ -80,13 +53,6 @@ class ActividadesProyectosController extends Controller
         return view('Proyectos.create_actividad',compact('p', 'a', 'act'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id, $id_proyecto,$id_area)
     {
         DB::update('UPDATE actividad_proyectos SET Nombre_actividad = ?, Descripcion = ?
@@ -96,12 +62,6 @@ class ActividadesProyectosController extends Controller
         return redirect()->action('ActividadesProyectosController@index',[$id_proyecto,$id_area]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id, $id_proyecto,$id_area)
     {
         DB::delete('DELETE FROM actividad_proyectos WHERE id = ?',[$id]);

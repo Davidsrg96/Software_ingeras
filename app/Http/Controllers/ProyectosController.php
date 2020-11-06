@@ -9,11 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProyectosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $proyectos = proyecto::orderBy('id','ASC')->paginate();
@@ -21,11 +17,6 @@ class ProyectosController extends Controller
         return view('Proyectos.index_proyectos', compact('proyectos','encargados'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $usuarios = user::all();
@@ -73,12 +64,6 @@ class ProyectosController extends Controller
         return redirect()->route('proyectos.usuarios',compact($idp));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         DB::insert('INSERT INTO proyectos (Nombre_proyecto, Fecha_inicio, Fecha_termino, 
@@ -93,12 +78,6 @@ class ProyectosController extends Controller
         return redirect()->route('proyectos.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $p = DB::select('SELECT p.*, u.Nombre
@@ -107,12 +86,6 @@ class ProyectosController extends Controller
         return view('Proyectos.show_proyectos', compact('p'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $p = DB::select('SELECT p.id, p.Nombre_proyecto, p.Fecha_inicio, p.Fecha_termino, p.Presupuesto_oferta, p.Presupuesto_control, p.encargado_id, u.Nombre
@@ -121,13 +94,6 @@ class ProyectosController extends Controller
         return view('Proyectos.create_proyectos',compact('p'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         DB::update('UPDATE proyectos SET Nombre_proyecto = ?, Fecha_inicio = ?, Fecha_termino = ?, 
@@ -141,12 +107,6 @@ class ProyectosController extends Controller
         return redirect()->route('proyectos.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         DB::delete('DELETE FROM proyectos WHERE id = ?',[$id]);

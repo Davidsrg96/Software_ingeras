@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\DB;
 
 class FacturaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function index()
     {
@@ -31,12 +26,7 @@ class FacturaController extends Controller
         return view('Facturas.index_factura', compact('facturas','proveedor','idoc'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function create(Request $request)
     {
         $proveedor = proveedor::find($request->get('prov'));
@@ -48,13 +38,6 @@ class FacturaController extends Controller
         }
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *exit
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $proveedor = DB::select('SELECT id FROM proveedors WHERE Nombre_proveedor = ?',[$request->get('proveedor')]);
@@ -121,46 +104,21 @@ class FacturaController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
 

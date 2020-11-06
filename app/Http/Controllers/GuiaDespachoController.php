@@ -14,11 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class GuiaDespachoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $guias = guia_despacho::all();
@@ -26,12 +22,6 @@ class GuiaDespachoController extends Controller
         return view('Abastecimiento.index_guia_despacho',compact('guias','almacenes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $request)
     {
         $id = Auth::id();
@@ -58,12 +48,6 @@ class GuiaDespachoController extends Controller
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //Insercion de la guia de despacho a la BDD
@@ -119,35 +103,16 @@ class GuiaDespachoController extends Controller
         return redirect()->action('AlmacenamientosController@show',$id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request,$id)
     {
         //
@@ -211,12 +176,6 @@ class GuiaDespachoController extends Controller
         return redirect()->action('AlmacenamientosController@show',$almacen_origen[0]->id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

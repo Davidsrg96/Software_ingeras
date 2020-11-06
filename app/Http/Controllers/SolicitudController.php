@@ -13,11 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SolicitudController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $id = Auth::id();
@@ -27,11 +23,6 @@ class SolicitudController extends Controller
         return view('Solicitudes.index',compact('pendientes','usuarios', 'solicitudes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $id = Auth::id();
@@ -66,13 +57,6 @@ class SolicitudController extends Controller
         return view('Solicitudes.create',compact('usuarios','almacen_local','productos','solicitud','almacenes'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
-     */
     public function store(Request $request)
     {
         $id = Auth::id();
@@ -102,12 +86,6 @@ class SolicitudController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $solicitud = solicitud::find($id);
@@ -116,36 +94,17 @@ class SolicitudController extends Controller
         return view('Solicitudes.show',compact('solicitud','solicitante','destinatario'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         DB::update('UPDATE solicituds SET Status = ? WHERE id = ?',[$request->get('status'),$id]);
         return redirect()->route('solicitudes.show',$id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         DB::delete('DELETE FROM solicituds WHERE id = ?',[$id]);

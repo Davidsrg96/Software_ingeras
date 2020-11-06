@@ -10,11 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class DepartamentosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         $departamentos = departamento::orderBy('id','ASC')->paginate();
@@ -33,11 +29,6 @@ class DepartamentosController extends Controller
         return view('Departamentos.index_actividad',compact(['act', 'd']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('Departamentos.create_depto');
@@ -48,12 +39,6 @@ class DepartamentosController extends Controller
         return view('Departamentos.create_actividad', compact('id'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         DB::insert('INSERT INTO departamentos (Nombre_departamento, Objetivo) VALUES (?,?)',
@@ -75,24 +60,12 @@ class DepartamentosController extends Controller
         return redirect()->route('actividadesdepto.index', $id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $d = departamento::find($id);
         return view('Departamentos.show_depto', compact(['id', 'd']));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $d = departamento::find($id);
@@ -106,13 +79,7 @@ class DepartamentosController extends Controller
         return view('Departamentos.create_actividad', compact('act', 'id'));
 
     }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function update(Request $request, $id)
     {
         DB::update('UPDATE departamentos SET Nombre_departamento = ?, Objetivo = ?
@@ -131,12 +98,6 @@ class DepartamentosController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         DB::delete('DELETE FROM departamentos WHERE id = ?',[$id]);

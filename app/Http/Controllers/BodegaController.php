@@ -11,11 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class BodegaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     public function index()
     {
         $producto = bodega::orderBy('id','ASC')->paginate();
@@ -25,23 +21,13 @@ class BodegaController extends Controller
         return view('Abastecimiento.index_bodega', compact('producto','proveedores','almacenes','a_s'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $proveedores = proveedor::all();
         return view('Abastecimiento.create_producto',compact('proveedores'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
         DB::insert('INSERT INTO bodegas (Codigo,Nombre_producto,Precio_producto,Cantidad,proveedor_id)
@@ -53,12 +39,6 @@ class BodegaController extends Controller
         return redirect()->route('bodega.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
@@ -68,12 +48,6 @@ class BodegaController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $proveedores = proveedor::all();
@@ -81,13 +55,6 @@ class BodegaController extends Controller
         return view('Abastecimiento.create_producto',compact('p','proveedores'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         DB::update('UPDATE bodegas SET Codigo = ?,Nombre_producto = ?, Precio_producto = ?, Cantidad = ?, proveedor_id = ?
@@ -100,12 +67,6 @@ class BodegaController extends Controller
         return redirect()->route('bodega.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         DB::delete('DELETE FROM bodegas WHERE id = ?', [$id]);

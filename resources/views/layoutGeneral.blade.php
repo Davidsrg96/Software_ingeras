@@ -27,7 +27,7 @@
     <hr>
     <main class="row justify-content-center">
 
-        @if (!Auth::guest())
+        @if (Auth::guest())
             <div class="card" style="width: fit-content">
                 <div align="center" class="card-header">
                     <h1>¡Error de autenticación!</h1>
