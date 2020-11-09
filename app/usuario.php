@@ -54,4 +54,14 @@ class usuario extends Authenticatable
             'departamento_id'
         );
     }
+
+    public function atributoPersonal()
+    {
+        return $this->hasMany(
+            atributo_personal::class,
+            'usuario_id',
+            'id'
+        );
+    }
+
 }

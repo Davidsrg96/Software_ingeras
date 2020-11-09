@@ -41,7 +41,7 @@ class DepartamentosController extends Controller
 
     public function store(Request $request)
     {
-        DB::insert('INSERT INTO departamentos (Nombre_departamento, Objetivo) VALUES (?,?)',
+        DB::insert('INSERT INTO departamento (Nombre_departamento, Objetivo) VALUES (?,?)',
                                 [$request->get('nombre_depto'),$request->get('objetivo')]);
         return redirect()->route('departamentos.index');
     }
@@ -82,7 +82,7 @@ class DepartamentosController extends Controller
    
     public function update(Request $request, $id)
     {
-        DB::update('UPDATE departamentos SET Nombre_departamento = ?, Objetivo = ?
+        DB::update('UPDATE departamento SET Nombre_departamento = ?, Objetivo = ?
                             WHERE id = ?',[$request->get('nombre_depto'),
                                            $request->get('objetivo')]);
         return redirect()->route('departamentos.index');
@@ -100,7 +100,7 @@ class DepartamentosController extends Controller
 
     public function destroy($id)
     {
-        DB::delete('DELETE FROM departamentos WHERE id = ?',[$id]);
+        DB::delete('DELETE FROM departamento WHERE id = ?',[$id]);
         return redirect()->route('departamentos.index');
     }
 
