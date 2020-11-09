@@ -6,17 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateDepartamentoActividadsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('departamento_actividads', function (Blueprint $table) {
             $table->integer('departamento_id')->unsigned()->nullable();
             $table->foreign('departamento_id')->references('id')
-                ->on('departamentos')->onDelete('cascade');
+                ->on('departamento')->onDelete('cascade');
             $table->integer('actividad_id')->unsigned()->nullable();
             $table->foreign('actividad_id')->references('id')
                 ->on('actividads')->onDelete('cascade');
@@ -24,11 +20,6 @@ class CreateDepartamentoActividadsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('departamento_actividads');

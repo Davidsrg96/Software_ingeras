@@ -6,14 +6,10 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateDepartamentosTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
-        Schema::create('departamentos', function (Blueprint $table) {
+        Schema::create('departamento', function (Blueprint $table) {
             $table->Increments('id');
             $table->string('Nombre_departamento')->unique();
             $table->string('Objetivo');
@@ -21,13 +17,8 @@ class CreateDepartamentosTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::dropIfExists('Departamentos');
+        Schema::dropIfExists('departamento');
     }
 }

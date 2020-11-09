@@ -6,11 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateUsuarioDepartamentosTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('usuario_departamentos', function (Blueprint $table) {
@@ -20,16 +16,11 @@ class CreateUsuarioDepartamentosTable extends Migration
 
             $table->integer('departamento_id')->unsigned()->nullable();
             $table->foreign('departamento_id')->references('id')
-                ->on('departamentos')->onDelete('cascade');
+                ->on('departamento')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('usuario_departamentos');

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\tipo_usuario;
 use App\cargo;
+use App\departamento;
 
 class usuario extends Authenticatable
 {
@@ -14,6 +15,7 @@ class usuario extends Authenticatable
 	protected $table ='usuario';
     protected $primarykey = 'id';
     public $timestamps = false;
+    
     protected $fillable = [
         'Nombre' , 'Rut' , 'Fecha_ingreso' , 'password' , 'email' , 'Es_externo' , 'Confiabilidad' , 'Ciudad' ,
         'Porcentaje_asignacion_proyecto' , 'cargo_id' , 'tipo_usuario_id' ,
@@ -40,6 +42,16 @@ class usuario extends Authenticatable
             cargo::class,
             'cargo_id',
             'id'
+        );
+    }
+
+    public function departamentos()
+    {
+        return $this->belongsToMany(
+            departamento::class,
+            'usuario_departamentos',
+            'usuario_id',
+            'departamento_id'
         );
     }
 }
