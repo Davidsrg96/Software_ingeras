@@ -7,6 +7,6 @@ use Faker\Generator as Faker;
 
 $factory->define(tipo_usuario::class, function (Faker $faker) {
     return [
-        //
+        
     ];
 });

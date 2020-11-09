@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\tipo_usuario;
+use App\cargo;
+
 class usuario extends Authenticatable
 {
 
@@ -21,4 +24,22 @@ class usuario extends Authenticatable
 	{
 		$this->attributes['password'] = \Hash::make($password);
 	}
+
+    public function tipo_usuario()
+    {
+        return $this->belongsTo(
+            tipo_usuario::class,
+            'tipo_usuario_id',
+            'id'
+        );
+    }
+
+    public function cargo()
+    {
+        return $this->belongsTo(
+            cargo::class,
+            'cargo_id',
+            'id'
+        );
+    }
 }
