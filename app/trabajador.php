@@ -16,11 +16,20 @@ class trabajador extends Model
         'Nombre',
     ];
 
-    public function atributoPersonal()
+    public function atributosPersonales()
     {
         return $this->hasMany(
             atributo_personal::class,
-            'usuario_id',
+            'trabajador_id',
+            'id'
+        );
+    }
+
+    public function documentos()
+    {
+        return $this->hasMany(
+            documento::class,
+            'trabajador_id',
             'id'
         );
     }

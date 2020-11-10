@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateGuiaDespachosTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('guia_despachos', function (Blueprint $table) {
@@ -26,11 +21,6 @@ class CreateGuiaDespachosTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('guia_despachos');

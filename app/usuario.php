@@ -55,13 +55,60 @@ class usuario extends Authenticatable
         );
     }
 
-    public function atributoPersonal()
+    public function atributosPersonales()
     {
         return $this->hasMany(
             atributo_personal::class,
             'usuario_id',
             'id'
         );
+    }
+
+    public function documentos()
+    {
+        return $this->hasMany(
+            documento::class,
+            'usuario_id',
+            'id'
+        );
+    }
+
+    public function solicitudes()
+    {
+        return $this->belongsToMany(
+            usuario::class,
+            'solicituds',
+            'solicitante_id',
+            'destino_id'
+        )->withPivot('Titulo','Mensaje','Status','Fecha_inicio','Fecha_termino');
+    }
+
+    public function almacenamientos()
+    {
+        return $this->hasMany(
+            almacenamiento::class,
+            'encargado_id',
+            'id'
+        );
+    }
+
+    public function encargadoProyectos()
+    {
+        return $this->hasMany(
+            proyecto::class,
+            'encargado_id',
+            'id'
+        );
+    }
+
+    public function personalProyectos()
+    {
+        return $this->belongsToMany(
+            proyecto::class,
+            'usuario_proyectos',
+            'usuario_id',
+            'proyecto_id'
+        )->withPivot('Carga');
     }
 
 }

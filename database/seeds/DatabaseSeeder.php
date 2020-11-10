@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
             TipoUsuarioSeeder::class,
             CargoSeeder::class,
             ActividadSeeder::class,
+            AlmacenamientoSeeder::class,
+            ProveedorSeeder::class,
         ]);
     }
 }

@@ -21,5 +21,21 @@ class UsuarioSeeder extends Seeder
         if ($idDepto) {
             $user->departamentos()->attach($idDepto);
         }
+
+        $user = usuario::create([
+            'nombre'   => 'Administrador',
+            'rut'      => '111111-1',
+            'email'    => 'admin@gmail.com',
+            'password'  => 'admin123',
+            'ciudad' => 'Antofagasta',
+        ]);
+        
+        $user = usuario::create([
+            'nombre'   => 'UsuarioFaker',
+            'rut'      => '111111-2',
+            'email'    => 'faker@gmail.com',
+            'password'  => 'faker123',
+            'ciudad' => 'Antofagasta',
+        ]);
     }
 }

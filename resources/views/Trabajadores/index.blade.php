@@ -26,18 +26,18 @@
                                 Acción <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{action('TrabajadoresController@edit', $u->id)}}" class=" btn btn-primary" title="Editar tipo de usuario">
+                                <li><a href="{{action('TrabajadoresController@edit', $t->id)}}" class=" btn btn-primary" title="Editar tipo de usuario">
                                         <i class="fas fa-pencil-alt"></i>Editar</a>
                                 </li>
                                 <li>
-                                    <a data-target="#del{{$u->id}}" class="btn btn-danger active" data-toggle="modal" title="Eliminar Producto">
+                                    <a data-target="#del{{$t->id}}" class="btn btn-danger active" data-toggle="modal" title="Eliminar Producto">
                                         <i class="fas fa-trash-alt"></i>Eliminar</a>
                                 </li>
                             </ul>
                         </td>
                     </tr>
                     <!--pop up confirmacion -->
-                    <div class="modal fade" id="del{{$u->id}}">
+                    <div class="modal fade" id="del{{$t->id}}">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-                                    <a href="{{action('TrabajadoresController@destroy',$u->id)}}"  class="btn btn-primary">Eliminar</a>
+                                    <a href="{{action('TrabajadoresController@destroy',$t->id)}}"  class="btn btn-primary">Eliminar</a>
                                 </div>
 
                             </div>
