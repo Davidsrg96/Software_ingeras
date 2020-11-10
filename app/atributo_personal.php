@@ -26,4 +26,13 @@ class atributo_personal extends Model
             'id'
         );
     }
+
+    public function trabajador()
+    {
+        return $this->belongsTo(
+            trabajador::class,
+            'trabajador_id',
+            'id'
+        );
+    }
 }
