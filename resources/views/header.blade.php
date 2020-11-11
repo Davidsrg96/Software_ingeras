@@ -8,7 +8,7 @@
                 <a class="nav-link" href="#">Administracion</a>
             </li>
             <li class="nav-item header">
-                <a class="nav-link" href="{{action('Usuario@index')}}">Usuarios</a>
+                <a class="nav-link" href="{{ route('usuarios.index') }}">Usuarios</a>
             </li>
             <li class="nav-item header">
                 <a class="nav-link" href="/proyectos">Proyectos</a>
