@@ -1,4 +1,8 @@
 @extends('layoutGeneral')
+@section('estilos')
+@endsection
+@section('acciones')
+@endsection
 @section('cuerpo')
     <div>
         <div class="card" style="color: #abdde5">
@@ -45,7 +49,6 @@
                             @include('pop-up')
                         </form>
                     @endif
-
                 </div>
             </div>
         </div>

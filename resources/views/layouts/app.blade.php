@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Ingeca - @yield('titulo') </title>
 
     <!-- Scripts -->
     <script async src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>

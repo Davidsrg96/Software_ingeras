@@ -1,4 +1,28 @@
 @extends('layoutGeneral')
+@section('estilos')
+@endsection
+@section('acciones')
+    <script>
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("buscar");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tabla_actividad");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+@endsection
 @section('cuerpo')
     <div style="color: #abdde5" align="center">
         <p></p>
@@ -62,24 +86,4 @@
             </table>
         </div>
     </div>
-    <script>
-        function myFunction() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("buscar");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("tabla_actividad");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[1];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-    </script>
 @endsection

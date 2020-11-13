@@ -1,4 +1,9 @@
 @extends('layoutGeneral')
+@section('titulo', 'Mostrar usuario')
+@section('estilos')
+@endsection
+@section('acciones')
+@endsection
 @section('cuerpo')
     <div class="card">
         <div class="card-header">
@@ -38,23 +43,23 @@
                     <td>{{$usuario->Ciudad}}</td>
                 </tr>
                 <tr>
-                    <td>Carga de proyectos(en porcentaje)</td>
-                    <td>{{$usuario->Carga_proyecto}}</td>
+                    <td>Carga de proyectos</td>
+                    <td>{{$usuario->Carga_proyecto}}%</td>
                 </tr>
                 <tr>
                     <td>Cargo</td>
-                    <td>{{$cargo}}</td>
+                <td>
+                    @if($usuario->cargo)
+                        {{$usuario->cargo->Tipo_cargo}}
+                    @else
+                        No definido
+                    @endif
+                </td>
                 </tr>
                 <tr>
                     <td>Tipo de usuario</td>
-                    <td>{{$tipo}}</td>
+                    <td>{{$usuario->tipo_usuario->Tipo_usuario}}</td>
                 </tr>
-                @foreach($atributos as $a)
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                @endforeach
             </table>
         </div>
     </div>

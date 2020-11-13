@@ -11,31 +11,31 @@
                 <a class="nav-link" href="{{ route('usuarios.index') }}">Usuarios</a>
             </li>
             <li class="nav-item header">
-                <a class="nav-link" href="/proyectos">Proyectos</a>
+                <a class="nav-link" href="{{ route('proyectos.index') }}">Proyectos</a>
             </li>
             <li class="nav-item header">
-                <a class="nav-link" href="/solicitudes">Solicitudes</a>
+                <a class="nav-link" href="{{ route('solicitudes.index') }}">Solicitudes</a>
             </li>
             <li class="nav-item header">
-                <a class="nav-link" href="/admin/almacenamiento" > Almacenes</a>
+                <a class="nav-link" href="{{ route('almacenamiento.index') }}" > Almacenes</a>
             </li>
             <li class="nav-item header">
-                <a class="nav-link" href="{{action('ProveedoresController@index')}}">Proveedores</a>
+                <a class="nav-link" href="{{ route('proveedores.index') }}">Proveedores</a>
             </li>
             <li class="nav-item header">
-                <a class="nav-link" href="{{action('BodegaController@index')}}" >Bodega</a>
+                <a class="nav-link" href="{{ route('bodega.index') }}" >Bodega</a>
             </li>
             <li class="nav-item header">
-                <a class="nav-link" href="{{action('PreguntasController@index')}}" >Preguntas</a>
+                <a class="nav-link" href="{{ route('preguntas.index') }}" >Preguntas</a>
             </li>
             <li class="nav-item header">
-                <a class="nav-link" href="{{action('TipoUsuarioController@index')}}" >Tipos de Usuarios</a>
+                <a class="nav-link" href="{{ route('tipo_usuario.index') }}" >Tipos de Usuarios</a>
             </li>
             <li class="nav-item header">
-                <a class="nav-link" href="{{action('CargosController@index')}}" >Cargos</a>
+                <a class="nav-link" href="{{ route('cargos.index') }}" >Cargos</a>
             </li>
             <li class="nav-item header">
-                <a class="nav-link" href="{{action('TrabajadoresController@index')}}" >Trabajadores</a>
+                <a class="nav-link" href="{{ route('trabajadores.index') }}" >Trabajadores</a>
             </li>
             <li class="nav-item header">
                 <a class="nav-link" href="{{ route('logout') }}"

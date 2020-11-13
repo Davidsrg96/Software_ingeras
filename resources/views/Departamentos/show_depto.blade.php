@@ -1,4 +1,8 @@
 @extends('layoutGeneral')
+@section('estilos')
+@endsection
+@section('acciones')
+@endsection
 @section('cuerpo')
 <div>
     <h1 align="center">Departamento de {{$d->Nombre_departamento}} </h1>
