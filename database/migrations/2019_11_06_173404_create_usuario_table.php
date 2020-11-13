@@ -12,14 +12,18 @@ class CreateUsuarioTable extends Migration
          Schema::create('usuario', function (Blueprint $table) {
             $table->Increments('id');
             $table->string('Nombre');
+            $table->string('Apellido');
             $table->string('Rut')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('Es_externo')->default(false);
             $table->integer('Confiabilidad')->default(0);
-            $table->string('Ciudad');
             $table->integer('Carga_proyecto')->default(0);
+
+            $table->integer('ciudad_id')->unsigned()->nullable();
+            $table->foreign('ciudad_id')->references('id')
+                ->on('ciudad')->onDelete('cascade');
 
             $table->integer('cargo_id')->unsigned()->nullable();
             $table->foreign('cargo_id')->references('id')

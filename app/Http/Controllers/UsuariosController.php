@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\cargo;
 use App\usuario;
+use App\ciudad;
 use App\tipo_usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,16 +23,15 @@ class UsuariosController extends Controller
 
     public function create()
     {
-      $tipos = tipo_usuario::all();
-      $cargos = cargo::all();
-      return view('Usuarios.create_usuarios', compact('tipos','cargos'));
+      $tipos    = tipo_usuario::all();
+      $cargos   = cargo::all();
+      $ciudades = ciudad::all();
+      return view('Usuarios.create_usuarios', compact('tipos','cargos','ciudades'));
     }
 
     public function store(UsuarioRequest $request)
     {
-      dd($request->all());
-      $rut = $this->convRut($request->rutEs);
-      usuario::create($request->input() + ['Rut' => $rut]);
+      usuario::create($request->input() + ['Rut' => $request->rutEs]);
       return redirect()
           ->route('usuarios.index')
           ->with('success', [
@@ -50,32 +50,26 @@ class UsuariosController extends Controller
     {
       $tipos = tipo_usuario::all();
       $cargos = cargo::all();
-      $u = usuario::find($id);
-      return view('Usuarios.create_usuarios', compact('u', 'tipos', 'cargos'));
+      $usuario = usuario::find($id);
+      $ciudades = ciudad::all();
+      $password = bcrypt($usuario->password);
+      return view('Usuarios.edit_usuario', compact('usuario', 'tipos', 'cargos','ciudades','password'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UsuarioRequest $request, $id)
     {
+      if ($request->password) {
+        usuario::findOrFail($id)->update($request->input() + ['Rut' => $request->rutEs]);
+      }else{
+        usuario::findOrFail($id)->update($request->except(['password']) + ['Rut' => $request->rutEs]);
+      }
 
-        DB::update('UPDATE usuario SET Nombre = ?, Rut = ?, password = ?, email = ?
-                                    Es_externo = ?, Confiabilidad = ?,Ciudad = ?, cargo_id = ?, tipo_usuario_id = ?
-                           WHERE id = ?',     [$request->get('nombre'),
-                                               $request->get('rut'),
-                                               $request->get('contraseña'),
-                                               $request->get('email'),
-                                               $request->get('trabajador_ioe'),
-                                               $request->get('confiabilidad'),
-                                               $request->get('ciudad'),
-                                               $request->get('cargo'),
-                                               $request->get('tipo_usuario'),
-                                               $id]);
-
-        return redirect()
-            ->route('admin.usuarios.usuario.index')
-            ->with('success', [
-              'titulo'  => 'Actualización de Usuario',
-              'mensaje' => 'Actualización realizada de forma correcta',
-            ]);
+      return redirect()
+          ->route('usuarios.index')
+          ->with('success', [
+            'titulo'  => 'Actualización de Usuario',
+            'mensaje' => 'Actualización realizada de forma correcta',
+          ]);
     }
 
     public function destroy($id)
@@ -88,14 +82,4 @@ class UsuariosController extends Controller
               'mensaje' => 'Eliminación realizada de forma correcta',
           ]);
     }
-
-  private function convRut($rutEs)
-  {
-    $arrRut = explode('.', $rutEs);
-    $rut ="";
-    foreach ($arrRut as $value) {
-      $rut = $rut . $value;
-    }
-    return $rut;
-  }
 }

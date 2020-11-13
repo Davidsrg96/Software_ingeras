@@ -61,7 +61,7 @@
                 @foreach($usuarios as $u)
                     <tr>
                         <td>{{$u->id}}</td>
-                        <td>{{$u->Nombre}}</td>
+                        <td>{{$u->getNombreCompleto()}}</td>
                         <td>{{$u->Rut}}</td>
                         <td>{{$u->tipo_usuario->Tipo_usuario }}</td>
                         <td>

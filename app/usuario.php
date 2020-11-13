@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\tipo_usuario;
 use App\cargo;
 use App\departamento;
+use App\ciudad;
 
 class usuario extends Authenticatable
 {
@@ -17,8 +18,18 @@ class usuario extends Authenticatable
     public $timestamps = false;
     
     protected $fillable = [
-        'Nombre' , 'Rut' , 'Fecha_ingreso' , 'password' , 'email' , 'Es_externo' , 'Confiabilidad' , 'Ciudad' ,
-        'Porcentaje_asignacion_proyecto' , 'cargo_id' , 'tipo_usuario_id' ,
+        'Nombre',
+        'Apellido',
+        'Rut',
+        'Fecha_ingreso',
+        'password',
+        'email',
+        'Es_externo',
+        'Confiabilidad',
+        'Carga_proyecto',
+        'ciudad_id',
+        'cargo_id',
+        'tipo_usuario_id',
     ];
 
 
@@ -26,6 +37,11 @@ class usuario extends Authenticatable
 	{
 		$this->attributes['password'] = \Hash::make($password);
 	}
+
+    public function getNombreCompleto()
+    {
+        return $this->Nombre . ' ' . $this->Apellido;
+    }
 
     public function tipo_usuario()
     {
@@ -109,6 +125,13 @@ class usuario extends Authenticatable
             'usuario_id',
             'proyecto_id'
         )->withPivot('Carga');
+    }
+
+    public function ciudad()
+    {
+        return $this->belongsTo(
+            ciudad::class,
+            'ciudad_id');
     }
 
 }

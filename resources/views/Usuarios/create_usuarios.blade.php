@@ -4,16 +4,12 @@
 @endpush
 @push('acciones')
     <script>
-        function ShowSelected()
-        {
-            /* Para obtener los valores de la etiqueta select */
-            var tipo = document.getElementById("tipo_usuario").value;
-            var cargo = document.getElementById("cargo").value;
-        }
-
         $(document).ready(function (){
             @if (old('Nombre'))
                 $("#Nombre").val('{{ old('Nombre') }}');
+            @endif
+            @if (old('Apellido'))
+                $("#Apellido").val('{{ old('Apellido') }}');
             @endif
             @if (old('rutEs'))
                 $("#rutEs").val('{{ old('rutEs') }}');
@@ -24,14 +20,13 @@
             @if (old('email'))
                 $("#email").val('{{ old('email') }}');
             @endif
-            @if (old('Es_externo'))
-                $("#Es_externo").val('{{ old('Es_externo') }}');
-            @endif
             @if (old('Confiabilidad'))
                 $("#Confiabilidad").val('{{ old('Confiabilidad') }}');
+                $("#Confiabilidad").change();
             @endif
-            @if (old('Ciudad'))
-                $("#Ciudad").val('{{ old('Ciudad') }}');
+             @if (old('ciudad_id'))
+                $("#ciudad_id").val('{{ old('ciudad_id') }}');
+                $("#ciudad_id").change();
             @endif
             @if (old('tipo_usuario_id'))
                 $("#tipo_usuario_id").val('{{ old('tipo_usuario_id') }}');
@@ -40,6 +35,13 @@
             @if (old('cargo_id'))
                 $("#cargo_id").val('{{ old('cargo_id') }}');
                 $("#cargo_id").change();
+            @endif
+            @if (old('Es_externo') != null)
+                @if( old('Es_externo') == 0)
+                    document.getElementById('externo').checked = true;
+                @else
+                    document.getElementById('interno').checked = true;
+                @endif
             @endif
         });
     </script>
@@ -70,10 +72,21 @@
                                 </label>
                             @endif
                         </div>
+                        <div class="form-group{{ $errors->has('Apellido') ? ' has-error' : '' }}">
+                            <label>Apellido<span class="required">*</span></label>
+                            <input placeholder="Ingrese el Apellido" type="text" id="Apellido" name="Apellido" class="form-style-1" pattern="([A-z]|ñ|\s)*">
+                            @if ($errors->has('Apellido'))
+                                <label>
+                                    <span class="required">
+                                        <strong>{{ $errors->first('Apellido') }}</strong>
+                                    </span>
+                                </label>
+                            @endif
+                        </div>
                         <div class="form-group{{ $errors->has('rutEs') ? ' has-error' : '' }}">
-                            <label>Rut<span class="required">*</span></label>
-                            <input placeholder="Ingrese el Rut" type="text" id="rutEs" name="rutEs"
-                            class="form-style-1" onkeyup="Principal()">
+                            <label>Rut (sin puntos, con guión)<span class="required">*</span></label>
+                            <input placeholder="Ej. 12345678-9" type="text" id="rutEs" name="rutEs"
+                            class="form-style-1">
                             @if ($errors->has('rutEs'))
                                 <label>
                                     <span class="required">
@@ -83,7 +96,7 @@
                             @endif
                         </div>
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label>Contraseña<span class="required">*</span></label>
+                            <label>Contraseña (Minimo 4 caracteres)<span class="required">*</span></label>
                             <input placeholder="Ingrese la contraseña" type="text" id="password"
                                 name="password" class="form-style-1">
                             @if ($errors->has('password'))
@@ -107,8 +120,9 @@
                         </div>
                         <div class="form-group{{ $errors->has('Es_externo') ? ' has-error' : '' }}">
                             <label>¿El trabajador es Interno o Externo?<span class="required">*</span></label><br>
-                            <input type="radio" name="Es_externo" value="1">Interno<br>
-                            <input type="radio" name="Es_externo" value="0">Externo<br>
+                            <input type="radio" name="Es_externo" id = "interno" value="1">Interno
+                            <br>
+                            <input type="radio" name="Es_externo" id = "externo" value="0">Externo<br>
                             @if ($errors->has('Es_externo'))
                                 <label>
                                     <span class="required">
@@ -118,8 +132,13 @@
                             @endif
                         </div>
                         <div class="form-group{{ $errors->has('Confiabilidad') ? ' has-error' : '' }}">
-                            <label>Confiabilidad (Minimo: 1 - Maximo: 5)<span class="required">*</span></label><br>
-                            <input type="number" id="Confiabilidad" name="Confiabilidad">
+                            <label>Confiabilidad<span class="required">*</span></label><br>
+                            <select id="Confiabilidad" name="Confiabilidad">
+                                <option value>-- Seleccione un valor --</option>
+                                @for( $i = 1; $i <= 5 ; $i++)
+                                    <option value={{$i}}>{{ $i}}</option>
+                                @endfor
+                            </select>
                             @if ($errors->has('Confiabilidad'))
                                 <label>
                                     <span class="required">
@@ -128,20 +147,24 @@
                                 </label>
                             @endif
                         </div>
-                        <div class="form-group{{ $errors->has('Ciudad') ? ' has-error' : '' }}">
-                            <label>Ciudad<span class="required">*</span></label>
-                            <input placeholder="Ingrese la ciudad del trabajador" type="text"
-                            id="Ciudad" name="Ciudad" class="form-style-1">
-                            @if ($errors->has('Ciudad'))
+                        <div class="form-group{{ $errors->has('ciudad_id') ? ' has-error' : '' }}">
+                            <label>Ciudad<span class="required">*</span></label><br>
+                            <select id="ciudad_id" name="ciudad_id">
+                                <option value>-- Seleccione una ciudad --</option>
+                                @foreach($ciudades as $ciudad)
+                                    <option value={{$ciudad->id}}>{{ $ciudad->Nombre}}</option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('ciudad_id'))
                                 <label>
                                     <span class="required">
-                                        <strong>{{ $errors->first('Ciudad') }}</strong>
+                                        <strong>{{ $errors->first('ciudad_id') }}</strong>
                                     </span>
                                 </label>
                             @endif
                         </div>
                         <div class="form-group{{ $errors->has('tipo_usuario_id') ? ' has-error' : '' }}">
-                            <label>Seleccione el Tipo de Usuario<span class="required">*</span></label><br>
+                            <label>Tipo de Usuario<span class="required">*</span></label><br>
                             <select id="tipo_usuario_id" name="tipo_usuario_id">
                                 <option value>-- Seleccione un tipo de usuario --</option>
                                 @foreach($tipos as $tipo)
@@ -172,6 +195,7 @@
                                 </label>
                             @endif
                         </div>
+                        <hr>
                         <a href="{{ route('usuarios.index') }}" class="btn btn-primary" >Atrás</a>
                         <a style="background-color: #1c7430" href="#confirmation" class="btn btn-primary" data-toggle="modal">Agregar</a>
                     </ul>

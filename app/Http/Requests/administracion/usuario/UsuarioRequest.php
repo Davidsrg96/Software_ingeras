@@ -17,12 +17,13 @@ class UsuarioRequest extends FormRequest
     {
         return [
             'Nombre'          => 'required|alpha',
+            'Apellido'        => 'required|alpha',
             'rutEs'           => 'required',
             'Confiabilidad'   => 'required',
-            'Ciudad'          => 'required|alpha',
-            'email'           => 'required|email|unique:Usuario,email,' . $this->route('usuario'),
-            'password'        => 'required',
+            'email'           => 'required|email|unique:usuario,email,' . $this->route('usuario'),
+            'password'        => 'required_if:' . $this->route('usuario') . ',==,0',
             'Es_externo'      => 'required',
+            'ciudad_id'       => 'required',
             'cargo_id'        => 'required',
             'tipo_usuario_id' => 'required'      
         ];
@@ -52,12 +53,18 @@ class UsuarioRequest extends FormRequest
             }
             if($this->route('usuario')){
                 if ( $this->isExiste() &&
-                        usuario::where('Rut',$this->route('usuario')->get() != $this->rutEs)){
-                    $validator->errors()->add('rutEs', 'Este rut ya ha sido registrado');
+                        usuario::findOrFail($this->route('usuario'))->Rut != $this->rutEs ){
+                            $validator->errors()->add('rutEs', 'Este rut ya ha sido registrado');
+                }
+                if( strlen($this->password) > 0 && strlen($this->password) < 4){
+                    $validator->errors()->add('password', 'password debe contener al menos 4 caracteres.');
                 }
             }else{
                 if ( $this->isExiste()){
                     $validator->errors()->add('rutEs', 'Este rut ya ha sido registrado');
+                }
+                if( strlen($this->password) < 4 ){
+                    $validator->errors()->add('password', 'password debe contener al menos 4 caracteres.');
                 }
             }
         });

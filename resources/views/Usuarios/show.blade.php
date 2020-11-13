@@ -14,7 +14,7 @@
             <table>
                 <tr>
                     <td>Nombre</td>
-                    <td>{{$usuario->Nombre}}</td>
+                    <td>{{$usuario->getNombreCompleto()}}</td>
                 </tr>
                 <tr>
                     <td>Rut</td>
@@ -40,7 +40,7 @@
                 </tr>
                 <tr>
                     <td>Ciudad</td>
-                    <td>{{$usuario->Ciudad}}</td>
+                    <td>{{$usuario->ciudad->Nombre}}</td>
                 </tr>
                 <tr>
                     <td>Carga de proyectos</td>
