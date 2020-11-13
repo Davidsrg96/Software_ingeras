@@ -100,12 +100,18 @@ class DepartamentosController extends Controller
 
     public function destroy($id)
     {
-        DB::delete('DELETE FROM departamento WHERE id = ?',[$id]);
-        return redirect()->route('departamentos.index');
+        // DB::delete('DELETE FROM departamento WHERE id = ?',[$id]);
+        return redirect()
+          ->route('departamentos.index')
+          ->with('success', [
+            'titulo'  => 'Eliminación de Departamento',
+            'mensaje' => 'Eliminación realizada de forma correcta',
+        ]);
     }
 
     public function eliminarActividad($idAct, $id)
     {
+        dd('eliminar actividad');
         DB::delete('DELETE FROM departamento_actividads
                             WHERE actividad_id = :idAct
                             AND departamento_id = :id',['idAct' => $idAct,'id' => $id]);

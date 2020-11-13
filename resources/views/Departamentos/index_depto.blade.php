@@ -1,92 +1,117 @@
 @extends('layoutGeneral')
-@section('estilos')
-@endsection
-@section('acciones')
+@section('titulo', 'Lista departamentos')
+@push('estilos')
+@endpush
+@push('acciones')
+    <script src="jquery-3.4.1.min.js" ></script>
     <script>
-        function myFunction() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("buscar");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("tabla_depto");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[1];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
+        $(document).ready(function() {
+            var table = $('#table_deptos').DataTable({
+                language: {
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
                     }
                 }
-            }
-        }
+            });
+        });
+
+
+        //Toaster
+        @if(Session::has('success'))
+            mensajeEmergente('{{ Session::get('success')['titulo'] }}', '{{ Session::get('success')['mensaje'] }}');
+        @endif
+        @if(Session::has('fail'))
+            mensajeEmergente('{{ Session::get('fail')['titulo'] }}', '{{ Session::get('fail')['mensaje'] }}', 'error');
+        @endif
     </script>
-@endsection
+@endpush
 @section('cuerpo')
-    <div style="color: #abdde5" align="center">
-        <p></p>
-        <h1> Listado de Departamentos</h1>
-        <div class="row">
+     <div class="card">
+        <div class="card-header">
+            <h1 align="center"><font color="black">Departamentos</font></h1>
             <div class="column" align="left" style="padding-left: 1.5%">
-                <a type="button" class="btn btn-primary" href="/" role="button"><i class="fas fa-arrow-left"></i> Regresar</a>
-                <a href="{{route('departamentos.create')}}" type="button" class="btn btn-primary pull-right" > Agregar Departamento</a>
-                <input type="text" id="buscar" onkeyup="myFunction()" placeholder="Buscar por nombre" title="Type in a name">
+                <a type="button" class="btn btn-primary" href="{{route('home.index')}}" role="button"><i class="fas fa-arrow-left"></i> Regresar</a>
+                <a href="{{route('departamentos.create')}}" type="button" class="btn btn-primary pull-right" >
+                    Agregar Departamento
+                </a>
             </div>
-            <table class="table table-hover table-striped" id="tabla_depto">
+        </div>
+        <div class="card-body">
+           <table class="table table-hover table-striped" id="table_deptos">
                 <thead>
                 <tr>
                     <th width="20px">ID</th>
                     <th>Nombre del Departamento</th>
                     <th>Objetivo</th>
                 </tr>
+                </thead>
                 <tbody>
-                @foreach($departamentos as $d)
+                @foreach($departamentos as $depto)
                     <tr>
-                        <td>{{$d->id}}</td>
-                        <td>{{$d->Nombre_departamento}}</td>
-                        <td>{{$d->Objetivo}}</td>
+                        <td>{{$depto->id}}</td>
+                        <td>{{$depto->Nombre_departamento}}</td>
+                        <td>{{$depto->Objetivo}}</td>
                         <td>
-                            <a href="{{action('DepartamentosController@show', $d->id)}}"
-                               class="btn btn-primary active" title="Ver actividades del Departamento">
-                                <i class="fas fa-eye"> Visualizar</i>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{{action('DepartamentosController@edit', $d->id)}}"
-                               class="btn btn-primary active" title="Editar Departamento">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                        </td>
-                        <td>
-                            <a data-target="#del{{$d->id}}" class="btn btn-danger active float-right" data-toggle="modal" title="Eliminar Departamento">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                            <!--pop up confirmacion -->
-                            <div class="modal fade" id="del{{$d->id}}">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Confirmacion</h5>
-                                            <button tyle="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <form
+                                method="POST"
+                                action="{{ route('departamentos.destroy', $depto->id) }}"
+                                style='display:inline-flex'>
+                                    @csrf
+                                    @method('DELETE')
+                                    
+                                <div class="btn-group">
+                                    <a href="{{route('departamentos.edit', $depto->id)}}"
+                                        class="btn btn-primary" title="Editar Usuario">
+                                            <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <a href="{{route('departamentos.show', $depto->id)}}"
+                                        class="btn btn-warning" title="Mostrar Usuario">
+                                            <i class="fas fa-eye" style="color: white"></i>
+                                    </a>
+                                    <a href="" data-target="#del{{$depto->id}}" class="btn btn-danger" 
+                                        data-toggle="modal" title="Eliminar Usuario">
+                                            <i class="fas fa-trash-alt" style="color: white"></i>
+                                    </a>
+                                </div>
+                                <!--pop up confirmacion -->
+                                <div class="modal fade" id="del{{$depto->id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Confirmacion</h5>
+                                                <button tyle="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><font color="black">Si presiona cancelar, no se eliminaran los cambios</font> </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                                                <button
+                                                class="btn btn-primary btn-danger"
+                                                type="submit">
+                                                    Eliminar
+                                            </button>
+                                            </div>
                                         </div>
-                                        <div class="modal-body">
-                                            <p><font color="black">Si presiona cancelar, no se eliminaran los cambios</font> </p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-                                            <a href="{{action('DepartamentosController@destroy',$d->id)}}"  class="btn btn-primary">Eliminar</a>
-                                        </div>
-
                                     </div>
                                 </div>
-                            </div>
-                            <!-- endf pop up-->
+                            </form>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
-                </thead>
             </table>
         </div>
     </div>

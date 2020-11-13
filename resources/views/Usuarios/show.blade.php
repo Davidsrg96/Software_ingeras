@@ -7,7 +7,7 @@
 @section('cuerpo')
     <div class="card">
         <div class="card-header">
-            <h1 align="center">{{$usuario->Nombre}}</h1>
+            <h1 align="center">Información de usuario</h1>
             <a type="button" class="btn btn-primary" href="{{action('UsuariosController@index')}}" role="button"><i class="fas fa-arrow-left"></i> Regresar</a>
         </div>
         <div class="card-body">

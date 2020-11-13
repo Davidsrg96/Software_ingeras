@@ -74,12 +74,13 @@ class UsuariosController extends Controller
 
     public function destroy($id)
     {
-        usuario::findOrFail($id)->delete();
-        return redirect()
-            ->route('usuarios.index')
-            ->with('success', [
-              'titulo'  => 'Eliminación de Usuario',
-              'mensaje' => 'Eliminación realizada de forma correcta',
-          ]);
+
+      // $usuario->delete();
+      return redirect()
+          ->route('usuarios.index')
+          ->with('success', [
+            'titulo'  => 'Eliminación de Usuario',
+            'mensaje' => 'Eliminación realizada de forma correcta',
+        ]);
     }
 }

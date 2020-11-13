@@ -117,7 +117,7 @@ class usuario extends Authenticatable
         );
     }
 
-    public function personalProyectos()
+    public function proyectosParticipante()
     {
         return $this->belongsToMany(
             proyecto::class,
