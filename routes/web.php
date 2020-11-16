@@ -68,6 +68,11 @@ Route::prefix('admin')->group(function(){
 			Route::get('edit/{id}', 'DepartamentosController@editActividades')->name('edit');
 			Route::post('update/{id}', 'DepartamentosController@updateActividades')->name('update');
 		});
+
+		Route::prefix('personal')->name('personal.')->group(function(){
+			Route::get('edit/{id}', 'DepartamentosController@editPersonal')->name('edit');
+			Route::post('update/{id}', 'DepartamentosController@updatePersonal')->name('update');
+		});
 	});
 
 	//Rutas de Guías de Despacho

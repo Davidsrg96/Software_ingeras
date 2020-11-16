@@ -15,12 +15,12 @@ class DepartamentosController extends Controller
     public function index()
     {
         $departamentos = departamento::orderBy('id','ASC')->paginate();
-        return view('Departamentos.index_depto', compact('departamentos'));
+        return view('Departamentos.departamento.index_depto', compact('departamentos'));
     }
 
     public function create()
     {
-        return view('Departamentos.create_depto');
+        return view('Departamentos.departamento.create_depto');
     }
 
     public function store(DepartamentoRequest $request)
@@ -28,7 +28,7 @@ class DepartamentosController extends Controller
         departamento::create($request->input());
 
         return redirect()
-          ->route('departamentos.index')
+          ->route('departamentos.departamento.index')
           ->with('success', [
             'titulo'  => 'Creación de Departamento',
             'mensaje' => 'Creación realizada de forma correcta',
@@ -38,20 +38,20 @@ class DepartamentosController extends Controller
     public function show($id)
     {
         $depto = departamento::find($id);
-        return view('Departamentos.show_depto', compact('depto'));
+        return view('Departamentos.departamento.show_depto', compact('depto'));
     }
 
     public function edit($id)
     {
         $depto = departamento::findOrFail($id);
-        return view('Departamentos.edit_depto',compact('depto'));
+        return view('Departamentos.departamento.edit_depto',compact('depto'));
     }
   
     public function update(DepartamentoRequest $request, $id)
     {
         departamento::findOrFail($id)->update($request->input());
         return redirect()
-          ->route('departamentos.index')
+          ->route('departamentos.departamento.index')
           ->with('success', [
             'titulo'  => 'Actualización de Departamento',
             'mensaje' => 'Actualización realizada de forma correcta',
@@ -62,12 +62,12 @@ class DepartamentosController extends Controller
     {
         // DB::delete('DELETE FROM departamento WHERE id = ?',[$id]);
         return redirect()
-          ->route('departamentos.index')
+          ->route('departamentos.departamento.index')
           ->with('success', [
             'titulo'  => 'Eliminación de Departamento',
             'mensaje' => 'Eliminación realizada de forma correcta',
         ]);
-    } 
+    }
 
     public function editActividades($id)
     {
@@ -83,21 +83,23 @@ class DepartamentosController extends Controller
             ];
         }
 
-        return view('Departamentos.editActividades',compact('depto','actividades'));
+        return view('Departamentos.departamento.actividad.editActividades',compact('depto','actividades'));
     }
     public function updateActividades(Request $request, $id)
     {
         $depto = departamento::findOrFail($id);
         $depto->actividades()->detach();
-        foreach ($request->idT as $key => $id) {
-            if($id){
-                $depto->actividades()->attach($id);
-            }else{
-                $actividad = $this->crearActividad(
-                                        $request->nombreT[$key],
-                                        $request->descripcionT[$key],
-                                        $request->kpiT[$key]);
-                $depto->actividades()->attach($actividad->id);
+        if($request->idT){
+            foreach ($request->idT as $key => $id) {
+                if($id){
+                    $depto->actividades()->attach($id);
+                }else{
+                    $actividad = $this->crearActividad(
+                                            $request->nombreT[$key],
+                                            $request->descripcionT[$key],
+                                            $request->kpiT[$key]);
+                    $depto->actividades()->attach($actividad->id);
+                }
             }
         }
 
@@ -108,6 +110,26 @@ class DepartamentosController extends Controller
             'mensaje' => 'Actualización realizada de forma correcta',
         ]);
     }
+
+    public function editPersonal($id)
+    {
+        dd($id);
+        
+    }
+    public function updatePersonal(Request $request, $id)
+    {
+        dd($request->all());
+
+        return redirect()
+          ->route('departamentos.departamento.show', $depto->id)
+          ->with('success', [
+            'titulo'  => 'Actualización del Personal del departamento de ' . $depto->Nombre_departamento,
+            'mensaje' => 'Actualización realizada de forma correcta',
+        ]);
+    }
+
+
+
 
     private function crearActividad($nombre, $descripcion, $kpi)
     {

@@ -53,14 +53,20 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 offset-md-1">
-                            <a href="#" class="btn btn-block btn-info">Personal</a>
+                            <a href="#listaPersonal" class="btn btn-block btn-info" data-toggle="modal">
+                                Personal
+                            </a>
                         </div>
                         <div class="col-md-4">
-                            <a href="#" class="btn btn-block btn-info">Actividades</a>
+                            <a href="#listaActividades" class="btn btn-block btn-info" data-toggle="modal">
+                                Actividades
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        @include('Departamentos.partials.listaActDepto')
+        @include('Departamentos.partials.listaPersonalDepto')
     </div>
 @endsection
