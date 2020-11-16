@@ -2,7 +2,7 @@
     <div class="collapse navbar-collapse" >
         <ul class="navbar-nav mr-auto header">
             <li class="nav-item header">
-                <a class="nav-link" href="{{ route('usuarios.index') }}">Departamentos</a>
+                <a class="nav-link" href="{{ route('departamentos.index') }}">Departamentos</a>
             </li>
             <li class="nav-item header">
                 <a class="nav-link" href="#">Administracion</a>
