@@ -1,12 +1,12 @@
 @extends('layoutGeneral')
-@section('titulo', 'Lista departamentos')
+@section('titulo', 'Lista Departamentos')
 @push('estilos')
 @endpush
 @push('acciones')
     <script src="jquery-3.4.1.min.js" ></script>
     <script>
         $(document).ready(function() {
-            var table = $('#table_deptos').DataTable({
+            var table = $('#tablaDepto').DataTable({
                 language: {
                     "emptyTable": "No hay información",
                     "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
@@ -49,12 +49,13 @@
             </div>
         </div>
         <div class="card-body">
-           <table class="table table-hover table-striped" id="table_deptos">
+           <table class="table table-hover table-striped" id="tablaDepto">
                 <thead>
                 <tr>
                     <th width="20px">ID</th>
                     <th>Nombre del Departamento</th>
                     <th>Objetivo</th>
+                    <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -94,15 +95,17 @@
                                                 <button tyle="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                             </div>
                                             <div class="modal-body">
-                                                <p><font color="black">Si presiona cancelar, no se eliminaran los cambios</font> </p>
+                                                <p><font color="black">Si presiona cancelar, no se eliminaran los cambios</font></p>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                                    Cancelar
+                                                </button>
                                                 <button
-                                                class="btn btn-primary btn-danger"
-                                                type="submit">
-                                                    Eliminar
-                                            </button>
+                                                    class="btn btn-primary btn-danger"
+                                                    type="submit">
+                                                        Eliminar
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

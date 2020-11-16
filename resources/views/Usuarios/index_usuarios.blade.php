@@ -65,7 +65,7 @@
                         <td>{{$u->Rut}}</td>
                         <td>{{$u->tipo_usuario->Tipo_usuario }}</td>
                         <td>
-                        <form
+                            <form
                                 method="POST"
                                 action="{{ route('usuarios.destroy', $u->id) }}"
                                 style='display:inline-flex'>

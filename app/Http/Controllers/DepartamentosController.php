@@ -7,6 +7,7 @@ use App\departamento;
 use App\departamento_actividad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\administracion\departamento\DepartamentoRequest;
 
 class DepartamentosController extends Controller
 {
@@ -17,47 +18,21 @@ class DepartamentosController extends Controller
         return view('Departamentos.index_depto', compact('departamentos'));
     }
 
-
-    public function actividades($id)
-    {
-        $d = departamento::find($id);
-        $act = DB::select('SELECT actividads.*
-                                    FROM actividads, departamento_actividads
-                                    WHERE actividads.id = departamento_actividads.actividad_id
-                                    AND departamento_actividads.departamento_id = :id',['id' => $d->id]);
-
-        return view('Departamentos.index_actividad',compact(['act', 'd']));
-    }
-
     public function create()
     {
         return view('Departamentos.create_depto');
     }
 
-    public function crearActividad($id)
+    public function store(DepartamentoRequest $request)
     {
-        return view('Departamentos.create_actividad', compact('id'));
-    }
+        departamento::create($request->input());
 
-    public function store(Request $request)
-    {
-        DB::insert('INSERT INTO departamento (Nombre_departamento, Objetivo) VALUES (?,?)',
-                                [$request->get('nombre_depto'),$request->get('objetivo')]);
-        return redirect()->route('departamentos.index');
-    }
-
-    public function guardarActividad(Request $request, $id)
-    {
-        /*Se crea la actividad rescatando la id*/
-        $id_actividad = DB::table('actividads')
-            ->insertGetId(['Nombre_actividad'=> $request->get('nom_actividad'),
-                'Descripcion' =>$request->get('descripcion')]);
-
-
-        /*Se inserta la relacion N:N existente en las tablas rescatando el id del depto y de la actividad*/
-        DB::insert('INSERT INTO departamento_actividads (departamento_id,actividad_id) VALUES (?,?)',
-            [$id, $id_actividad]);
-        return redirect()->route('actividadesdepto.index', $id);
+        return redirect()
+          ->route('departamentos.index')
+          ->with('success', [
+            'titulo'  => 'Creación de Departamento',
+            'mensaje' => 'Creación realizada de forma correcta',
+          ]);
     }
 
     public function show($id)
@@ -68,34 +43,19 @@ class DepartamentosController extends Controller
 
     public function edit($id)
     {
-        $d = departamento::find($id);
-        return view('Departamentos.create_depto',compact('d'));
+        $depto = departamento::findOrFail($id);
+        return view('Departamentos.edit_depto',compact('depto'));
     }
-
-
-    public function editarActividad($idAct,$id)
+  
+    public function update(DepartamentoRequest $request, $id)
     {
-        $act = actividad::find($idAct);
-        return view('Departamentos.create_actividad', compact('act', 'id'));
-
-    }
-   
-    public function update(Request $request, $id)
-    {
-        DB::update('UPDATE departamento SET Nombre_departamento = ?, Objetivo = ?
-                            WHERE id = ?',[$request->get('nombre_depto'),
-                                           $request->get('objetivo')]);
-        return redirect()->route('departamentos.index');
-    }
-
-    public function actualizarActividad(Request $request, $idAct, $id)
-    {
-        DB::update('UPDATE actividads SET Nombre_actividad = ?, Descripcion = ?
-                            WHERE id = ?',[$request->get('nom_actividad'),
-                                           $request->get('descripcion'),
-                                           $idAct]);
-        return redirect()->route('actividadesdepto.index',compact('id'));
-
+        departamento::findOrFail($id)->update($request->input());
+        return redirect()
+          ->route('departamentos.index')
+          ->with('success', [
+            'titulo'  => 'Actualización de Departamento',
+            'mensaje' => 'Actualización realizada de forma correcta',
+        ]);
     }
 
     public function destroy($id)
@@ -107,16 +67,32 @@ class DepartamentosController extends Controller
             'titulo'  => 'Eliminación de Departamento',
             'mensaje' => 'Eliminación realizada de forma correcta',
         ]);
-    }
+    } 
 
-    public function eliminarActividad($idAct, $id)
+    public function editActividades($id)
     {
-        dd('eliminar actividad');
-        DB::delete('DELETE FROM departamento_actividads
-                            WHERE actividad_id = :idAct
-                            AND departamento_id = :id',['idAct' => $idAct,'id' => $id]);
-        DB::delete('DELETE FROM actividads WHERE id = ?',[$idAct]);
+        $depto = departamento::find($id);
 
-        return redirect()->route('actividadesdepto.index', $id);
+        $act = actividad::all();
+        foreach ($act as $actividad){
+            $actividades[] = [
+                'id'     => $actividad->id,
+                'nombre' => $actividad->Nombre_actividad,
+                'desc'   => $actividad->Descripcion,
+                'kp'     => $actividad->KPI,
+            ];
+        }
+
+        return view('Departamentos.editActividades',compact('depto','actividades'));
+    }
+    public function updateActividades(Request $request, $id)
+    {
+        dd($request->all());
+        return redirect()
+          ->route('departamentos.index')
+          ->with('success', [
+            'titulo'  => 'Eliminación de Departamento',
+            'mensaje' => 'Eliminación realizada de forma correcta',
+        ]);
     }
 }

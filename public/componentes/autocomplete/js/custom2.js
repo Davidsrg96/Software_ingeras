@@ -1,12 +1,15 @@
-function autocomplete(inp, out, out2, arr, btn, id) {
+function autocomplete(inp, out,out2,out3, arr) {
 // function autocomplete(inp, arr) { -->eliminar
 	/*the autocomplete function takes two arguments,
 	the text field element and an array of possible autocompleted values:*/
+
+
 	var currentFocus;
 	/*execute a function when someone writes in the text field:*/
-
 	inp.addEventListener("input", function(e) {
+
 		var a, b, i, val = this.value;
+
 		/*close any already open lists of autocompleted values*/
 		closeAllLists();
 		if (!val) { return false;}
@@ -27,24 +30,22 @@ function autocomplete(inp, out, out2, arr, btn, id) {
 				b.innerHTML = "<strong>" + arr[i].nombre.substr(0, val.length) + "</strong>";
 				b.innerHTML += arr[i].nombre.substr(val.length);
 				/*insert a input field that will hold the current array item's value:*/
-				b.innerHTML += "<input type='hidden' id='" + arr[i].id + "' name='" + arr[i].nombre + "'>";
+				b.innerHTML += "<input type='hidden' id='" + arr[i].id +
+								"' name='" + arr[i].nombre + '/-/' + arr[i].desc + '/-/' + arr[i].kp + "'>";
 				/*execute a function when someone clicks on the item value (DIV element):*/
 				b.addEventListener("click", function(e) {
 					/*insert the value for the autocomplete text field:*/
-					var rutInput =  this.getElementsByTagName("input")[0].name.split("{")[0];
-
-					inp.value = rutInput.substr(0, rutInput.length - 1);
-					out.innerHTML = this.getElementsByTagName("input")[0].name.split("{")[1].split("}")[0];
-
-					out2.value = this.getElementsByTagName("input")[0].id;
-
-					btn.classList.add("hidden");
+					inp.value = this.getElementsByTagName("input")[0].name.split('/-/')[0];
+					out.value = this.getElementsByTagName("input")[0].name.split('/-/')[1];
+					out.readOnly = true;
+					out2.value = this.getElementsByTagName("input")[0].name.split('/-/')[2];
+					out2.readOnly = true;
+					out3.value = this.getElementsByTagName("input")[0].id;
 					/*close the list of autocompleted values,
 					(or any other open lists of autocompleted values:*/
 					closeAllLists();
 				});
 				a.appendChild(b);
-				
 			}
 		}
 	});
