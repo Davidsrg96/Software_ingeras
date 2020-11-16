@@ -175,11 +175,13 @@
             enctype="multipart/form-data"
             onsubmit="return listaActividades();">
                 @csrf
-                <div class="row">
+                <div class="row" style="padding: 20px">
                     <div class="col-md-5">
                         <div class="card-body">
                             <div class="form-group{{ $errors->has('Nombre_actividad') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Actividad</label>
+                                <label class="col-md-4 control-label">
+                                    Actividad<span class="required">*</span></label>
+                                </label>
                                 <div class="col-md-8">
                                     <input placeholder="Ingrese nombre de actividad" id="Nombre_actividad" type="text" name="Nombre_actividad" class="form-control">
                                 </div>
@@ -190,7 +192,9 @@
                                 @endif
                             </div>
                             <div class="form-group{{ $errors->has('Descripcion') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">Descripción</label>
+                                <label class="col-md-4 control-label">
+                                    Descripción<span class="required">*</span></label>
+                                </label>
                                 <div class="col-md-8">
                                     <input id="Descripcion" type="text" name="Descripcion" class="form-control" placeholder="Ingrese Descripcion">
                                 </div>
@@ -201,7 +205,9 @@
                                 @endif
                             </div>
                             <div class="form-group{{ $errors->has('valorKPI') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">KPI</label>
+                                <label class="col-md-4 control-label">
+                                    KPI<span class="required">*</span></label>
+                                </label>
                                 <div class="col-md-8">
                                     <input id="valorKPI" type="number" name="valorKPI" class="form-control"
                                         placeholder="Ingrese valorKPI">
@@ -219,6 +225,13 @@
                                         Agregar
                                     </a>
                                 </div>
+                            </div>
+                            <hr>
+                            <div class="card-body">
+                                <a href="{{ route('departamentos.edit', $depto->id) }}" class="btn btn-primary" >Atrás</a>
+                                <a href="#confirmation" class="btn btn-success"
+                                    data-toggle="modal">Editar
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -251,13 +264,6 @@
                             </table>
                         </div> 
                     </div>
-                </div>
-                <div class="card-body">
-                    <hr>
-                    <a href="{{ route('departamentos.edit', $depto->id) }}" class="btn btn-primary" >Atrás</a>
-                    <a href="#confirmation" class="btn btn-success"
-                        data-toggle="modal">Editar
-                    </a>
                 </div>
                 @include('pop-up')
                 @include('layouts.pop-up.error')
