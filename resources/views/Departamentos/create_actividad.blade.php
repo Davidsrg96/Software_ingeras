@@ -1,8 +1,8 @@
 @extends('layoutGeneral')
-@section('estilos')
-@endsection
-@section('acciones')
-@endsection
+@push('estilos')
+@endpush
+@push('acciones')
+@endpush
 @section('cuerpo')
     <div>
         <div class="card" style="color: #abdde5">

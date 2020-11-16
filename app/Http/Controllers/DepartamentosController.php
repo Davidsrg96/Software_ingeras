@@ -37,8 +37,8 @@ class DepartamentosController extends Controller
 
     public function show($id)
     {
-        $d = departamento::find($id);
-        return view('Departamentos.show_depto', compact(['id', 'd']));
+        $depto = departamento::find($id);
+        return view('Departamentos.show_depto', compact('depto'));
     }
 
     public function edit($id)
@@ -87,12 +87,35 @@ class DepartamentosController extends Controller
     }
     public function updateActividades(Request $request, $id)
     {
-        dd($request->all());
+        $depto = departamento::findOrFail($id);
+        $depto->actividades()->detach();
+        foreach ($request->idT as $key => $id) {
+            if($id){
+                $depto->actividades()->attach($id);
+            }else{
+                $actividad = $this->crearActividad(
+                                        $request->nombreT[$key],
+                                        $request->descripcionT[$key],
+                                        $request->kpiT[$key]);
+                $depto->actividades()->attach($actividad->id);
+            }
+        }
+
         return redirect()
-          ->route('departamentos.index')
+          ->route('departamentos.show', $depto->id)
           ->with('success', [
-            'titulo'  => 'Eliminación de Departamento',
-            'mensaje' => 'Eliminación realizada de forma correcta',
+            'titulo'  => 'Actualización de Actividades del departamento de ' . $depto->Nombre_departamento,
+            'mensaje' => 'Actualización realizada de forma correcta',
         ]);
+    }
+
+    private function crearActividad($nombre, $descripcion, $kpi)
+    {
+        $actividad = actividad::create([
+                        'Nombre_actividad' => $nombre,
+                        'Descripcion'      => $descripcion,
+                        'KPI'              => $kpi
+                    ]);
+        return $actividad;
     }
 }

@@ -3,7 +3,6 @@
 @push('estilos')
 @endpush
 @push('acciones')
-    <script src="jquery-3.4.1.min.js" ></script>
     <script>
         $(document).ready(function() {
             var table = $('#tabla_usuario').DataTable({

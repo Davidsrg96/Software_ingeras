@@ -1,5 +1,5 @@
 @extends('layoutGeneral')
-@section('titulo', 'Actividades Departamento')
+@section('titulo', 'Editar Actividades Departamento')
 @push('estilos')
     <!-- Autocomplete -->
     <link href="{{ asset('componentes/autocomplete/css/custom.css') }}" rel="stylesheet">
