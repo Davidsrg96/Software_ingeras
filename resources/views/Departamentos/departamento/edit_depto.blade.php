@@ -59,7 +59,7 @@
                                 @endif
                             </div>
                             <hr>
-                                <a href="{{ route('departamento.actividades.edit', $depto->id) }}" class="btn btn-warning">
+                                <a href="{{ route('departamento.personal.edit', $depto->id) }}" class="btn btn-warning">
                                     Editar Personal
                                 </a>
                                 <a href="{{ route('departamento.actividades.edit', $depto->id) }}" class="btn btn-warning">

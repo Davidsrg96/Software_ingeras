@@ -1,16 +1,25 @@
 @extends('layoutGeneral')
 @section('titulo', 'Mostrar departamento')
 @push('estilos')
-<style>
-    .espacioChico{
-        padding: 20px;
-    }
-    .textPos{
-        text-align: right;
-    }
-</style>
+    <style>
+        .espacioChico{
+            padding: 20px;
+        }
+        .textPos{
+            text-align: right;
+        }
+    </style>
 @endpush
 @push('acciones')
+    <script>
+        //Toaster
+        @if(Session::has('success'))
+            mensajeEmergente('{{ Session::get('success')['titulo'] }}', '{{ Session::get('success')['mensaje'] }}');
+        @endif
+        @if(Session::has('fail'))
+            mensajeEmergente('{{ Session::get('fail')['titulo'] }}', '{{ Session::get('fail')['mensaje'] }}', 'error');
+        @endif
+    </script>
 @endpush
 @section('cuerpo')
     <div class="card">

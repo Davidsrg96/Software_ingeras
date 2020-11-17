@@ -125,6 +125,10 @@ Route::post('proyectos/{proyecto}/{area}/actividades/crear-actividad', 'Activida
 //Ruta para funciones ajax
 Route::prefix('ajax')->namespace('ajax')->name('ajax.')->group(function(){
 	Route::get('departamento/actividad/{id}', 'ActividadDeptoController@actividad')->name('departamento.actividad');
+	Route::get('departamento/personal/nombre/{id}','PersonalDeptoAjaxController@nombre')
+				->name('departamento.personal.nombre');
+	Route::get('departamento/personal/rut/{id}','PersonalDeptoAjaxController@rut')
+				->name('departamento.personal.rut');
 });
 Auth::routes();
 

@@ -76,7 +76,7 @@
                     '<td id="nombreAct">' + nom.charAt(0).toUpperCase() + nom.substr(1) +'</td>'+
                     '<td id="descripcion">' + des.charAt(0).toUpperCase() + des.substr(1) +'</td>'+
                     '<td id="kpi">' + valkpi  +'</td>' +
-                    '<td><a class="borrar btn btn-danger" title="Eliminar Usuario"><i class="fas fa-trash-alt" style="color: white"></i></a>';
+                    '<td><a class="borrar btn btn-danger" title="Eliminar Actividad"><i class="fas fa-trash-alt" style="color: white"></i></a>';
                 //Se agrega la fila creada a la tabla
                 document.getElementById("actividadesTable").insertRow(-1).innerHTML = bodyTable;
             }
@@ -254,7 +254,7 @@
                                         <td id="descripcion">{{$actividad->Descripcion}}</td>
                                         <td id="kpi">{{$actividad->KPI }}</td>
                                         <td>
-                                            <a class="borrar btn btn-danger" title="Eliminar Usuario">
+                                            <a class="borrar btn btn-danger" title="Eliminar Actividad">
                                                 <i class="fas fa-trash-alt" style="color: white"></i>
                                             </a>
                                         </td>

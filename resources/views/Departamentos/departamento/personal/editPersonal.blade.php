@@ -15,33 +15,47 @@
 @endpush
 @push('acciones')
     <!-- Autocomplete -->
-    <script src="{{ asset('componentes/autocomplete/js/custom2.js') }}"></script>
+    <script src="{{ asset('componentes/autocomplete/js/personal.js') }}"></script>
 
     <script>
 
-        var actividades = @json($actividades);
-        var nombre      = document.getElementById('Nombre_actividad');
-        var descripcion = document.getElementById('Descripcion');
-        var kpi         = document.getElementById('valorKPI');
-        var id          = document.getElementById('actividadID');
+        var personal = @json($personal);
+        var nombre   = document.getElementById('Nombre');
+        var rut      = document.getElementById('Rut');
+        var id       = document.getElementById('usuarioID');
 
-        autocomplete(nombre,descripcion,kpi,id,actividades);
+        autocomplete(nombre,rut,id,personal,'nombre');
+        autocomplete(rut,nombre,id,personal,'rut');
 
-        $('#Nombre_actividad').on('keyup', function(){
-            $('#Descripcion').removeAttr('readonly');
-            $('#valorKPI').removeAttr('readonly');
-            $('#actividadID').val('0');
-            var nombreAct = $('#Nombre_actividad').val();
-            if(nombreAct != 0){
-                var url = '{{ route("ajax.departamento.actividad", ":nombreAct") }}';
-                url = url.replace(':nombreAct', nombreAct);
+        $('#Nombre').on('keyup', function(){
+            $('#Rut').removeAttr('readonly');
+            $('#usuarioID').val('0');
+            var nombreUser = $('#Nombre').val();
+            if(nombreUser != 0){
+                var url = '{{ route("ajax.departamento.personal.nombre", ":nombreUser") }}';
+                url = url.replace(':nombreUser', nombreUser);
                 $.get(url, function(data) {
                     if (Object.keys(data).length != 0) {
-                        $('#Descripcion').attr({'readonly' : 'readonly'});
-                        $('#valorKPI').attr({'readonly' : 'readonly'});
-                        $('#actividadID').val(data.id);
-                        $('#Descripcion').val(data.Descripcion);
-                        $('#valorKPI').val(data.KPI);
+                        $('#Rut').attr({'readonly' : 'readonly'});
+                        $('#usuarioID').val(data.id);
+                        $('#Rut').val(data.rut);
+                    }
+                });
+            }
+        });
+
+        $('#Rut').on('keyup', function(){
+            $('#Nombre').removeAttr('readonly');
+            $('#usuarioID').val('0');
+            var rutUser = $('#Rut').val();
+            if(rutUser != 0){
+                var url = '{{ route("ajax.departamento.personal.rut", ":rutUser") }}';
+                url = url.replace(':rutUser', rutUser);
+                $.get(url, function(data) {
+                    if (Object.keys(data).length != 0) {
+                        $('#Nombre').attr({'readonly' : 'readonly'});
+                        $('#usuarioID').val(data.id);
+                        $('#Nombre').val(data.nombre);
                     }
                 });
             }
@@ -49,7 +63,7 @@
 
         //boton eliminar fila de la lista
         $(document).on('click', '.borrar', function (event) {
-            if($("#actividadesTable tr").length > 1){
+            if($("#personalTable tr").length > 1){
                 $(this).closest('tr').remove();
             }
         });
@@ -57,100 +71,69 @@
         //Funcionalidad del boton agregar
         function agregarActividad(){
             //Toma los valores de las input
-            var id  = document.getElementById('actividadID').value;
-            var nom = document.getElementById('Nombre_actividad').value;
-            var des = document.getElementById('Descripcion').value;
-            var valkpi = document.getElementById('valorKPI').value;
+            var userID  = document.getElementById('usuarioID').value;
+            var nom = document.getElementById('Nombre').value;
+            var rutE = document.getElementById('Rut').value;
 
-            if( validarIgresoLista(nom, des,valkpi) ){
+            if( validarIgresoLista(nom, rutE, userID) ){
                 //Reinicia los input
-                document.getElementById('actividadID').value = "";
-                document.getElementById('Nombre_actividad').value = "";
-                document.getElementById('Descripcion').value = "";
-                document.getElementById('valorKPI').value = "";
-                document.getElementById("Descripcion").readOnly = false;
-                document.getElementById("valorKPI").readOnly = false;
+                document.getElementById('usuarioID').value = 0;
+                document.getElementById('Nombre').value = "";
+                document.getElementById('Rut').value = "";
+                document.getElementById("Rut").readOnly = false;
+                $('#Nombre').removeAttr('readonly');
 
                 //Se crea la fila
-                var bodyTable = '<td hidden>'+ id  +'</td>' +
-                    '<td id="nombreAct">' + nom.charAt(0).toUpperCase() + nom.substr(1) +'</td>'+
-                    '<td id="descripcion">' + des.charAt(0).toUpperCase() + des.substr(1) +'</td>'+
-                    '<td id="kpi">' + valkpi  +'</td>' +
+                var bodyTable = '<td hidden>'+ userID  +'</td>' +
+                    '<td id="nombreAct">' + rutE +'</td>'+
+                    '<td id="descripcion">' + nom.charAt(0).toUpperCase() + nom.substr(1) +'</td>'+
                     '<td><a class="borrar btn btn-danger" title="Eliminar Usuario"><i class="fas fa-trash-alt" style="color: white"></i></a>';
                 //Se agrega la fila creada a la tabla
-                document.getElementById("actividadesTable").insertRow(-1).innerHTML = bodyTable;
+                document.getElementById("personalTable").insertRow(-1).innerHTML = bodyTable;
             }
         }
 
 
         //funcion que crea la lista de actividades
-        function listaActividades(){
-            for(var j = 1; j < document.getElementById("actividadesTable").rows.length; j++){
-                var idT = document.getElementById("actividadesTable").rows[j].cells[0].innerHTML;
-                var nombreT = document.getElementById("actividadesTable").rows[j].cells[1].innerHTML;
-                var descripcionT = document.getElementById("actividadesTable").rows[j].cells[2].innerHTML;
-                var kpiT = document.getElementById("actividadesTable").rows[j].cells[3].innerHTML;
+        function listaPersonal(){
+            for(var j = 1; j < document.getElementById("personalTable").rows.length; j++){
+                var idL = document.getElementById("personalTable").rows[j].cells[0].innerHTML;
                 $('<input>').attr({
                     type: 'hidden',
-                    id: 'idT',
-                    name: 'idT[]',
-                    value : idT
-                }).appendTo('form');
-                $('<input>').attr({
-                    type: 'hidden',
-                    id: 'nombreT',
-                    name: 'nombreT[]',
-                    value : nombreT
-                }).appendTo('form');
-                $('<input>').attr({
-                    type: 'hidden',
-                    id: 'descripcionT',
-                    name: 'descripcionT[]',
-                    value : descripcionT
-                }).appendTo('form');
-                $('<input>').attr({
-                    type: 'hidden',
-                    id: 'kpiT',
-                    name: 'kpiT[]',
-                    value : kpiT
+                    id: 'idL',
+                    name: 'idL[]',
+                    value : idL
                 }).appendTo('form');
             }
         }
 
         //funcion que valida los datos ingresados del participante
-        function validarIgresoLista(nombre, descripcion, kpi){
-            if(nombre == "" || descripcion == "" || kpi ==""){
-                mensaje = 'Los campos nombre, descripción y kpi son obligatorios';
+        function validarIgresoLista(nombre, rut, userID){
+            if(nombre == "" || rut == ""){
+                mensaje = 'Los campos nombre y rut son obligatorios';
                 $("#mensaje").html(mensaje);
                 $('#error').modal('show');
                 return false;
             }else{
-                if(isNaN(kpi)){
-                    mensaje = 'El campo kpi debe ser numerico';
+                if( userID == 0 ){
+                    mensaje = 'Usuario no se encuentra registrado';
                     $("#mensaje").html(mensaje);
                     $('#error').modal('show');
                     return false;
                 }else{
                     var flagExiste = false;
-                    for(var j = 1; j < document.getElementById("actividadesTable").rows.length; j++){
-                        var nombre = document.getElementById("actividadesTable").rows[j].cells[1].innerHTML;
-                        if(document.getElementById("Nombre_actividad").value == nombre){
+                    for(var j = 1; j < document.getElementById("personalTable").rows.length; j++){
+                        var id = document.getElementById("personalTable").rows[j].cells[0].innerHTML;
+                        if(userID == id){
                             flagExiste = true;
                             break;
                         }
                     }
                     if(flagExiste){
-                        mensaje = 'Esta actividad ya ha sido ingresado en la lista';
+                        mensaje = 'Este usuario ya ha sido ingresado en la lista';
                         $("#mensaje").html(mensaje);
                         $('#error').modal('show');
                     return false;
-                    }else{
-                        if(kpi < 0){
-                            mensaje = 'El campo kpi debe ser mayor a 0';
-                            $("#mensaje").html(mensaje);
-                            $('#error').modal('show');
-                            return false;
-                        }
                     }
                 }
             }
@@ -163,62 +146,49 @@
     <div class="card">
         <div class="card-header">
             <h1 align="center"><font color="black">
-                Actividades del Departamento {{ $depto->Nombre_departamento }}
+                Personal del Departamento {{ $depto->Nombre_departamento }}
             </font></h1>
         </div>
         <form
             name="update"
             method="POST"
-            action="{{ route('departamento.actividades.update', $depto->id) }}" 
+            action="{{ route('departamento.personal.update', $depto->id) }}" 
             class="form-horizontal form-label-left"
             autocomplete="off"
             enctype="multipart/form-data"
-            onsubmit="return listaActividades();">
+            onsubmit="return listaPersonal();">
                 @csrf
                 <div class="row" style="padding: 20px">
                     <div class="col-md-5">
                         <div class="card-body">
-                            <div class="form-group{{ $errors->has('Nombre_actividad') ? ' has-error' : '' }}">
+                            <div class="form-group{{ $errors->has('Nombre') ? ' has-error' : '' }}">
                                 <label class="col-md-4 control-label">
-                                    Actividad<span class="required">*</span></label>
+                                    Nombre<span class="required">*</span></label>
                                 </label>
                                 <div class="col-md-8">
-                                    <input placeholder="Ingrese nombre de actividad" id="Nombre_actividad" type="text" name="Nombre_actividad" class="form-control">
+                                    <input placeholder="Ingrese nombre del usuario" id="Nombre" type="text" 
+                                        class="form-control">
                                 </div>
-                                @if ($errors->has('Nombre_actividad'))
+                                @if ($errors->has('Nombre'))
                                     <span class="col-md-8 col-md-offset-4 help-block">
-                                        <strong>{{ $errors->first('Nombre_actividad') }}</strong>
+                                        <strong>{{ $errors->first('Nombre') }}</strong>
                                     </span>
                                 @endif
                             </div>
-                            <div class="form-group{{ $errors->has('Descripcion') ? ' has-error' : '' }}">
+                            <div class="form-group{{ $errors->has('Rut') ? ' has-error' : '' }}">
                                 <label class="col-md-4 control-label">
-                                    Descripción<span class="required">*</span></label>
+                                    Rut<span class="required">*</span></label>
                                 </label>
                                 <div class="col-md-8">
-                                    <input id="Descripcion" type="text" name="Descripcion" class="form-control" placeholder="Ingrese Descripcion">
+                                    <input id="Rut" type="text" class="form-control" placeholder="Ingrese Rut">
                                 </div>
-                                @if ($errors->has('Descripcion'))
+                                @if ($errors->has('Rut'))
                                     <span class="col-md-8 col-md-offset-4 help-block">
-                                        <strong>{{ $errors->first('Descripcion') }}</strong>
+                                        <strong>{{ $errors->first('Rut') }}</strong>
                                     </span>
                                 @endif
                             </div>
-                            <div class="form-group{{ $errors->has('valorKPI') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">
-                                    KPI<span class="required">*</span></label>
-                                </label>
-                                <div class="col-md-8">
-                                    <input id="valorKPI" type="number" name="valorKPI" class="form-control"
-                                        placeholder="Ingrese valorKPI">
-                                </div>
-                                @if ($errors->has('valorKPI'))
-                                    <span class="col-md-8 col-md-offset-4 help-block">
-                                        <strong>{{ $errors->first('valorKPI') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                            <input hidden type="text" id="actividadID" value="0">
+                            <input hidden type="text" id="usuarioID" value="0">
                             <div class="form-group">
                                 <div class="col-md-4">
                                     <a style="color: white" class="btn btn-warning" onClick="agregarActividad();">
@@ -237,22 +207,20 @@
                     </div>
                     <div class="col-md-7">
                         <div class="card-body">
-                           <table class="table table-hover table-striped" id="actividadesTable">
+                           <table class="table table-hover table-striped" id="personalTable">
                                 <thead>
                                 <tr>
-                                    <th>Actividad</th>
-                                    <th>Descripción</th>
-                                    <th>KPI</th>
+                                    <th>Rut</th>
+                                    <th>Nombre</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($depto->actividades as $actividad)
+                                @foreach($depto->personal as $usuario)
                                     <tr>
-                                        <td hidden>{{ $actividad->id }}</td>'
-                                        <td id="nombreAct">{{$actividad->Nombre_actividad}}</td>
-                                        <td id="descripcion">{{$actividad->Descripcion}}</td>
-                                        <td id="kpi">{{$actividad->KPI }}</td>
+                                        <td hidden>{{ $usuario->id }}</td>'
+                                        <td id="descripcion">{{$usuario->Rut}}</td>
+                                        <td id="nombreAct">{{$usuario->Nombre}}</td>
                                         <td>
                                             <a class="borrar btn btn-danger" title="Eliminar Usuario">
                                                 <i class="fas fa-trash-alt" style="color: white"></i>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\usuario;
 use App\actividad;
 use App\departamento;
 use App\departamento_actividad;
@@ -28,7 +29,7 @@ class DepartamentosController extends Controller
         departamento::create($request->input());
 
         return redirect()
-          ->route('departamentos.departamento.index')
+          ->route('departamentos.index')
           ->with('success', [
             'titulo'  => 'Creación de Departamento',
             'mensaje' => 'Creación realizada de forma correcta',
@@ -51,7 +52,7 @@ class DepartamentosController extends Controller
     {
         departamento::findOrFail($id)->update($request->input());
         return redirect()
-          ->route('departamentos.departamento.index')
+          ->route('departamentos.index')
           ->with('success', [
             'titulo'  => 'Actualización de Departamento',
             'mensaje' => 'Actualización realizada de forma correcta',
@@ -60,9 +61,13 @@ class DepartamentosController extends Controller
 
     public function destroy($id)
     {
+        $depto = departamento::findOrFail($id);
+        $depto->personal()->detach();
+        $depto->actividades()->detach();
+        $depto->delete();
         // DB::delete('DELETE FROM departamento WHERE id = ?',[$id]);
         return redirect()
-          ->route('departamentos.departamento.index')
+          ->route('departamentos.index')
           ->with('success', [
             'titulo'  => 'Eliminación de Departamento',
             'mensaje' => 'Eliminación realizada de forma correcta',
@@ -113,15 +118,34 @@ class DepartamentosController extends Controller
 
     public function editPersonal($id)
     {
-        dd($id);
-        
+        $depto = departamento::find($id);
+
+        $users = usuario::all();
+        foreach ($users as $usuario){
+            $personal[] = [
+                'id'     => $usuario->id,
+                'nombre' => $usuario->getNombreCompleto(),
+                'rut'    => $usuario->Rut,
+                'correo' => $usuario->email,
+            ];
+        }
+
+        return view('Departamentos.departamento.personal.editPersonal',compact('depto','personal'));
     }
+
     public function updatePersonal(Request $request, $id)
     {
-        dd($request->all());
+
+        $depto = departamento::findOrFail($id);
+        $depto->personal()->detach();
+        if($request->idL){
+            foreach ($request->idL as $id) {
+                $depto->personal()->attach($id);
+            }
+        }
 
         return redirect()
-          ->route('departamentos.departamento.show', $depto->id)
+          ->route('departamentos.show', $depto->id)
           ->with('success', [
             'titulo'  => 'Actualización del Personal del departamento de ' . $depto->Nombre_departamento,
             'mensaje' => 'Actualización realizada de forma correcta',
