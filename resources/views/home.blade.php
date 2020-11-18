@@ -1,5 +1,9 @@
 @extends('layoutGeneral')
-
+@section('titulo', 'Inicio')
+@push('estilos')
+@endpush
+@push('acciones')
+@endpush
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\cargo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\administracion\cargo\CargoRequest;
+use App\Http\Requests\administracion\cargo\CargoDeleteRequest;
 
 class CargosController extends Controller
 {
@@ -12,45 +14,61 @@ class CargosController extends Controller
     public function index()
     {
         $cargos = cargo::orderBy('id','ASC')->paginate();
-        return view('Cargos.index',compact('cargos'));
+        return view('cargos.index',compact('cargos'));
     }
 
   
     public function create()
     {
-        return view('Cargos.create');
+        return view('cargos.create');
     }
 
-    public function store(Request $request)
+    public function store(CargoRequest $request)
     {
-        DB::insert('INSERT INTO cargos (Tipo_cargo, Descripcion) 
-                            VALUES (?,?)',[$request->get('tipo_cargo'),$request->get('descripcion')]);
-        return redirect()->route('cargos.index');
+        
+        cargo::create($request->input());
+        return redirect()
+            ->route('cargos.index')
+            ->with('success', [
+                'titulo'  => 'Creación de Cargo',
+                'mensaje' => 'Creación realizada de forma correcta',
+            ]);
     }
 
     public function show($id)
     {
         $cargo = cargo::find($id);
-        return view('Cargos.show',compact('cargo'));
+        return view('cargos.show',compact('cargo'));
     }
 
   
     public function edit($id)
     {
         $cargo = cargo::find($id);
-        return view('Cargos.create',compact('cargo'));
+        return view('cargos.edit', compact('cargo'));
     }
 
-    public function update(Request $request, $id)
+    public function update(CargoRequest $request, $id)
     {
-        DB::update('UPDATE cargos SET Tipo_cargo = ?, Descripcion = ? WHERE id = ?',
-            [$request->get('tipo_cargo'),$request->get('descripcion'),$id]);
-        return redirect()->route('cargos.index');
+        cargo::findOrFail($id)->update($request->input());
+        
+        return redirect()
+          ->route('cargos.index')
+          ->with('success', [
+            'titulo'  => 'Actualización de Cargo',
+            'mensaje' => 'Actualización realizada de forma correcta',
+          ]);
     }
 
-    public function destroy($id)
+    public function destroy(CargoDeleteRequest $request, $id)
     {
-        DB::delete('DELETE FROM cargos WHERE id = ?',[$id]);
-        return redirect()->route('cargos.index');
+        cargo::findOrFail($id)->delete();
+        
+        return redirect()
+          ->route('cargos.index')
+          ->with('success', [
+            'titulo'  => 'Eliminación de Tipo de Usuario',
+            'mensaje' => 'Eliminación realizada de forma correcta',
+        ]);
     }
 }

@@ -42,7 +42,9 @@
             <h1 align="center"><font color="black"> Tipos de Usuarios</font></h1>
             <div class="column" align="left" style="padding-left: 1.5%">
                 <a type="button" class="btn btn-primary" href="{{ route('home.index') }}" role="button"><i class="fas fa-arrow-left"></i> Regresar</a>
-                <a href="{{action('TipoUsuarioController@create')}}" type="button" class="btn btn-primary pull-right" > Agregar Tipo de Usuario</a>
+                <a href="{{ route('tipo_usuario.create') }}" type="button" class="btn btn-primary pull-right">
+                    Agregar Tipo de Usuario
+                </a>
             </div>
         </div>
         <div class="card-body">

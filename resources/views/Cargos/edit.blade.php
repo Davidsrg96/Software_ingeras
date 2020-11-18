@@ -1,5 +1,5 @@
 @extends('layoutGeneral')
-@section('titulo', 'Crear cargo')
+@section('titulo', 'Editar cargo')
 @push('estilos')
 @endpush
 @push('acciones')
@@ -31,18 +31,20 @@
     <div>
         <div class="card" style="color: #abdde5">
             @include('error_formulario')
-            <h1 align="center">Crear Cargo</h1>
+            <h1 align="center">Editar Cargo</h1>
             <div class="row">
                 <div class="col-md">
                     <form  method="POST"
-                        action="{{ route('cargos.store') }}"
+                        action="{{ route('cargos.update', $cargo->id) }}"
                         enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <ul class="form-style-1">
                             <div class="form-group{{ $errors->has('Tipo_cargo') ? ' has-error' : '' }}">
                                 <label>Cargo<span class="required">*</span></label>
                                 <input placeholder="Ingrese el cargo" type="text"
-                                    id="Tipo_cargo" name="Tipo_cargo" class="form-style-1">
+                                    id="Tipo_cargo" name="Tipo_cargo" class="form-style-1"
+                                    value="{{ $cargo->Tipo_cargo }}">
                                 @if ($errors->has('Tipo_cargo'))
                                     <label>
                                         <span class="required">
@@ -53,7 +55,7 @@
                             </div>
                             <div class="form-group{{ $errors->has('Descripcion') ? ' has-error' : '' }}">
                                 <label>Descripcion<span class="required">*</span></label>
-                                <textarea class="form-style-1" id="Descripcion" name="Descripcion"></textarea>
+                                <textarea class="form-style-1" id="Descripcion" name="Descripcion">{{ $cargo->Descripcion }}</textarea>
                                 @if ($errors->has('Descripcion'))
                                     <label>
                                         <span class="required">
