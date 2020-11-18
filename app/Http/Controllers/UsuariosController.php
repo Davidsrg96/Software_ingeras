@@ -33,11 +33,11 @@ class UsuariosController extends Controller
     {
       usuario::create($request->input() + ['Rut' => $request->rutEs]);
       return redirect()
-          ->route('usuarios.index')
-          ->with('success', [
-            'titulo'  => 'Creación de Usuario',
-            'mensaje' => 'Creación realizada de forma correcta',
-          ]);
+        ->route('usuarios.index')
+        ->with('success', [
+          'titulo'  => 'Creación de Usuario',
+          'mensaje' => 'Creación realizada de forma correcta',
+        ]);
     }
 
     public function show($id)

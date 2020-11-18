@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\tipo_usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\administracion\tipoUsuario\TipoUsuarioRequest;
+use App\Http\Requests\administracion\tipoUsuario\TipoUsuarioDeleteRequest;
 
 class TipoUsuarioController extends Controller
 {
@@ -20,11 +22,15 @@ class TipoUsuarioController extends Controller
         return view('Tipos_usuarios.create');
     }
 
-    public function store(Request $request)
+    public function store(TipoUsuarioRequest $request)
     {
-        DB::insert('INSERT INTO tipo_usuarios (Tipo_usuario, Descripcion)
-                            VALUES (?,?)',[$request->get('tipo_usuario'),$request->get('descripcion')]);
-        return redirect()->route('tipo_usuario.index');
+        tipo_usuario::create($request->input());
+        return redirect()
+            ->route('tipo_usuario.index')
+            ->with('success', [
+                'titulo'  => 'Creación de Tipo de Usuario',
+                'mensaje' => 'Creación realizada de forma correcta',
+            ]);
     }
 
     public function show($id)
@@ -36,19 +42,30 @@ class TipoUsuarioController extends Controller
     public function edit($id)
     {
         $tipo = tipo_usuario::find($id);
-        return view('Tipos_usuarios.create',compact('tipo'));
+        return view('Tipos_usuarios.edit', compact('tipo'));
     }
 
-    public function update(Request $request, $id)
+    public function update(TipoUsuarioRequest $request, $id)
     {
-        DB::update('UPDATE tipo_usuarios SET Tipo_usuario = ?, Descripcion = ? WHERE id = ?',
-                            [$request->get('tipo_usuario'),$request->get('descripcion'),$id]);
-        return redirect()->route('tipo_usuario.index');
+        tipo_usuario::findOrFail($id)->update($request->input());
+        
+        return redirect()
+          ->route('tipo_usuario.index')
+          ->with('success', [
+            'titulo'  => 'Actualización de Tipo de Usuario',
+            'mensaje' => 'Actualización realizada de forma correcta',
+          ]);
     }
 
-    public function destroy($id)
+    public function destroy(TipoUsuarioDeleteRequest $request, $id)
     {
-        DB::delete('DELETE FROM tipo_usuarios WHERE id = ?',[$id]);
-        return redirect()->route('tipo_usuario.index');
+        tipo_usuario::findOrFail($id)->delete();
+        
+        return redirect()
+          ->route('tipo_usuario.index')
+          ->with('success', [
+            'titulo'  => 'Eliminación de Tipo de Usuario',
+            'mensaje' => 'Eliminación realizada de forma correcta',
+        ]);
     }
 }

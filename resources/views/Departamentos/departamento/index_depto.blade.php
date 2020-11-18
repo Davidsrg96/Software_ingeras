@@ -58,57 +58,35 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($departamentos as $depto)
+                @foreach($departamentos as $dato)
                     <tr>
-                        <td>{{$depto->id}}</td>
-                        <td>{{$depto->Nombre_departamento}}</td>
-                        <td>{{$depto->Objetivo}}</td>
+                        <td>{{$dato->id}}</td>
+                        <td>{{$dato->Nombre_departamento}}</td>
+                        <td>{{$dato->Objetivo}}</td>
                         <td>
                             <form
                                 method="POST"
-                                action="{{ route('departamentos.destroy', $depto->id) }}"
+                                action="{{ route('departamentos.destroy', $dato->id) }}"
                                 style='display:inline-flex'>
                                     @csrf
                                     @method('DELETE')
                                     
                                 <div class="btn-group">
-                                    <a href="{{route('departamentos.edit', $depto->id)}}"
+                                    <a href="{{route('departamentos.edit', $dato->id)}}"
                                         class="btn btn-primary" title="Editar Usuario">
                                             <i class="fas fa-pencil-alt"></i>
                                     </a>
-                                    <a href="{{route('departamentos.show', $depto->id)}}"
+                                    <a href="{{route('departamentos.show', $dato->id)}}"
                                         class="btn btn-warning" title="Mostrar Usuario">
                                             <i class="fas fa-eye" style="color: white"></i>
                                     </a>
-                                    <a href="" data-target="#del{{$depto->id}}" class="btn btn-danger" 
+                                    <a href="" data-target="#del{{$dato->id}}" class="btn btn-danger" 
                                         data-toggle="modal" title="Eliminar Usuario">
                                             <i class="fas fa-trash-alt" style="color: white"></i>
                                     </a>
                                 </div>
                                 <!--pop up confirmacion -->
-                                <div class="modal fade" id="del{{$depto->id}}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Confirmacion</h5>
-                                                <button tyle="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p><font color="black">Si presiona cancelar, no se eliminaran los cambios</font></p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal">
-                                                    Cancelar
-                                                </button>
-                                                <button
-                                                    class="btn btn-primary btn-danger"
-                                                    type="submit">
-                                                        Eliminar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @include('layouts.pop-up.confirmacionDelete')
                             </form>
                         </td>
                     </tr>

@@ -1,5 +1,5 @@
 @extends('layoutGeneral')
-@section('titulo', 'Crear tipo de usuario')
+@section('titulo', 'Editar tipo de usuario')
 @push('estilos')
 @endpush
 @push('acciones')
@@ -31,18 +31,20 @@
     <div>
         <div class="card" style="color: #abdde5">
             @include('error_formulario')
-            <h1 align="center">Crear Tipo de Usuario</h1>
+            <h1 align="center">Editar Tipo de Usuario</h1>
             <div class="row">
                 <div class="col-md">
                     <form  method="POST"
-                        action="{{ route('tipo_usuario.store') }}"
+                        action="{{ route('tipo_usuario.update', $tipo->id) }}"
                         enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <ul class="form-style-1">
                             <div class="form-group{{ $errors->has('Tipo_usuario') ? ' has-error' : '' }}">
                                 <label>Tipo de Usuario<span class="required">*</span></label>
                                 <input placeholder="Ingrese el tipo de usuario" type="text"
-                                    id="Tipo_usuario" name="Tipo_usuario" class="form-style-1">
+                                    id="Tipo_usuario" name="Tipo_usuario" class="form-style-1"
+                                    value="{{ $tipo->Tipo_usuario }}">
                                 @if ($errors->has('Tipo_usuario'))
                                     <label>
                                         <span class="required">
@@ -53,7 +55,7 @@
                             </div>
                             <div class="form-group{{ $errors->has('Descripcion') ? ' has-error' : '' }}">
                                 <label>Descripcion<span class="required">*</span></label>
-                                <textarea class="form-style-1" id="Descripcion" name="Descripcion"></textarea>
+                                <textarea class="form-style-1" id="Descripcion" name="Descripcion">{{ $tipo->Descripcion }}</textarea>
                                 @if ($errors->has('Descripcion'))
                                     <label>
                                         <span class="required">
@@ -75,4 +77,3 @@
         </div>
     </div>
 @endsection
-

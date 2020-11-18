@@ -15,7 +15,9 @@
                         <li><a class="dropdown-item" href="{{ route('usuarios.index') }}">
                             Usuarios
                         </a></li>
-                        <li><a class="dropdown-item" href="">Tipos de Usuarios</a></li>
+                        <li><a class="dropdown-item" href="{{ route('tipo_usuario.index') }}">
+                          Tipos de Usuarios
+                        </a></li>
                         <li><a class="dropdown-item" href="{{ route('cargos.index') }}">
                             Cargos
                         </a></li>
