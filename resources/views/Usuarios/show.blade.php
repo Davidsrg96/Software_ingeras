@@ -5,7 +5,7 @@
 @section('acciones')
 @endsection
 @section('cuerpo')
-    <div class="card">
+    <div class="card"  style="background-color: #FFFFFF;width: 100%">
         <div class="card-header">
             <h1 align="center">Información de usuario</h1>
             <a type="button" class="btn btn-primary" href="{{ route('usuarios.index') }}" role="button"><i class="fas fa-arrow-left"></i> Regresar</a>

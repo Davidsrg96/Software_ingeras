@@ -3,40 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\almacenamiento;
-use App\almacenamiento_stock;
 use App\bodega;
 use App\proveedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\administracion\bodega\BodegaRequest;
+use App\Http\Requests\administracion\bodega\BodegaDeleteRequest;
 
 class BodegaController extends Controller
 {
   
     public function index()
     {
-        $producto = bodega::orderBy('id','ASC')->paginate();
-        $proveedores = proveedor::all();
-        $almacenes = almacenamiento::all();
-        $a_s = almacenamiento_stock::all();
-        return view('Abastecimiento.index_bodega', compact('producto','proveedores','almacenes','a_s'));
+        $productos = bodega::orderBy('id','ASC')->paginate();
+        return view('Bodega.index_bodega', compact('productos'));
     }
 
     public function create()
     {
         $proveedores = proveedor::all();
-        return view('Abastecimiento.create_producto',compact('proveedores'));
+        return view('Bodega.create_producto',compact('proveedores'));
     }
 
    
-    public function store(Request $request)
+    public function store(BodegaRequest $request)
     {
-        DB::insert('INSERT INTO bodegas (Codigo,Nombre_producto,Precio_producto,Cantidad,proveedor_id)
-                            VALUES (?,?,?,?,?)',[$request->get('codigo'),
-                                                 $request->get('producto'),
-                                                 $request->get('precio'),
-                                                 $request->get('cantidad'),
-                                                 $request->get('proveedor')]);
-        return redirect()->route('bodega.index');
+        bodega::create($request->input());
+        return redirect()
+            ->route('bodega.index')
+            ->with('success', [
+                'titulo'  => 'Creación de Producto',
+                'mensaje' => 'Creación realizada de forma correcta',
+            ]);
     }
 
     public function show($id)
@@ -51,25 +49,30 @@ class BodegaController extends Controller
     public function edit($id)
     {
         $proveedores = proveedor::all();
-        $p = bodega::find($id);
-        return view('Abastecimiento.create_producto',compact('p','proveedores'));
+        $producto = bodega::find($id);
+        return view('Bodega.edit',compact('producto','proveedores'));
     }
 
-    public function update(Request $request, $id)
+    public function update(BodegaRequest $request, $id)
     {
-        DB::update('UPDATE bodegas SET Codigo = ?,Nombre_producto = ?, Precio_producto = ?, Cantidad = ?, proveedor_id = ?
-                           WHERE  id = ?',[$request->get('codigo'),
-            $request->get('nom_producto'),
-            $request->get('precio'),
-            $request->get('cantidad'),
-            $request->get('proveedor'),
-            $id]);
-        return redirect()->route('bodega.index');
+        bodega::findOrFail($id)->update($request->input());
+        return redirect()
+            ->route('bodega.index')
+            ->with('success', [
+                'titulo'  => 'Actualización de Producto',
+                'mensaje' => 'Actualización realizada de forma correcta',
+            ]);
     }
 
-    public function destroy($id)
+    public function destroy(BodegaDeleteRequest $request, $id)
     {
+        dd($id);
         DB::delete('DELETE FROM bodegas WHERE id = ?', [$id]);
-        return redirect()->route('bodega.index');
+        return redirect()
+          ->route('bodega.index')
+          ->with('success', [
+            'titulo'  => 'Eliminación de Producto',
+            'mensaje' => 'Eliminación realizada de forma correcta',
+        ]);
     }
 }

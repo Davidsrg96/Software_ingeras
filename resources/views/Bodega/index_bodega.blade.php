@@ -1,11 +1,11 @@
 @extends('layoutGeneral')
-@section('titulo', 'Lista Almancenes')
+@section('titulo', 'Lista Productos')
 @push('estilos')
 @endpush
 @push('acciones')
     <script>
         $(document).ready(function() {
-            var table = $('#tabla_almacen').DataTable({
+            var table = $('#tabla_bodega').DataTable({
                 language: {
                     "emptyTable": "No hay información",
                     "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
@@ -41,44 +41,57 @@
         <div class="card-header">
             <h1 align="center"><font color="black">Almacenes</font></h1>
             <div class="column" align="left" style="padding-left: 1.5%">
-                <a type="button" class="btn btn-primary" href="{{ route('home.index') }}" role="button"><i class="fas fa-arrow-left"></i> Regresar</a>
-                <a href="{{ route('almacenamiento.create') }}" type="button" class="btn btn-primary pull-right">
-                    Agregar Almacen
+                <a type="button" class="btn btn-primary" href="{{ route('home.index') }}"
+                    role="button"><i class="fas fa-arrow-left"></i>
+                         Regresar
+                 </a>
+                <a type="button" class="btn btn-primary" href="{{ route('bodega.create') }}" role="button">
+                    Ingresar Producto
+                </a>
+                <a type="button" class="btn btn-primary" href="{{ route('guia_despacho.index') }}" role="button">
+                    Ver Guias de Despacho
+                </a>
+                <a type="button" class="btn btn-primary" href="{{ route('facturas.index') }}" role="button">
+                    Facturas
                 </a>
             </div>
         </div>
         <div class="card-body">
-            <table class="table table-hover table-striped" id="tabla_almacen">
+            <table class="table table-hover table-striped" id="tabla_bodega">
                 <thead>
                 <tr>
                     <th width="20px">ID</th>
-                    <th>Nombre</th>
-                    <th>Ubicación</th>
-                    <th>Encargado</th>
+                    <th>Codigo</th>
+                    <th>Nombre del Producto</th>
+                    <th>Cantidad</th>
+                    <th>Disponible</th>
+                    <th>Proveedor</th>
                     <th>Acción</th>
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach($almacenamientos as $dato)
+                    @foreach($productos as $dato)
                         <tr>
                             <td>{{$dato->id}}</td>
-                            <td>{{$dato->Nombre}}</td>
-                            <td>{{$dato->Ubicacion}}</td>
-                            <td>{{ ($dato->encargado)? $dato->encargado->getNombreCompleto() : 'Sin asociar' }}</td>
+                            <td>{{$dato->Codigo}}</td>
+                            <td>{{$dato->Nombre_producto}}</td>
+                            <td>{{$dato->Cantidad}}</td>
+                            <td>{{$dato->Disponible}}</td>
+                            <td>{{ ($dato->proveedor)? $dato->proveedor->Nombre_proveedor : 'Sin asignar' }}</td>
                             <td>
                                 <form
                                     method="POST"
-                                    action="{{ route('almacenamiento.destroy', $dato->id) }}"
+                                    action="{{ route('bodega.destroy', $dato->id) }}"
                                     style='display:inline-flex'>
                                         @csrf
                                         @method('DELETE')
                                         
                                     <div class="btn-group">
-                                        <a href="{{route('almacenamiento.edit', $dato->id)}}"
+                                        <a href="{{route('bodega.edit', $dato->id)}}"
                                             class="btn btn-primary" title="Editar Tipo Usuario">
                                                 <i class="fas fa-pencil-alt"></i>
                                         </a>
-                                        <a href="{{route('almacenamiento.show', $dato->id)}}"
+                                        <a href="{{route('bodega.show', $dato->id)}}"
                                             class="btn btn-warning" title="Mostrar Usuario">
                                                 <i class="fas fa-eye" style="color: white"></i>
                                         </a>

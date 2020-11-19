@@ -28,10 +28,12 @@
 </script>
 @endpush
 @section('cuerpo')
-    <div>
-        <div class="card" style="color: #abdde5">
+    <div class="card" style="background-color: #FFFFFF;width: 100%">
+        <div class="card-header">
             @include('error_formulario')
             <h1 align="center">Editar Tipo de Usuario</h1>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col-md">
                     <form  method="POST"

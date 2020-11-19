@@ -49,10 +49,9 @@
 @section('cuerpo')
     <div class="card" style="background-color: #FFFFFF;width: 100% " >
         <div class="card-header">
+            @include('error_formulario')
             <h1 align="center">Agregar Usuario</h1>
         </div>
-        @include('error_formulario')
-
         <div class="card-body">
             <div class="col-md">
                 <form

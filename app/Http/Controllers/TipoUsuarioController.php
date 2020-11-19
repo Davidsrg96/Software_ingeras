@@ -48,7 +48,6 @@ class TipoUsuarioController extends Controller
     public function update(TipoUsuarioRequest $request, $id)
     {
         tipo_usuario::findOrFail($id)->update($request->input());
-        
         return redirect()
           ->route('tipo_usuario.index')
           ->with('success', [
@@ -60,7 +59,6 @@ class TipoUsuarioController extends Controller
     public function destroy(TipoUsuarioDeleteRequest $request, $id)
     {
         tipo_usuario::findOrFail($id)->delete();
-        
         return redirect()
           ->route('tipo_usuario.index')
           ->with('success', [

@@ -15,9 +15,9 @@ class CreateBodegasTable extends Migration
     {
         Schema::create('bodegas', function (Blueprint $table) {
             $table->Increments('id');
-            $table->integer('Codigo');
+            $table->bigInteger('Codigo');
             $table->string('Nombre_producto');
-            $table->integer('Precio_producto');
+            $table->bigInteger('Precio_producto');
             $table->integer('Cantidad')->default(0);
             $table->integer('Disponible')->default(0);
             $table->integer('Calidad')->default(0);

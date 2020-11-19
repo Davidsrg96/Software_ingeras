@@ -11,6 +11,7 @@ class bodega extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'Codigo',
         'Nombre_producto',
         'Precio_producto',
         'Cantidad',

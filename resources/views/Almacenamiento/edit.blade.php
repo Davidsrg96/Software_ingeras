@@ -1,5 +1,5 @@
 @extends('layoutGeneral')
-@section('titulo', 'Crear Almacén')
+@section('titulo', 'Editar Almacén')
 @push('estilos')
 @endpush
 @push('acciones')
@@ -35,21 +35,21 @@
     <div class="card" style="background-color: #FFFFFF;width: 100%">
         <div class="card-header">
             @include('error_formulario')
-            <h1 align="center">Crear Almacén</h1>
+            <h1 align="center">Editar Almacén</h1>
         </div>
         <div class="card-body">
-            
             <div class="row">
                 <div class="col-md">
                     <form  method="POST"
-                        action="{{ route('almacenamiento.store') }}"
+                        action="{{ route('almacenamiento.update', $almacenamiento->id) }}"
                         enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <ul class="form-style-1">
                             <div class="form-group{{ $errors->has('Nombre') ? ' has-error' : '' }}">
                                 <label>Nombre<span class="required">*</span></label>
                                 <input placeholder="Ingrese el nombre del almacén" type="text"
-                                    id="Nombre" name="Nombre" class="form-style-1">
+                                    id="Nombre" name="Nombre" class="form-style-1" value="{{ $almacenamiento->Nombre }}">
                                 @if ($errors->has('Nombre'))
                                     <label>
                                         <span class="required">
@@ -61,7 +61,8 @@
                             <div class="form-group{{ $errors->has('Ubicacion') ? ' has-error' : '' }}">
                                 <label>Ubicación<span class="required">*</span></label>
                                 <input placeholder="Ingrese la ubicación" type="text"
-                                    id="Ubicacion" name="Ubicacion" class="form-style-1">
+                                    id="Ubicacion" name="Ubicacion" class="form-style-1"
+                                    value="{{ $almacenamiento->Ubicacion }}">
                                 @if ($errors->has('Ubicacion'))
                                     <label>
                                         <span class="required">
@@ -75,7 +76,13 @@
                                 <select id="encargado_id" name="encargado_id">
                                     <option value>-- Seleccione un encargado --</option>
                                     @foreach($usuarios as $usuario)
-                                        <option value={{$usuario->id}}>{{ $usuario->getNombreCompleto()}}</option>
+                                        @if($almacenamiento->encargado)
+                                            <option value="{{ $usuario->id }}" {{ ($usuario->id == $almacenamiento->encargado->id) ? 'selected' : '' }}>
+                                                {{ $usuario->getNombreCompleto() }}
+                                            </option>
+                                        @else
+                                            <option value={{$usuario->id}}>{{ $usuario->getNombreCompleto()}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 @if ($errors->has('encargado_id'))

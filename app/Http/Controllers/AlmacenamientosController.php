@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\almacenamiento;
+use App\usuario;
 use App\proveedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\administracion\almacenamiento\AlmacenamientoRequest;
+use App\Http\Requests\administracion\almacenamiento\AlmacenamientoDeleteRequest;
 
 class AlmacenamientosController extends Controller
 {
@@ -18,15 +21,19 @@ class AlmacenamientosController extends Controller
 
     public function create()
     {
-        return view('Almacenamiento.create_almacenamiento');
+        $usuarios = usuario::all();
+        return view('Almacenamiento.create_almacenamiento', compact('usuarios'));
     }
 
-    public function store(Request $request)
+    public function store(AlmacenamientoRequest $request)
     {
-        DB::insert('INSERT INTO almacenamientos (Nombre,Ubicacion)
-                                VALUES (?,?)',[$request->get('nom_almacenamiento'),
-                                               $request->get('ubicacion')]);
-        return redirect()->route('almacenamiento.index');
+        almacenamiento::create($request->input());
+        return redirect()
+            ->route('almacenamiento.index')
+            ->with('success', [
+                'titulo'  => 'Creación de Almacén',
+                'mensaje' => 'Creación realizada de forma correcta',
+            ]);
     }
 
     public function show($id)
@@ -40,22 +47,30 @@ class AlmacenamientosController extends Controller
 
     public function edit($id)
     {
-        $a = almacenamiento::find($id);
-        return view('Almacenamiento.create_almacenamiento',compact('a'));
+        $almacenamiento = almacenamiento::findOrFail($id);
+        $usuarios = usuario::all();
+        return view('Almacenamiento.edit',compact('almacenamiento', 'usuarios'));
     }
 
-    public function update(Request $request, $id)
+    public function update(AlmacenamientoRequest $request, $id)
     {
-        DB::update('UPDATE almacenamientos SET Nombre = ?,Ubicacion = ?
-                            WHERE id = ?',[$request->get('nom_almacenamiento'),
-                                           $request->get('ubicacion'),
-                                           $id]);
-        return redirect()->route('almacenamiento.index');
+        almacenamiento::findOrFail($id)->update($request->input());
+        return redirect()
+            ->route('almacenamiento.index')
+            ->with('success', [
+                'titulo'  => 'Actualización de Almacén',
+                'mensaje' => 'Actualización realizada de forma correcta',
+            ]);
     }
 
-    public function destroy($id)
+    public function destroy(AlmacenamientoDeleteRequest $request, $id)
     {
-        DB::delete('DELETE FROM almacenamientos WHERE id = ?',[$id]);
-        return redirect()->route('almacenamiento.index');
+        almacenamiento::findOrFail($id)->delete();
+        return redirect()
+          ->route('almacenamiento.index')
+          ->with('success', [
+            'titulo'  => 'Eliminación de Almacén',
+            'mensaje' => 'Eliminación realizada de forma correcta',
+        ]);
     }
 }
