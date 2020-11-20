@@ -19,7 +19,7 @@ class CreateProveedorsTable extends Migration
             $table->string('Nombre_proveedor')->unique();
             $table->string('Nombre_vendedor');
             $table->string('Direccion');
-            $table->integer('Telefono');
+            $table->string('Telefono');
             $table->string('Rubro');
             $table->string('Correo');
             $table->integer('Deuda')->default(0);

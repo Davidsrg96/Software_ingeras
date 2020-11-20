@@ -6,14 +6,16 @@ use App\Repositories\ProveedorRepository;
 use App\proveedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\administracion\proveedor\ProveedorRequest;
+use App\Http\Requests\administracion\proveedor\ProveedorDeleteRequest;
 
 class  ProveedoresController extends Controller
 {
 
     public function index()
     {
-        $proveedor = proveedor::orderBy('id','ASC')->paginate();
-        return view('Proveedores.index_proveedores', compact('proveedor'));
+        $proveedores = proveedor::orderBy('id','ASC')->paginate();
+        return view('Proveedores.index_proveedores', compact('proveedores'));
     }
 
     public function create()
@@ -21,19 +23,15 @@ class  ProveedoresController extends Controller
         return view('Proveedores.create_proveedores');
     }
 
-    public function store(Request $request)
+    public function store(ProveedorRequest $request)
     {
-        DB::insert('INSERT INTO proveedors (Nombre_proveedor,Rut_proveedor,Nombre_vendedor,Direccion,
-                                        Telefono,Rubro,Correo) 
-                                VALUES (?,?,?,?,?,?,?)',[$request->get('nom_proveedor'),
-                                                         $request->get('rut_proveedor'),
-                                                         $request->get('vendedor'),
-                                                         $request->get('direccion'),
-                                                         $request->get('telefono'),
-                                                         $request->get('rubro'),
-                                                         $request->get('correo')]);
-
-        return redirect()->route('proveedores.index');
+        proveedor::create($request->input());
+        return redirect()
+            ->route('proveedores.index')
+            ->with('success', [
+                'titulo'  => 'Creación de Proveedor',
+                'mensaje' => 'Creación realizada de forma correcta',
+            ]);
     }
 
     public function show($id)
@@ -43,28 +41,29 @@ class  ProveedoresController extends Controller
 
     public function edit($id)
     {
-        $p = proveedor::find($id);
-        return view('Proveedores.create_proveedores',compact('p'));
+        $proveedor = proveedor::find($id);
+        return view('Proveedores.edit', compact('proveedor'));
     }
 
-    public function update(Request $request, $id)
+    public function update(ProveedorRequest $request, $id)
     {
-        DB::update('UPDATE proveedors SET Nombre_proveedor = ?, Rut_proveedor = ?, Nombre_vendedor = ?, Direccion = ?,
-                                        Telefono = ?, Rubro = ?, Correo = ? 
-                           WHERE  id = ?',[$request->get('nom_proveedor'),
-                                           $request->get('rut_proveedor'),
-                                           $request->get('vendedor'),
-                                           $request->get('direccion'),
-                                           $request->get('telefono'),
-                                           $request->get('rubro'),
-                                           $request->get('correo'),
-                                           $id]);
-        return redirect()->route('proveedores.index');
+        proveedor::findOrFail($id)->update($request->input());
+        return redirect()
+            ->route('proveedores.index')
+            ->with('success', [
+                'titulo'  => 'Actualización de Proveedor',
+                'mensaje' => 'Actualización realizada de forma correcta',
+            ]);
     }
 
-    public function destroy($id)
+    public function destroy(ProveedorDeleteRequest $request, $id)
     {
-        DB::delete('DELETE FROM proveedors WHERE id = ?',[$id]);
-        return redirect()->route('proveedores.index');
+        proveedor::findOrFail($id)->delete();
+        return redirect()
+            ->route('proveedores.index')
+            ->with('success', [
+                'titulo'  => 'Eliminación de Proveedor',
+                'mensaje' => 'Eliminación realizada de forma correcta',
+            ]);
     }
 }

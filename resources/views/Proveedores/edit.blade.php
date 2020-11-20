@@ -1,5 +1,5 @@
 @extends('layoutGeneral')
-@section('titulo', 'Crear Proveedor')
+@section('titulo', 'Editar Proveedor')
 @push('estilos')
 @endpush
 @push('acciones')
@@ -89,14 +89,16 @@
             <div class="row">
                 <div class="col-md">
                     <form  method="POST"
-                        action="{{ route('proveedores.store') }}"
+                        action="{{ route('proveedores.update', $proveedor->id) }}"
                         enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <ul class="form-style-1">
                             <div class="form-group{{ $errors->has('Nombre_proveedor') ? ' has-error' : '' }}">
                                 <label>Nombre del proveedor<span class="required">*</span></label>
                                 <input placeholder="Ingrese el tipo de usuario" type="text"
-                                    id="Nombre_proveedor" name="Nombre_proveedor" class="form-style-1">
+                                    id="Nombre_proveedor" name="Nombre_proveedor" class="form-style-1"
+                                    value="{{ $proveedor->Nombre_proveedor }}">
                                 @if ($errors->has('Nombre_proveedor'))
                                     <label>
                                         <span class="required">
@@ -108,7 +110,8 @@
                             <div class="form-group{{ $errors->has('Rut_proveedor') ? ' has-error' : '' }}">
                                 <label>Rut del proveedor<span class="required">*</span></label>
                                 <input placeholder="Ingrese el rut del proveedor" type="text"
-                                    id="Rut_proveedor" name="Rut_proveedor" class="form-style-1">
+                                    id="Rut_proveedor" name="Rut_proveedor" class="form-style-1"
+                                    value="{{ $proveedor->Rut_proveedor }}">
                                 @if ($errors->has('Rut_proveedor'))
                                     <label>
                                         <span class="required">
@@ -120,7 +123,8 @@
                             <div class="form-group{{ $errors->has('Nombre_vendedor') ? ' has-error' : '' }}">
                                 <label>Nombre del vendedor<span class="required">*</span></label>
                                 <input placeholder="Ingrese el Nombre del vendedor" type="text"
-                                    id="Nombre_vendedor" name="Nombre_vendedor" class="form-style-1">
+                                    id="Nombre_vendedor" name="Nombre_vendedor" class="form-style-1"
+                                    value="{{ $proveedor->Nombre_vendedor }}">
                                 @if ($errors->has('Nombre_vendedor'))
                                     <label>
                                         <span class="required">
@@ -132,7 +136,8 @@
                             <div class="form-group{{ $errors->has('Rubro') ? ' has-error' : '' }}">
                                 <label>Rubro de la empresa<span class="required">*</span></label>
                                 <input placeholder="Ingrese el rubro" type="text"
-                                    id="Rubro" name="Rubro" class="form-style-1">
+                                    id="Rubro" name="Rubro" class="form-style-1"
+                                    value="{{ $proveedor->Rubro }}">
                                 @if ($errors->has('Rubro'))
                                     <label>
                                         <span class="required">
@@ -144,7 +149,8 @@
                             <div class="form-group{{ $errors->has('Direccion') ? ' has-error' : '' }}">
                                 <label>Dirección del establecimiento<span class="required">*</span></label>
                                 <input placeholder="Ingrese la dirección" type="text"
-                                    id="Direccion" name="Direccion" class="form-style-1">
+                                    id="Direccion" name="Direccion" class="form-style-1"
+                                    value="{{ $proveedor->Direccion }}">
                                 @if ($errors->has('Direccion'))
                                     <label>
                                         <span class="required">
@@ -156,7 +162,8 @@
                             <div class="form-group{{ $errors->has('Telefono') ? ' has-error' : '' }}">
                                 <label>Telefono<span class="required">*</span></label>
                                 <input placeholder="Ingrese el Telefono" type="text"
-                                    id="Telefono" name="Telefono" class="form-style-1">
+                                    id="Telefono" name="Telefono" class="form-style-1"
+                                    value="{{ $proveedor->Telefono }}">
                                 @if ($errors->has('Telefono'))
                                     <label>
                                         <span class="required">
@@ -169,7 +176,8 @@
                                 <label>Correo de contacto<span class="required">*</span></label>
                                 <div class="form-group has-feedback">
                                     <input placeholder="Ingrese el correo" type="text"
-                                        id="Correo" name="Correo" class="form-style-1">
+                                        id="Correo" name="Correo" class="form-style-1"
+                                        value="{{ $proveedor->Correo }}">
                                 </div>
                                 @if ($errors->has('Correo'))
                                     <label>

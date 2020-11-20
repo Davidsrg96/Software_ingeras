@@ -77,8 +77,8 @@ class UsuariosController extends Controller
 
       // $usuario->delete();
       return redirect()
-          ->route('usuarios.index')
-          ->with('success', [
+        ->route('usuarios.index')
+        ->with('success', [
             'titulo'  => 'Eliminación de Usuario',
             'mensaje' => 'Eliminación realizada de forma correcta',
         ]);

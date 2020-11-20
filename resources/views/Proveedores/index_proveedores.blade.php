@@ -1,76 +1,99 @@
 @extends('layoutGeneral')
+@section('titulo', 'Lista proveedores')
+@push('estilos')
+@endpush
+@push('acciones')
+    <script>
+        $(document).ready(function() {
+            var table = $('#tabla_proveedor').DataTable({
+                language: {
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+        });
+
+
+        //Toaster
+        @if(Session::has('success'))
+            mensajeEmergente('{{ Session::get('success')['titulo'] }}', '{{ Session::get('success')['mensaje'] }}');
+        @endif
+        @if(Session::has('fail'))
+            mensajeEmergente('{{ Session::get('fail')['titulo'] }}', '{{ Session::get('fail')['mensaje'] }}', 'error');
+        @endif
+    </script>
+@endpush
 @section('cuerpo')
-    <div style="color: #abdde5" align="center">
-        <p></p>
-        <h1> Listado de Proveedores</h1>
-        <div class="row">
+    <div class="card">
+        <div class="card-header">
+            <h1 align="center"><font color="black">Proveedores</font></h1>
             <div class="column" align="left" style="padding-left: 1.5%">
-                <a type="button" class="btn btn-primary" href="/" role="button"><i class="fas fa-arrow-left"></i> Regresar</a>
-                <a href="{{action('ProveedoresController@create')}}" type="button" class="btn btn-primary pull-right" > Agregar Proveedor</a>
-                <input type="text" id="buscar" onkeyup="myFunction()" placeholder="Buscar por nombre" title="Type in a name">
+                <a type="button" class="btn btn-primary" href="{{route('home.index')}}" role="button"><i class="fas fa-arrow-left"></i> Regresar</a>
+                <a href="{{route('proveedores.create')}}" type="button" class="btn btn-primary pull-right" >
+                    Agregar Usuario
+                </a>
             </div>
-            <table class="table table-hover table-striped" id="tabla_proveedor">
+        </div>
+        <div class="card-body">
+           <table class="table table-hover table-striped" id="tabla_proveedor">
                 <thead>
                 <tr>
                     <th width="20px">ID</th>
-                    <th>Nombre del Proveedor</th>
-                    <th>Rut del Proveedor</th>
+                    <th>Nombre</th>
+                    <th>Rut</th>
                     <th>Vendedor</th>
-                    <th>Dirección</th>
                     <th>Teléfono</th>
-                    <th>Rubro</th>
                     <th>Correo</th>
-                    <th>Evaluación</th>
+                    <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($proveedor as $p)
+                @foreach($proveedores as $dato)
                     <tr>
-                        <td>{{$p->id}}</td>
-                        <td>{{$p->Nombre_proveedor}}</td>
-                        <td>{{$p->Rut_proveedor}}</td>
-                        <td>{{$p->Nombre_vendedor}}</td>
-                        <td>{{$p->Direccion}}</td>
-                        <td>{{$p->Telefono}}</td>
-                        <td>{{$p->Rubro}}</td>
-                        <td>{{$p->Correo}}</td>
-                        <td>{{$p->Evaluacion}}</td>
+                        <td>{{$dato->id}}</td>
+                        <td>{{$dato->Nombre_proveedor}}</td>
+                        <td>{{$dato->Rut_proveedor}}</td>
+                        <td>{{$dato->Nombre_vendedor}}</td>
+                        <td>{{$dato->Telefono}}</td>
+                        <td>{{$dato->Correo}}</td>
                         <td>
-                            <a href="{{action('ProveedoresController@edit', $p->id)}}"
-                               class=" btn btn-primary active" title="Editar Proveedor">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{{action('ProveedoresController@edit', $p->id)}}"
-                               class=" btn btn-primary active" title="Editar Proveedor">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                        </td>
-                        <td>
-                            <a data-target="#del{{$p->id}}" class="btn btn-danger active float-right" data-toggle="modal" title="Eliminar Proveedor">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                            <!--pop up confirmacion -->
-                            <div class="modal fade" id="del{{$p->id}}">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Confirmacion</h5>
-                                            <button tyle="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p><font color="black">Si presiona cancelar, no se eliminaran los cambios</font> </p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-                                            <a href="{{action('ProveedoresController@destroy',$p->id)}}"  class="btn btn-primary">Eliminar</a>
-                                        </div>
-
-                                    </div>
+                            <form
+                                method="POST"
+                                action="{{ route('proveedores.destroy', $dato->id) }}"
+                                style='display:inline-flex'>
+                                    @csrf
+                                    @method('DELETE')
+                                    
+                                <div class="btn-group">
+                                    <a href="{{route('proveedores.edit', $dato->id)}}"
+                                        class="btn btn-primary" title="Editar Usuario">
+                                            <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <a href="{{route('proveedores.show', $dato->id)}}"
+                                        class="btn btn-warning" title="Mostrar Usuario">
+                                            <i class="fas fa-eye" style="color: white"></i>
+                                    </a>
+                                    <a href="" data-target="#del{{$dato->id}}" class="btn btn-danger" 
+                                        data-toggle="modal" title="Eliminar Usuario">
+                                            <i class="fas fa-trash-alt" style="color: white"></i>
+                                    </a>
                                 </div>
-                            </div>
-                            <!-- endf pop up-->
+                                <!--pop up confirmacion -->
+                                @include('layouts.pop-up.confirmacionDelete')
+                            </form>
                         </td>
                     </tr>
                 @endforeach
@@ -78,24 +101,4 @@
             </table>
         </div>
     </div>
-    <script>
-        function myFunction() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("buscar");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("tabla_proveedor");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[1];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-    </script>
 @endsection

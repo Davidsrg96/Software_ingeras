@@ -12,7 +12,7 @@ class ProveedorSeeder extends Seeder
         	'Rut_proveedor'      => '18232850-2',
             'Nombre_vendedor'    => 'Diego Ortega',
             'Direccion'          => 'faker 123',
-            'Telefono'           => '334411122',
+            'Telefono'           => '+569 2131231',
             'Correo'             => 'proveedorFaker@gmail.com',
             'Rubro'              => 'mineria',
         ]);
