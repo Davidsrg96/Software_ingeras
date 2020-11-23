@@ -19,6 +19,7 @@ class BodegaRequest extends FormRequest
             'Nombre_producto' => 'required',
             'Precio_producto' => 'required|numeric|min:0',
             'Cantidad'        => 'required|numeric|min:0',
+            'Tipo_producto'   => 'required',
             'proveedor_id'    => 'nullable',
         ];
     }

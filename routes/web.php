@@ -37,13 +37,6 @@ Route::prefix('admin')->group(function(){
 	//Rutas de Proovedores
 	Route::resource('proveedores', 'ProveedoresController');
 
-	//Rutas de Bodega
-	Route::resource('abastecimiento/bodega', 'BodegaController');
-	Route::post('abastecimiento/bodega/mover/{id}', ['as' =>'bodega.mover', 'uses' => 'BodegaController@mover']);
-	
-	//Rutas de Orden de Compra
-	Route::resource('abastecimiento/orden_de_compra', 'OrdenDeCompraController');
-	
 	//Rutas de las Preguntas
 	Route::resource('preguntas','PreguntasController');
 	
@@ -75,15 +68,24 @@ Route::prefix('admin')->group(function(){
 		});
 	});
 
-	//Rutas de Guías de Despacho
-	Route::resource('abastecimiento/guia_despacho','GuiaDespachoController');
-	Route::get('abastecimiento/guia_despacho/edit/{id}','GuiaDespachoController@edit');
-	Route::get('abastecimiento/guia_despacho/delete/{id}','GuiaDespachoController@destroy');
-	Route::post('abastecimiento/guia_despacho/edit/{id}','GuiaDespachoController@update');
-	Route::post('abastecimiento/guia_despacho/crear_guia','GuiaDespachoController@store');
-	Route::get('abastecimiento/guia_despacho/devolver_producto/{id}/{almacen}',['as' =>'despacho.bodega_central', 'uses' => 'GuiaDespachoController@devolver']);
-	Route::post('abastecimiento/guia_despacho/movimiento_almacenes/{id}',['as' =>'despacho.almacenes', 'uses' => 'GuiaDespachoController@movimientoProducto']);
-	Route::post('abastecimiento/guia_despacho/movimiento_almacenes/store/{origen}/{destino}',['as' =>'despacho.movimiento', 'uses' => 'GuiaDespachoController@updateMovimiento']);
+	Route::prefix('abastecimiento')->group(function(){
+		//Rutas de Bodega
+		Route::resource('bodega', 'BodegaController');
+		Route::post('bodega/mover/{id}', ['as' =>'bodega.mover', 'uses' => 'BodegaController@mover']);
+		
+		//Rutas de Orden de Compra
+		Route::resource('orden_de_compra', 'OrdenDeCompraController');
+
+		//Rutas de Guías de Despacho
+		Route::resource('guia_despacho','GuiaDespachoController');
+		Route::get('guia_despacho/edit/{id}','GuiaDespachoController@edit');
+		Route::get('guia_despacho/delete/{id}','GuiaDespachoController@destroy');
+		Route::post('guia_despacho/edit/{id}','GuiaDespachoController@update');
+		Route::post('guia_despacho/crear_guia','GuiaDespachoController@store');
+		Route::get('guia_despacho/devolver_producto/{id}/{almacen}',['as' =>'despacho.bodega_central', 'uses' => 'GuiaDespachoController@devolver']);
+		Route::post('guia_despacho/movimiento_almacenes/{id}',['as' =>'despacho.almacenes', 'uses' => 'GuiaDespachoController@movimientoProducto']);
+		Route::post('guia_despacho/movimiento_almacenes/store/{origen}/{destino}',['as' =>'despacho.movimiento', 'uses' => 'GuiaDespachoController@updateMovimiento']);
+	});
 });
 
 //Rutas de Solicitudes

@@ -6,25 +6,24 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class BodegaDeleteRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
+
     public function authorize()
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules() { return []; }
+
+    public function withValidator($validator)
     {
-        return [
-            //
-        ];
+        $validator->after(function ($validator) {
+            if (!bodega::findOrFail($this->route('bodega'))->almacenamientos->isEmpty()) {
+                $this->session()->flash('fail', [
+                    'titulo'  => 'Eliminación de Producto',
+                    'mensaje' => 'No es posible eliminar debido a que posee almacenamientos asociadas'
+                ]);
+                $validator->errors()->add('-', '-');
+            }
+        });
     }
 }

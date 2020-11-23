@@ -39,7 +39,9 @@
 @section('cuerpo')
     <div class="card">
         <div class="card-header">
-            <h1 align="center"><font color="black">Almacenes</font></h1>
+            <h1 align="center"><font color="black">Productos</font></h1>
+        </div>
+        <div class="card-body">
             <div class="column" align="left" style="padding-left: 1.5%">
                 <a type="button" class="btn btn-primary" href="{{ route('home.index') }}"
                     role="button"><i class="fas fa-arrow-left"></i>
@@ -55,8 +57,7 @@
                     Facturas
                 </a>
             </div>
-        </div>
-        <div class="card-body">
+            <hr>
             <table class="table table-hover table-striped" id="tabla_bodega">
                 <thead>
                 <tr>

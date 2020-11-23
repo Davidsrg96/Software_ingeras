@@ -66,8 +66,7 @@ class BodegaController extends Controller
 
     public function destroy(BodegaDeleteRequest $request, $id)
     {
-        dd($id);
-        DB::delete('DELETE FROM bodegas WHERE id = ?', [$id]);
+        bodega::findOrFail($id)->delete();
         return redirect()
           ->route('bodega.index')
           ->with('success', [

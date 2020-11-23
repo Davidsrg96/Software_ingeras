@@ -99,8 +99,23 @@
                                     </label>
                                 @endif
                             </div>
+                            <div class="form-group{{ $errors->has('Tipo_producto') ? ' has-error' : '' }}">
+                                <label>Tipo de producto<span class="required">*</span></label>
+                                <select id="Tipo_producto" name="Tipo_producto">
+                                    <option value>-- Seleccione el tipo de producto --</option>
+                                    <option value="Material">Material</option>
+                                    <option value="Herramienta">Herramienta</option>
+                                </select>
+                                @if ($errors->has('Tipo_producto'))
+                                    <label>
+                                        <span class="required">
+                                            <strong>{{ $errors->first('Tipo_producto') }}</strong>
+                                        </span>
+                                    </label>
+                                @endif
+                            </div>
                             <div class="form-group{{ $errors->has('proveedor_id') ? ' has-error' : '' }}">
-                                <label>Proveedor</label><br>
+                                <label>Proveedor</label>
                                 <select id="proveedor_id" name="proveedor_id">
                                     <option value>-- Seleccione un proveedor --</option>
                                     @foreach($proveedores as $proveedor)

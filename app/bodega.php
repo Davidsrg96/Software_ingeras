@@ -15,9 +15,9 @@ class bodega extends Model
         'Nombre_producto',
         'Precio_producto',
         'Cantidad',
-        'fecha_de_compra',
         'Calidad',
-        'Numero_de_factura',
+        'Disponible',
+        'Tipo_producto',
         'proveedor_id',
     ];
 

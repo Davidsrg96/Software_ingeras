@@ -6,6 +6,8 @@ use App\usuario;
 use App\proyecto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\proyecto\ProyectoRequest;
+use App\Http\Requests\proyecto\ProyectoDeleteRequest;
 
 class ProyectosController extends Controller
 {
@@ -13,14 +15,63 @@ class ProyectosController extends Controller
     public function index()
     {
         $proyectos = proyecto::orderBy('id','ASC')->paginate();
-        $encargados = usuario::all();
-        return view('Proyectos.index_proyectos', compact('proyectos','encargados'));
+        return view('Proyectos.index_proyectos', compact('proyectos'));
     }
 
     public function create()
     {
         $usuarios = usuario::all();
         return view('Proyectos.create_proyectos',compact('usuarios'));
+    }
+
+    public function store(ProyectoRequest $request)
+    {
+        proyecto::create($request->input());
+
+        return redirect()
+            ->route('proyectos.index')
+            ->with('success', [
+                'titulo'  => 'Creación de Proyecto',
+                'mensaje' => 'Creación realizada de forma correcta',
+            ]);
+    }
+
+    public function show($id)
+    {
+        $p = proyecto::findOrFail($id);
+        return view('Proyectos.show_proyectos', compact('p'));
+    }
+
+    public function edit($id)
+    {
+        $p = DB::select('SELECT p.id, p.Nombre_proyecto, p.Fecha_inicio, p.Fecha_termino, p.Presupuesto_oferta, p.Presupuesto_control, p.encargado_id, u.Nombre
+                                FROM proyectos p, usuario u
+                                WHERE p.encargado_id = u.id AND p.id = ?',[$id]);
+        return view('Proyectos.create_proyectos',compact('p'));
+    }
+
+    public function update(ProyectoRequest $request, $id)
+    {
+        dd($request->all());
+        proyecto::findOrFail($id)->update($request->input());
+        return redirect()
+            ->route('proyectos.index')
+            ->with('success', [
+                'titulo'  => 'Actualización de Proyecto',
+                'mensaje' => 'Actualización realizada de forma correcta',
+            ]);
+    }
+
+    public function destroy(ProyectoDeleteRequest $request ,$id)
+    {
+        dd($id);
+        proyecto::findOrFail($id)->update($request->input());
+        return redirect()
+          ->route('proyectos.index')
+          ->with('success', [
+            'titulo'  => 'Eliminación de Producto',
+            'mensaje' => 'Eliminación realizada de forma correcta',
+        ]);
     }
 
     public function usuarios($id)
@@ -62,54 +113,5 @@ class ProyectosController extends Controller
         DB::update('UPDATE usuario SET Carga_proyecto = ? WHERE id = ?',[$nueva_carga,$idu]);
         DB::delete('DELETE FROM usuario_proyectos WHERE usuario_id = ? AND proyecto_id = ?',[$idu,$idp]);
         return redirect()->route('proyectos.usuarios',compact($idp));
-    }
-
-    public function store(Request $request)
-    {
-        DB::insert('INSERT INTO proyectos (Nombre_proyecto, Fecha_inicio, Fecha_termino, 
-                                        Presupuesto_oferta, Presupuesto_control, encargado_id)
-                                VALUES (?,?,?,?,?,?)',[$request->get('nom_proyecto'),
-                                                       $request->get('f_inicio'),
-                                                       $request->get('f_termino'),
-                                                       $request->get('p_oferta'),
-                                                       $request->get('p_control'),
-                                                       $request->get('encargado')]);
-
-        return redirect()->route('proyectos.index');
-    }
-
-    public function show($id)
-    {
-        $p = DB::select('SELECT p.*, u.Nombre
-                                FROM proyectos p, usuario u
-                                WHERE p.encargado_id = u.id AND p.id = ?',[$id]);
-        return view('Proyectos.show_proyectos', compact('p'));
-    }
-
-    public function edit($id)
-    {
-        $p = DB::select('SELECT p.id, p.Nombre_proyecto, p.Fecha_inicio, p.Fecha_termino, p.Presupuesto_oferta, p.Presupuesto_control, p.encargado_id, u.Nombre
-                                FROM proyectos p, usuario u
-                                WHERE p.encargado_id = u.id AND p.id = ?',[$id]);
-        return view('Proyectos.create_proyectos',compact('p'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        DB::update('UPDATE proyectos SET Nombre_proyecto = ?, Fecha_inicio = ?, Fecha_termino = ?, 
-                                        Presupuesto_oferta = ?, Presupuesto_control = ?
-                            WHERE id = ?',[$request->get('nom_proyecto'),
-                                           $request->get('f_inicio'),
-                                           $request->get('f_termino'),
-                                           $request->get('p_oferta'),
-                                           $request->get('p_control'),
-                                           $id]);
-        return redirect()->route('proyectos.index');
-    }
-
-    public function destroy($id)
-    {
-        DB::delete('DELETE FROM proyectos WHERE id = ?',[$id]);
-        return redirect()->route('proyectos.index');
     }
 }

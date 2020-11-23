@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\pregunta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\pregunta\PreguntaRequest;
 
 class PreguntasController extends Controller
 {
@@ -20,11 +21,15 @@ class PreguntasController extends Controller
         return view('Preguntas.create');
     }
 
-    public function store(Request $request)
+    public function store(PreguntaRequest $request)
     {
-        DB::insert('INSERT INTO preguntas (Pregunta, Tipo_pregunta)
-                            VALUES (?,?)',[$request->get('pregunta'),$request->get('tipo_pregunta')]);
-        return redirect()->route('preguntas.index');
+        pregunta::create($request->input());
+        return redirect()
+            ->route('preguntas.index')
+            ->with('success', [
+                'titulo'  => 'Creación de Pregunta',
+                'mensaje' => 'Creación realizada de forma correcta',
+            ]);
     }
 
     public function show($id)
@@ -36,19 +41,29 @@ class PreguntasController extends Controller
     public function edit($id)
     {
         $pregunta = pregunta::find($id);
-        return view('Preguntas.create',compact('pregunta'));
+        return view('Preguntas.edit', compact('pregunta'));
     }
 
-    public function update(Request $request, $id)
+    public function update(PreguntaRequest $request, $id)
     {
-        DB::update('UPDATE preguntas SET Pregunta = ?, Tipo_pregunta = ?
-                            WHERE id = ?',[$request->get('pregunta'),$request->get('tipo_pregunta'),$id]);
-        return redirect()->route('preguntas.index');
+        pregunta::findOrFail($id)->update($request->input());
+        return redirect()
+            ->route('preguntas.index')
+            ->with('success', [
+                'titulo'  => 'Actualización de Pregunta',
+                'mensaje' => 'Actualización realizada de forma correcta',
+            ]);
     }
 
     public function destroy($id)
     {
-        DB::delete('DELETE FROM preguntas WHERE id = ?',[$id]);
-        return redirect()->route('preguntas.index');
+        dd($id);
+        pregunta::findOrFail($id)->delete();
+        return redirect()
+          ->route('preguntas.index')
+          ->with('success', [
+            'titulo'  => 'Eliminación de Producto',
+            'mensaje' => 'Eliminación realizada de forma correcta',
+        ]);
     }
 }
