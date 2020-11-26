@@ -1,32 +1,26 @@
 @extends('layoutGeneral')
-@section('titulo', 'Editar Producto')
+@section('titulo', 'Editar Bodega')
 @push('estilos')
 @endpush
 @push('acciones')
 <script>
     $(document).ready(function (){
-        @if (old('Codigo'))
-            $("#Codigo").val('{{ old('Codigo') }}');
+        @if (old('Nombre'))
+            $("#Nombre").val('{{ old('Nombre') }}');
         @endif
-        @if (old('Nombre_producto'))
-            $("#Nombre_producto").val('{{ old('Nombre_producto') }}');
+        @if (old('Ubicacion'))
+            $("#Ubicacion").val('{{ old('Ubicacion') }}');
         @endif
-        @if (old('Precio_producto'))
-            $("#Precio_producto").val('{{ old('Precio_producto') }}');
-        @endif
-        @if (old('Cantidad'))
-            $("#Cantidad").val('{{ old('Cantidad') }}');
-        @endif
-        @if (old('proveedor_id'))
-            $("#proveedor_id").val('{{ old('proveedor_id') }}');
-            $("#proveedor_id").change();
+        @if (old('encargado_id'))
+            $("#encargado_id").val('{{ old('encargado_id') }}');
+            $("#encargado_id").change();
         @endif
     });
 
-    $('#Nombre_producto').on('keyup', function(){
-        var tipo = document.getElementById('Nombre_producto').value;
+    $('#Nombre').on('keyup', function(){
+        var tipo = document.getElementById('Nombre').value;
         if( tipo.length  > 0){
-            document.getElementById('Nombre_producto').value = tipo.charAt(0).toUpperCase() + tipo.substr(1)
+            document.getElementById('Nombre').value = tipo.charAt(0).toUpperCase() + tipo.substr(1)
         }
     });
     $('#Ubicacion').on('keyup', function(){
@@ -41,85 +35,60 @@
     <div class="card" style="background-color: #FFFFFF;width: 100%">
         <div class="card-header">
             @include('error_formulario')
-            <h1 align="center">Editar Producto</h1>
+            <h1 align="center">Editar Bodega</h1>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md">
                     <form  method="POST"
-                        action="{{ route('bodega.update', $producto->id) }}"
+                        action="{{ route('bodega.update', $bodega->id) }}"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <ul class="form-style-1">
-                            <div class="form-group{{ $errors->has('Codigo') ? ' has-error' : '' }}">
-                                <label>Codigo<span class="required">*</span></label>
-                                <input placeholder="Ingrese el Codigo del producto" type="text"
-                                    id="Codigo" name="Codigo" class="form-style-1" value="{{ $producto->Codigo }}">
-                                @if ($errors->has('Codigo'))
-                                    <label>
-                                        <span class="required">
-                                            <strong>{{ $errors->first('Codigo') }}</strong>
-                                        </span>
-                                    </label>
-                                @endif
-                            </div>
-                            <div class="form-group{{ $errors->has('Nombre_producto') ? ' has-error' : '' }}">
+                            <div class="form-group{{ $errors->has('Nombre') ? ' has-error' : '' }}">
                                 <label>Nombre<span class="required">*</span></label>
-                                <input placeholder="Ingrese el nombre del producto" type="text"
-                                    id="Nombre_producto" name="Nombre_producto" class="form-style-1"
-                                    value="{{ $producto->Nombre_producto }}">
-                                @if ($errors->has('Nombre_producto'))
+                                <input placeholder="Ingrese el nombre del Bodega" type="text"
+                                    id="Nombre" name="Nombre" class="form-style-1" value="{{ $bodega->Nombre }}">
+                                @if ($errors->has('Nombre'))
                                     <label>
                                         <span class="required">
-                                            <strong>{{ $errors->first('Nombre_producto') }}</strong>
+                                            <strong>{{ $errors->first('Nombre') }}</strong>
                                         </span>
                                     </label>
                                 @endif
                             </div>
-                            <div class="form-group{{ $errors->has('Precio_producto') ? ' has-error' : '' }}">
-                                <label>Precio<span class="required">*</span></label>
-                                <input placeholder="Ingrese el precio del producto" type="number"
-                                    id="Precio_producto" name="Precio_producto" class="form-style-1"
-                                    value="{{ $producto->Precio_producto }}">
-                                @if ($errors->has('Precio_producto'))
+                            <div class="form-group{{ $errors->has('Ubicacion') ? ' has-error' : '' }}">
+                                <label>Ubicación<span class="required">*</span></label>
+                                <input placeholder="Ingrese la ubicación" type="text"
+                                    id="Ubicacion" name="Ubicacion" class="form-style-1"
+                                    value="{{ $bodega->Ubicacion }}">
+                                @if ($errors->has('Ubicacion'))
                                     <label>
                                         <span class="required">
-                                            <strong>{{ $errors->first('Precio_producto') }}</strong>
+                                            <strong>{{ $errors->first('Ubicacion') }}</strong>
                                         </span>
                                     </label>
                                 @endif
                             </div>
-                            <div class="form-group{{ $errors->has('Cantidad') ? ' has-error' : '' }}">
-                                <label>Cantidad<span class="required">*</span></label>
-                                <input placeholder="Ingrese la cantidad" type="number"
-                                    id="Cantidad" name="Cantidad" class="form-style-1" value="{{ $producto->Cantidad }}">
-                                @if ($errors->has('Cantidad'))
-                                    <label>
-                                        <span class="required">
-                                            <strong>{{ $errors->first('Cantidad') }}</strong>
-                                        </span>
-                                    </label>
-                                @endif
-                            </div>
-                            <div class="form-group{{ $errors->has('proveedor_id') ? ' has-error' : '' }}">
-                                <label>Proveedor</label><br>
-                                <select id="proveedor_id" name="proveedor_id">
-                                    <option value>-- Seleccione un proveedor --</option>
-                                    @foreach($proveedores as $proveedor)
-                                        @if($producto->proveedor)
-                                            <option value="{{ $proveedor->id }}" {{ ($proveedor->id == $producto->proveedor->id) ? 'selected' : '' }}>
-                                                {{ $proveedor->Nombre_proveedor }}
+                            <div class="form-group{{ $errors->has('encargado_id') ? ' has-error' : '' }}">
+                                <label>Encargado</label><br>
+                                <select id="encargado_id" name="encargado_id">
+                                    <option value>-- Seleccione un encargado --</option>
+                                    @foreach($usuarios as $usuario)
+                                        @if($bodega->encargado)
+                                            <option value="{{ $usuario->id }}" {{ ($usuario->id == $bodega->encargado->id) ? 'selected' : '' }}>
+                                                {{ $usuario->getNombreCompleto() }}
                                             </option>
                                         @else
-                                            <option value={{$proveedor->id}}>{{ $proveedor->Nombre_proveedor}}</option>
+                                            <option value={{$usuario->id}}>{{ $usuario->getNombreCompleto()}}</option>
                                         @endif
                                     @endforeach
                                 </select>
-                                @if ($errors->has('proveedor_id'))
+                                @if ($errors->has('encargado_id'))
                                     <label>
                                         <span class="required">
-                                            <strong>{{ $errors->first('proveedor_id') }}</strong>
+                                            <strong>{{ $errors->first('encargado_id') }}</strong>
                                         </span>
                                     </label>
                                 @endif

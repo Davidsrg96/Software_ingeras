@@ -1,5 +1,5 @@
 @extends('layoutGeneral')
-@section('titulo', 'Crear Almacén')
+@section('titulo', 'Crear Bodega')
 @push('estilos')
 @endpush
 @push('acciones')
@@ -35,20 +35,20 @@
     <div class="card" style="background-color: #FFFFFF;width: 100%">
         <div class="card-header">
             @include('error_formulario')
-            <h1 align="center">Crear Almacén</h1>
+            <h1 align="center">Crear Bodega</h1>
         </div>
         <div class="card-body">
             
             <div class="row">
                 <div class="col-md">
                     <form  method="POST"
-                        action="{{ route('almacenamiento.store') }}"
+                        action="{{ route('bodega.store') }}"
                         enctype="multipart/form-data">
                         @csrf
                         <ul class="form-style-1">
                             <div class="form-group{{ $errors->has('Nombre') ? ' has-error' : '' }}">
                                 <label>Nombre<span class="required">*</span></label>
-                                <input placeholder="Ingrese el nombre del almacén" type="text"
+                                <input placeholder="Ingrese el nombre del Bodega" type="text"
                                     id="Nombre" name="Nombre" class="form-style-1">
                                 @if ($errors->has('Nombre'))
                                     <label>
@@ -87,7 +87,7 @@
                                 @endif
                             </div>
                             <hr>
-                            <a href="{{ route('almacenamiento.index') }}" class="btn btn-primary" >Atrás</a>
+                            <a href="{{ route('bodega.index') }}" class="btn btn-primary" >Atrás</a>
                             <a style="background-color: #1c7430" href="#confirmation" class="btn btn-primary"
                                 data-toggle="modal">Agregar
                             </a>

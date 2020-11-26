@@ -2,73 +2,74 @@
 
 namespace App\Http\Controllers;
 
+use App\producto;
 use App\bodega;
-use App\usuario;
 use App\proveedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\administracion\bodega\BodegaRequest;
 use App\Http\Requests\administracion\bodega\BodegaDeleteRequest;
 
-class BodegaController extends Controller
+class ProductoController extends Controller
 {
-  
     public function index()
     {
-        $bodegas = bodega::orderBy('id','ASC')->paginate();
-        return view('Bodega.index',compact('bodegas'));
+        $productos = producto::orderBy('id','ASC')->paginate();
+        return view('Producto.index', compact('productos'));
     }
 
     public function create()
     {
-        $usuarios = usuario::all();
-        return view('Bodega.create', compact('usuarios'));
+        $proveedores = proveedor::all();
+        return view('Producto.create',compact('proveedores'));
     }
 
+   
     public function store(BodegaRequest $request)
     {
-        bodega::create($request->input());
+        producto::create($request->input());
         return redirect()
-            ->route('bodega.index')
+            ->route('producto.index')
             ->with('success', [
-                'titulo'  => 'Creación de Bodega',
+                'titulo'  => 'Creación de Producto',
                 'mensaje' => 'Creación realizada de forma correcta',
             ]);
     }
 
     public function show($id)
     {
-        $bodega = bodega::find($id);
-        $bodegas = DB::select('SELECT * FROM bodegas WHERE NOT id = ?',[$id]);
-        $productos = $bodega->productos;
-        return view('Bodega.show',compact('bodega','bodegas','productos'));
+        //
+    }
+
+    public function mover(Request $request, $id){
+
     }
 
     public function edit($id)
     {
-        $bodega = bodega::findOrFail($id);
-        $usuarios = usuario::all();
-        return view('Bodega.edit',compact('bodega', 'usuarios'));
+        $proveedores = proveedor::all();
+        $producto = producto::find($id);
+        return view('Producto.edit',compact('producto','proveedores'));
     }
 
     public function update(BodegaRequest $request, $id)
     {
-        bodega::findOrFail($id)->update($request->input());
+        producto::findOrFail($id)->update($request->input());
         return redirect()
-            ->route('bodega.index')
+            ->route('producto.index')
             ->with('success', [
-                'titulo'  => 'Actualización de Bodega',
+                'titulo'  => 'Actualización de Producto',
                 'mensaje' => 'Actualización realizada de forma correcta',
             ]);
     }
 
     public function destroy(BodegaDeleteRequest $request, $id)
     {
-        bodega::findOrFail($id)->delete();
+        producto::findOrFail($id)->delete();
         return redirect()
-          ->route('bodega.index')
+          ->route('producto.index')
           ->with('success', [
-            'titulo'  => 'Eliminación de Bodega',
+            'titulo'  => 'Eliminación de Producto',
             'mensaje' => 'Eliminación realizada de forma correcta',
         ]);
     }

@@ -4,16 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class almacenamiento_stock extends Model
+class factura_producto extends Model
 {
-
-	protected $table ='almacenamiento_stocks';
+    protected $table ='factura_producto';
     protected $primarykey = 'id';
     public $timestamps = false;
 
     protected $fillable = [
-        'Cantidad_almacenada',
-        'almacenamiento_id',
-        'bodega_id',
+        'factura_id',
+        'producto_id',
+        'Cantidad_producto',
     ];
 }

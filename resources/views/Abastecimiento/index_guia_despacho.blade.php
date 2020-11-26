@@ -13,7 +13,7 @@
                 <th width="20px">ID</th>
                 <th>Guía de despacho</th>
                 <th>Fecha de Ingreso</th>
-                <th>Almacen asociado</th>
+                <th>Bodega asociada</th>
             </tr>
             </thead>
             <tbody>
@@ -23,9 +23,9 @@
                     <td>{{$g->Guia_despacho}}</td>
                     <td>{{$g->Fecha_ingreso}}</td>
                     <td>
-                        @foreach($almacenes as $a)
-                            @if($g->almacenamiento_id == $a->id)
-                                {{$a->Nombre}}
+                        @foreach($bodegas as $dato)
+                            @if($g->almacenamiento_id == $dato->id)
+                                {{$dato->Nombre}}
                             @endif
                         @endforeach
                     </td>
@@ -46,8 +46,8 @@
                         <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                         <select class="required" id="almacen" name="almacen" style="width: 80%">
                             <option value="0" style="alignment: center">-- Seleccione --</option>
-                            @foreach($almacenes as $a)
-                                <option value="{{$a->id}}"> {{$a->Nombre}}</option>
+                            @foreach($bodegas as $dato)
+                                <option value="{{$dato->id}}"> {{$dato->Nombre}}</option>
                             @endforeach
                         </select>
                         <li>

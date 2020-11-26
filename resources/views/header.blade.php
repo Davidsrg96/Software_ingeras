@@ -35,11 +35,11 @@
                   </li>
                   <li><a class="dropdown-item" href="#">Almacenamiento &raquo </a>
                      <ul class="submenu dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ route('almacenamiento.index') }}">
-                            Almacenes
-                        </a></li>
                         <li><a class="dropdown-item" href="{{ route('bodega.index') }}">
                             Bodegas
+                        </a></li>
+                        <li><a class="dropdown-item" href="{{ route('producto.index') }}">
+                            Productos
                         </a></li>
                      </ul>
                   </li>
@@ -49,6 +49,21 @@
                   <li><a class="dropdown-item" href="{{ route('trabajadores.index') }}">
                       Trabajadores
                   </a></li>
+                </ul>
+            </li>
+             <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Abastecimiento</a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Bodega &raquo </a>
+                     <ul class="submenu dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('solicitudes.index')}}">
+                          Solicitudes
+                        </a></li>
+                        <li><a class="dropdown-item" href="{{ route('despacho.listaBodegas')}}">
+                          Enviar Producto
+                        </a></li>
+                     </ul>
+                  </li>
                 </ul>
             </li>
             <li class="nav-item"><a class="nav-link" href="{{ route('proyectos.index') }}">

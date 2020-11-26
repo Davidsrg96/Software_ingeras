@@ -13,14 +13,14 @@ class guia_despacho extends Model
     protected $fillable = [
         'Guia_despacho',
         'Fecha_ingreso',
-        'almacenamiento_id',
+        'bodega_id',
     ];
 
-    public function almacenamiento()
+    public function bodega()
     {
         return $this->belongsTo(
-            almacenamiento::class,
-            'almacenamiento_id',
+            bodega::class,
+            'bodega_id',
             'id'
         );
     }

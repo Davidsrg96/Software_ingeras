@@ -1,5 +1,5 @@
 @extends('layoutGeneral')
-@section('titulo', 'Lista Productos')
+@section('titulo', 'Lista Bodegas')
 @push('estilos')
 @endpush
 @push('acciones')
@@ -39,46 +39,32 @@
 @section('cuerpo')
     <div class="card">
         <div class="card-header">
-            <h1 align="center"><font color="black">Productos</font></h1>
-        </div>
-        <div class="card-body">
+            <h1 align="center"><font color="black">Bodegas</font></h1>
             <div class="column" align="left" style="padding-left: 1.5%">
-                <a type="button" class="btn btn-primary" href="{{ route('home.index') }}"
-                    role="button"><i class="fas fa-arrow-left"></i>
-                         Regresar
-                 </a>
-                <a type="button" class="btn btn-primary" href="{{ route('bodega.create') }}" role="button">
-                    Ingresar Producto
-                </a>
-                <a type="button" class="btn btn-primary" href="{{ route('guia_despacho.index') }}" role="button">
-                    Ver Guias de Despacho
-                </a>
-                <a type="button" class="btn btn-primary" href="{{ route('facturas.index') }}" role="button">
-                    Facturas
+                <a type="button" class="btn btn-primary" href="{{ route('home.index') }}" role="button"><i class="fas fa-arrow-left"></i> Regresar</a>
+                <a href="{{ route('bodega.create') }}" type="button" class="btn btn-primary pull-right">
+                    Agregar Bodega
                 </a>
             </div>
-            <hr>
+        </div>
+        <div class="card-body">
             <table class="table table-hover table-striped" id="tabla_bodega">
                 <thead>
                 <tr>
                     <th width="20px">ID</th>
-                    <th>Codigo</th>
-                    <th>Nombre del Producto</th>
-                    <th>Cantidad</th>
-                    <th>Disponible</th>
-                    <th>Proveedor</th>
+                    <th>Nombre</th>
+                    <th>Ubicación</th>
+                    <th>Encargado</th>
                     <th>Acción</th>
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach($productos as $dato)
+                    @foreach($bodegas as $dato)
                         <tr>
                             <td>{{$dato->id}}</td>
-                            <td>{{$dato->Codigo}}</td>
-                            <td>{{$dato->Nombre_producto}}</td>
-                            <td>{{$dato->Cantidad}}</td>
-                            <td>{{$dato->Disponible}}</td>
-                            <td>{{ ($dato->proveedor)? $dato->proveedor->Nombre_proveedor : 'Sin asignar' }}</td>
+                            <td>{{$dato->Nombre}}</td>
+                            <td>{{$dato->Ubicacion}}</td>
+                            <td>{{ ($dato->encargado)? $dato->encargado->getNombreCompleto() : 'Sin asociar' }}</td>
                             <td>
                                 <form
                                     method="POST"

@@ -29,4 +29,14 @@ class orden_de_compra extends Model
             'id'
         );
     }
+
+    public function productos()
+    {
+        return $this->belongsToMany(
+            producto::class,
+            'orden_compra_producto',
+            'orden_compra_id',
+            'producto_id'
+        );
+    }
 }

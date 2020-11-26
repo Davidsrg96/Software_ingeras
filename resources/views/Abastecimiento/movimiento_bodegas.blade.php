@@ -38,11 +38,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">Almacen Origen</td>
+                        <td colspan="2">Bodega Origen</td>
                         <td colspan="3"><input type="text" id="nombre" name="nombre" readonly value="{{$almacen_origen->Nombre}}"></td>
                     </tr>
                     <tr>
-                        <td colspan="2">Almacen Destino</td>
+                        <td colspan="2">Bodega Destino</td>
                         <td colspan="3"><input type="text" id="nombre" name="nombre" readonly value="{{$almacen_destino->Nombre}}"></td>
                     </tr>
                     <tr>
@@ -66,7 +66,7 @@
 
                 </table>
                 <div align="right">
-                    <a href="{{ action('AlmacenamientosController@show',$almacen_origen->id) }}" class="btn btn-primary" >Atrás</a>
+                    <a href="{{ action('BodegaController@show',$almacen_origen->id) }}" class="btn btn-primary" >Atrás</a>
                     <a style="background-color: #1c7430" href="#confirmation" class="btn btn-primary" data-toggle="modal" >Guardar</a>
                     @include('pop-up')
                 </div>

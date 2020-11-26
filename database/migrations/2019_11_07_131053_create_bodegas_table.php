@@ -11,17 +11,12 @@ class CreateBodegasTable extends Migration
     {
         Schema::create('bodegas', function (Blueprint $table) {
             $table->Increments('id');
-            $table->bigInteger('Codigo');
-            $table->string('Nombre_producto');
-            $table->bigInteger('Precio_producto');
-            $table->integer('Cantidad')->default(0);
-            $table->integer('Disponible')->default(0);
-            $table->integer('Calidad')->default(0);
-            $table->enum('Tipo_producto',['Material','Herramienta']);
+            $table->string('Nombre');
+            $table->string('Ubicacion');
 
-            $table->integer('proveedor_id')->unsigned()->nullable();
-            $table->foreign('proveedor_id')->references('id')
-                ->on('proveedors')->onDelete('cascade');
+            $table->integer('encargado_id')->unsigned()->nullable();
+            $table->foreign('encargado_id')->references('id')
+                ->on('usuario')->onDelete('cascade');
             $table->timestamps();
         });
     }

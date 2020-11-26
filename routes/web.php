@@ -26,7 +26,7 @@ Route::prefix('admin')->group(function(){
 	Route::resource('usuarios', 'UsuariosController');
 
 	//Rutas de Trabajadores
-	Route::resource('admin/trabajadores', 'TrabajadoresController');
+	Route::resource('trabajadores', 'TrabajadoresController');
 	
 	//Rutas de Tipos de Usuarios
 	Route::resource('tipo_usuario','TipoUsuarioController');
@@ -39,13 +39,9 @@ Route::prefix('admin')->group(function(){
 
 	//Rutas de las Preguntas
 	Route::resource('preguntas','PreguntasController');
-	
-	//Rutas para Factura
-	Route::resource('abastecimiento/facturas', 'FacturaController');
-	Route::get('abastecimiento/facturas/ver/{oc}/{proveedor}',['as' =>'factura.oc', 'uses' => 'FacturaController@factura_oc']);
 
-	//Rutas de Almacenamientos
-	Route::resource('almacenamiento', 'AlmacenamientosController');
+	//Rutas de Bodegas
+	Route::resource('bodega', 'BodegaController');
 
 	//Rutas correspondientes a departamento
 	Route::resource('departamentos', 'DepartamentosController');
@@ -67,24 +63,28 @@ Route::prefix('admin')->group(function(){
 			Route::post('update/{id}', 'DepartamentosController@updatePersonal')->name('update');
 		});
 	});
+});
 
-	Route::prefix('abastecimiento')->group(function(){
-		//Rutas de Bodega
-		Route::resource('bodega', 'BodegaController');
-		Route::post('bodega/mover/{id}', ['as' =>'bodega.mover', 'uses' => 'BodegaController@mover']);
-		
-		//Rutas de Orden de Compra
-		Route::resource('orden_de_compra', 'OrdenDeCompraController');
+Route::prefix('abastecimiento')->group(function(){
 
-		//Rutas de Guías de Despacho
-		Route::resource('guia_despacho','GuiaDespachoController');
-		Route::get('guia_despacho/edit/{id}','GuiaDespachoController@edit');
-		Route::get('guia_despacho/delete/{id}','GuiaDespachoController@destroy');
-		Route::post('guia_despacho/edit/{id}','GuiaDespachoController@update');
-		Route::post('guia_despacho/crear_guia','GuiaDespachoController@store');
-		Route::get('guia_despacho/devolver_producto/{id}/{almacen}',['as' =>'despacho.bodega_central', 'uses' => 'GuiaDespachoController@devolver']);
-		Route::post('guia_despacho/movimiento_almacenes/{id}',['as' =>'despacho.almacenes', 'uses' => 'GuiaDespachoController@movimientoProducto']);
-		Route::post('guia_despacho/movimiento_almacenes/store/{origen}/{destino}',['as' =>'despacho.movimiento', 'uses' => 'GuiaDespachoController@updateMovimiento']);
+	//Rutas para Factura
+	Route::resource('facturas', 'FacturaController');
+	Route::get('facturas/ver/{oc}/{proveedor}',['as' =>'factura.oc', 'uses' => 'FacturaController@factura_oc']);
+
+	//Rutas de Productos
+	Route::resource('producto', 'ProductoController');
+	Route::post('producto/mover/{id}', ['as' =>'producto.mover', 'uses' => 'productoController@mover']);
+	
+	//Rutas de Orden de Compra
+	Route::resource('orden_de_compra', 'OrdenDeCompraController');
+
+	//Rutas de Guías de Despacho
+	Route::prefix('guia_despacho')->name('despacho.')->group(function(){
+	Route::resource('/','GuiaDespachoController');
+		Route::get('listaBodegas', 'GuiaDespachoController@bodegas')->name('listaBodegas');
+		Route::get('devolver_producto/{id}/{almacen}',['as' =>'producto_central', 'uses' => 'GuiaDespachoController@devolver']);
+		Route::post('movimiento_almacenes/{id}',['as' =>'bodegas', 'uses' => 'GuiaDespachoController@movimientoProducto']);
+		Route::post('movimiento_almacenes/store/{origen}/{destino}',['as' =>'movimiento', 'uses' => 'GuiaDespachoController@updateMovimiento']);
 	});
 });
 
@@ -92,11 +92,11 @@ Route::prefix('admin')->group(function(){
 Route::resource('solicitudes','SolicitudController');
 Route::get('solicitudes/edit/{id}','SolicitudController@edit');
 Route::get('solicitudes/delete/{id}','SolicitudController@destroy');
-Route::get('solicitudes/solicitud_bodega/{id}',['as' =>'solicitudes.bodega', 'uses' => 'SolicitudController@crearSolicitudBodega']);
-Route::get('solicitudes/solicitud_almacen/{id}',['as' =>'solicitudes.almacen', 'uses' => 'SolicitudController@crearSolicitudMovimiento']);
+Route::get('solicitudes/solicitud_producto/{id}',['as' =>'solicitudes.producto', 'uses' => 'SolicitudController@crearSolicitudProducto']);
+Route::get('solicitudes/solicitud_almacen/{id}',['as' =>'solicitudes.bodega', 'uses' => 'SolicitudController@crearSolicitudMovimiento']);
 Route::post('solicitudes/show/{id}','SolicitudController@update');
 Route::post('solicitudes/create','SolicitudController@store');
-Route::post('solicitudes/solicitud_bodega',['as' =>'solicitudes.guardar_sol_bodega', 'uses' => 'SolicitudController@storeSolicitudBodega']);
+Route::post('solicitudes/solicitud_producto',['as' =>'solicitudes.guardar_sol_producto', 'uses' => 'SolicitudController@storeSolicitudproducto']);
 
 
 //Rutas de Proyectos

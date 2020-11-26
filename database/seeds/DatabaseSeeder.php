@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
             TrabajadorSeeder::class,
             CargoSeeder::class,
             ActividadSeeder::class,
-            AlmacenamientoSeeder::class,
+            BodegaSeeder::class,
             ProveedorSeeder::class,
         ]);
     }

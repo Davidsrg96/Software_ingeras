@@ -34,4 +34,14 @@ class factura extends Model
             'id'
         );
     }
+
+    public function productos()
+    {
+        return $this->belongsToMany(
+            producto::class,
+            'factura_producto',
+            'factura_id',
+            'producto_id'
+        );
+    }
 }

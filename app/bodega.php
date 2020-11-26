@@ -11,32 +11,36 @@ class bodega extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'Codigo',
-        'Nombre_producto',
-        'Precio_producto',
-        'Cantidad',
-        'Calidad',
-        'Disponible',
-        'Tipo_producto',
-        'proveedor_id',
+        'Nombre',
+        'Ubicacion',
+        'encargado_id'
     ];
 
-    public function almacenamientos()
-    {
-        return $this->belongsToMany(
-            almacenamiento::class,
-            'almacenamiento_stocks',
-            'bodega_id',
-            'almacenamiento_id'
-        )->withPivot('Cantidad_almacenada');
-    }
-
-    public function proveedor()
+    public function encargado()
     {
         return $this->belongsTo(
-            proveedor::class,
-            'proveedor_id',
+            usuario::class,
+            'encargado_id',
             'id'
         );
+    }
+
+    public function guiasDespacho()
+    {
+        return $this->hasMany(
+            guia_despacho::class,
+            'bodega_id',
+            'id'
+        );
+    }
+
+    public function productos()
+    {
+        return $this->belongsToMany(
+            bodega::class,
+            'bodega_producto',
+            'bodega_id',
+            'producto_id'
+        )->withPivot('Cantidad_almacenada');
     }
 }

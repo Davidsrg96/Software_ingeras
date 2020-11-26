@@ -99,10 +99,10 @@ class usuario extends Authenticatable
         )->withPivot('Titulo','Mensaje','Status','Fecha_inicio','Fecha_termino');
     }
 
-    public function almacenamientos()
+    public function bodegas()
     {
         return $this->hasMany(
-            almacenamiento::class,
+            bodega::class,
             'encargado_id',
             'id'
         );

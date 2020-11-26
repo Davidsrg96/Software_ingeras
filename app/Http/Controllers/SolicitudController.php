@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\almacenamiento;
 use App\bodega;
+use App\producto;
 use App\proveedor;
 use App\Solicitud;
 use DateTime;
@@ -30,11 +30,11 @@ class SolicitudController extends Controller
         return view('Solicitudes.create',compact('usuarios'));
     }
 
-    public function crearSolicitudBodega($ida)
+    public function crearSolicitudProducto($ida)
     {
         $id = Auth::id();
         $solicitud = 'Solicitud a bodega';
-        $almacen_local = almacenamiento::find($ida);
+        $almacen_local = bodega::find($ida);
         $usuarios = DB::select('SELECT u.id,u.Nombre FROM usuario u,cargos c WHERE u.cargo_id = c.id
                                         AND c.Tipo_cargo = ? AND NOT u.id = ? ',['Abastecimiento',$id]);
         $proveedores = proveedor::all();
@@ -46,14 +46,14 @@ class SolicitudController extends Controller
     {
         $id = Auth::id();
         $solicitud = 'Solicitud a almacen';
-        $almacen_local = almacenamiento::find($ida);
+        $almacen_local = bodega::find($ida);
         $usuarios = DB::select('SELECT u.id,u.Nombre FROM usuario u,cargos c WHERE u.cargo_id = c.id
                                         AND c.Tipo_cargo = ? AND NOT u.id = ? ', ['Abastecimiento', $id]);
-        $almacenes = DB::select('SELECT * FROM almacenamientos WHERE NOT id = ?', [$id]);
+        $almacenes = bodega::where('id','<>',$id);
         $productos = DB::select('SELECT b.id,b.Codigo,b.Nombre_producto, a.Cantidad_almacenada,al.Nombre, p.Nombre_proveedor
-                                        FROM bodegas b, almacenamiento_stocks a, almacenamientos al, proveedors p
-                                        WHERE b.id = a.bodega_id AND b.proveedor_id = p.id
-                                        AND al.id = a.almacenamiento_id AND NOT al.id = ?', [$id]);
+                                        FROM producto b, bodega_producto a, bodegas al, proveedors p
+                                        WHERE b.id = a.producto_id AND b.proveedor_id = p.id
+                                        AND al.id = a.producto_id AND NOT al.id = ?', [$id]);
         return view('Solicitudes.create',compact('usuarios','almacen_local','productos','solicitud','almacenes'));
     }
 
@@ -71,7 +71,7 @@ class SolicitudController extends Controller
                 $date,
                 $request->get('fecha_limite'),
                 $request->get('tipo_solicitud')]);
-            return redirect()->route('almacenamiento.show',$ida);
+            return redirect()->route('bodega.show',$ida);
         }else{
             DB::insert('INSERT INTO solicituds (Titulo,Mensaje,solicitante_id,destino_id,Fecha_inicio,Fecha_termino)
                             VALUES (?,?,?,?,?,?)',[$request->get('titulo'),
