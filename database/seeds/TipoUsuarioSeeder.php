@@ -22,5 +22,10 @@ class TipoUsuarioSeeder extends Seeder
             'Tipo_usuario' => 'Gerente',
             'Descripcion'  => 'Encargado de todo',
         ]);
+        
+        tipo_usuario::create([
+            'Tipo_usuario' => 'Abastecimiento',
+            'Descripcion'  => 'Encargado de bodega',
+        ]);
     }
 }

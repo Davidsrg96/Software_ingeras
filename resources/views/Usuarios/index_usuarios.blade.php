@@ -49,7 +49,6 @@
            <table class="table table-hover table-striped" id="tabla_usuario">
                 <thead>
                 <tr>
-                    <th width="20px">ID</th>
                     <th>Nombre</th>
                     <th>Rut</th>
                     <th>Tipo de usuario</th>
@@ -59,7 +58,6 @@
                 <tbody>
                 @foreach($usuarios as $dato)
                     <tr>
-                        <td>{{$dato->id}}</td>
                         <td>{{$dato->getNombreCompleto()}}</td>
                         <td>{{$dato->Rut}}</td>
                         <td>{{$dato->tipo_usuario->Tipo_usuario }}</td>

@@ -24,10 +24,10 @@ class producto extends Model
     public function bodegas()
     {
         return $this->belongsToMany(
-            almacenamiento::class,
-            'almacenamiento_stocks',
-            'bodega_id',
-            'almacenamiento_id'
+            bodega::class,
+            'bodega_producto',
+            'producto_id',
+            'bodega_id'
         )->withPivot('Cantidad_almacenada');
     }
 

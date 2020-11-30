@@ -51,7 +51,6 @@
            <table class="table table-hover table-striped" id="tabla_proveedor">
                 <thead>
                 <tr>
-                    <th width="20px">ID</th>
                     <th>Nombre</th>
                     <th>Rut</th>
                     <th>Vendedor</th>
@@ -63,7 +62,6 @@
                 <tbody>
                 @foreach($proveedores as $dato)
                     <tr>
-                        <td>{{$dato->id}}</td>
                         <td>{{$dato->Nombre_proveedor}}</td>
                         <td>{{$dato->Rut_proveedor}}</td>
                         <td>{{$dato->Nombre_vendedor}}</td>

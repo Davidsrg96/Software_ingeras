@@ -14,7 +14,7 @@ class  ProveedoresController extends Controller
 
     public function index()
     {
-        $proveedores = proveedor::orderBy('id','ASC')->paginate();
+        $proveedores = proveedor::all();
         return view('Proveedores.index_proveedores', compact('proveedores'));
     }
 

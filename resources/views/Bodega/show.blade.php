@@ -5,7 +5,10 @@
             <h1 align="center">Bodega {{$bodega->Nombre}}</h1>
             <a type="button" role="button" class="btn btn-primary" href="{{action('BodegaController@index')}}"><i class="fas fa-arrow-left"></i>Regresar</a>
             <a type="button" role="button" class="btn btn-primary" href="{{route('solicitudes.bodega',$bodega->id)}}">Solicitar Producto a Bodega</a>
-            <button type="button" role="button" class="btn btn-primary" data-toggle="modal" data-target="#bodega">Enviar productos</button>
+            <button type="button" role="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#bodega{{ $bodega->id }}">
+                    Enviar productos
+            </button>
         </div>
         <div class="card-body">
             <table class="table table-hover table-striped" id="tabla_bodega">

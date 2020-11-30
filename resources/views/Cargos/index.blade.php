@@ -51,7 +51,6 @@
             <table class="table table-hover table-striped" id="tabla_cargos">
                 <thead>
                 <tr>
-                    <th width="20px">ID</th>
                     <th>Cargo</th>
                     <th>Descripcion</th>
                     <th>Acción</th>
@@ -60,7 +59,6 @@
                 <tbody>
                     @foreach($cargos as $dato)
                         <tr>
-                            <td>{{$dato->id}}</td>
                             <td>{{$dato->Tipo_cargo}}</td>
                             <td>{{$dato->Descripcion}}</td>
                             <td>

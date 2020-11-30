@@ -13,7 +13,7 @@ class CargosController extends Controller
     
     public function index()
     {
-        $cargos = cargo::orderBy('id','ASC')->paginate();
+        $cargos = cargo::all()->sortBy('Tipo_cargo');
         return view('cargos.index',compact('cargos'));
     }
 

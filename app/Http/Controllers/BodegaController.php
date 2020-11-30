@@ -15,7 +15,7 @@ class BodegaController extends Controller
   
     public function index()
     {
-        $bodegas = bodega::orderBy('id','ASC')->paginate();
+        $bodegas = bodega::all()->sortBy('Nombre');
         return view('Bodega.index',compact('bodegas'));
     }
 

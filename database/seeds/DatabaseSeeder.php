@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             ActividadSeeder::class,
             BodegaSeeder::class,
             ProveedorSeeder::class,
+            ProductoSeeder::class,
         ]);
     }
 }

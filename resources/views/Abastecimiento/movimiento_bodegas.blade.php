@@ -66,7 +66,7 @@
 
                 </table>
                 <div align="right">
-                    <a href="{{ action('BodegaController@show',$almacen_origen->id) }}" class="btn btn-primary" >Atrás</a>
+                    <a href="{{ route('despacho.listaBodegas',$almacen_origen->id) }}" class="btn btn-primary" >Atrás</a>
                     <a style="background-color: #1c7430" href="#confirmation" class="btn btn-primary" data-toggle="modal" >Guardar</a>
                     @include('pop-up')
                 </div>

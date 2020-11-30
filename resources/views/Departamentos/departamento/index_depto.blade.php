@@ -51,7 +51,6 @@
            <table class="table table-hover table-striped" id="tablaDepto">
                 <thead>
                 <tr>
-                    <th width="20px">ID</th>
                     <th>Nombre del Departamento</th>
                     <th>Objetivo</th>
                     <th>Acciones</th>
@@ -60,7 +59,6 @@
                 <tbody>
                 @foreach($departamentos as $dato)
                     <tr>
-                        <td>{{$dato->id}}</td>
                         <td>{{$dato->Nombre_departamento}}</td>
                         <td>{{$dato->Objetivo}}</td>
                         <td>

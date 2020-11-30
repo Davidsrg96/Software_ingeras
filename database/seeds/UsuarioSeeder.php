@@ -48,5 +48,7 @@ class UsuarioSeeder extends Seeder
             'ciudad_id'       => $ciudad->random()->id,
             'tipo_usuario_id' => $tiposUsuarios->random()->id,
         ]);
+
+        factory(usuario::class, 40)->create();
     }
 }

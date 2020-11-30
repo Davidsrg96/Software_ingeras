@@ -37,7 +37,7 @@ class bodega extends Model
     public function productos()
     {
         return $this->belongsToMany(
-            bodega::class,
+            producto::class,
             'bodega_producto',
             'bodega_id',
             'producto_id'

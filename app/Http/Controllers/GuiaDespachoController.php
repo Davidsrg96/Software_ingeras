@@ -12,6 +12,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\abastecimiento\guiaDespacho\MovimientoIndexRequest;
 
 class GuiaDespachoController extends Controller
 {
@@ -34,12 +35,12 @@ class GuiaDespachoController extends Controller
         return view('Abastecimiento.create_despacho',compact('almacen','producto','proveedores','usuarios','solicitante'));
     }
 
-    public function movimientoProducto(Request $request, $id)
+    public function movimientoProducto(MovimientoIndexRequest $request, $id)
     {
         $idu = Auth::id();
         $solicitante = usuario::find($idu);
         $almacen_origen = bodega::find($id);
-        $almacen_destino = bodega::find($request->bodega);
+        $almacen_destino = bodega::find($request->bodegaID);
         $producto = DB::select('SELECT a.Cantidad_almacenada,b.id,b.Codigo,b.proveedor_id,b.Nombre_producto FROM producto b,bodega_producto a WHERE b.id = a.producto_id
                                         AND a.bodega_id = ?',[$id]);
         //dd($producto);

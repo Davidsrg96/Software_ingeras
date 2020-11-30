@@ -16,7 +16,7 @@ class UsuariosController extends Controller
 
     public function index()
     {
-      $usuarios = usuario::orderBy('id','ASC')->paginate();
+      $usuarios = usuario::all()->sortBy('Nombre');
       return view('Usuarios.index_usuarios',compact('usuarios'));
 
     }

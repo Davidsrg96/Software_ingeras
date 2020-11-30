@@ -61,7 +61,6 @@
             <table class="table table-hover table-striped" id="tabla_bodega">
                 <thead>
                 <tr>
-                    <th width="20px">ID</th>
                     <th>Codigo</th>
                     <th>Nombre del Producto</th>
                     <th>Cantidad</th>
@@ -73,7 +72,6 @@
                 <tbody>
                     @foreach($productos as $dato)
                         <tr>
-                            <td>{{$dato->id}}</td>
                             <td>{{$dato->Codigo}}</td>
                             <td>{{$dato->Nombre_producto}}</td>
                             <td>{{$dato->Cantidad}}</td>
@@ -92,7 +90,7 @@
                                             class="btn btn-primary" title="Editar Tipo Usuario">
                                                 <i class="fas fa-pencil-alt"></i>
                                         </a>
-                                        <a href="{{route('bodega.show', $dato->id)}}"
+                                        <a href="#"
                                             class="btn btn-warning" title="Mostrar Usuario">
                                                 <i class="fas fa-eye" style="color: white"></i>
                                         </a>

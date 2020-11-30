@@ -10,11 +10,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-                <button
-                class="btn btn-primary btn-danger"
-                type="submit">
+                <button class="btn btn-primary btn-danger" type="submit">
                     Eliminar
-            </button>
+                </button>
             </div>
         </div>
     </div>

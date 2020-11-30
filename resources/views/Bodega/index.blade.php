@@ -51,7 +51,6 @@
             <table class="table table-hover table-striped" id="tabla_bodega">
                 <thead>
                 <tr>
-                    <th width="20px">ID</th>
                     <th>Nombre</th>
                     <th>Ubicación</th>
                     <th>Encargado</th>
@@ -61,7 +60,6 @@
                 <tbody>
                     @foreach($bodegas as $dato)
                         <tr>
-                            <td>{{$dato->id}}</td>
                             <td>{{$dato->Nombre}}</td>
                             <td>{{$dato->Ubicacion}}</td>
                             <td>{{ ($dato->encargado)? $dato->encargado->getNombreCompleto() : 'Sin asociar' }}</td>

@@ -13,7 +13,7 @@ class TipoUsuarioController extends Controller
 
     public function index()
     {
-        $tipos_usuarios = tipo_usuario::orderBy('id','ASC')->paginate();
+        $tipos_usuarios = tipo_usuario::all()->sortBy('Tipo_usuario');
         return view('Tipos_usuarios.index',compact('tipos_usuarios'));
     }
 
