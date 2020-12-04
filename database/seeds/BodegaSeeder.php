@@ -2,14 +2,17 @@
 
 use Illuminate\Database\Seeder;
 use App\bodega;
+use App\usuario;
+use App\tipo_usuario;
 
 class BodegaSeeder extends Seeder
 {
     public function run()
     {
+
         bodega::create([
-        	'nombre'    => 'Bodega Central',
-        	'ubicacion' => 'Santiago',
+        	'nombre'       => 'Bodega Central',
+        	'ubicacion'    => 'Santiago',
         ]);
         bodega::create([
             'nombre'    => 'Bodega 1 Afta',

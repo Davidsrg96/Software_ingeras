@@ -17,7 +17,7 @@ class CreateProveedorsTable extends Migration
             $table->Increments('id');
             $table->string('Rut_proveedor')->unique();
             $table->string('Nombre_proveedor')->unique();
-            $table->string('Nombre_vendedor');
+            $table->string('Nombre_vendedor')->nullable();
             $table->string('Direccion');
             $table->string('Telefono');
             $table->string('Rubro');

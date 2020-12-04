@@ -58,11 +58,12 @@
             <hr>
             <table class="table table-hover table-striped" id="tabla_bodega">
                 <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Ubicación</th>
-                    <th>Acción</th>
-                </tr>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Ubicación</th>
+                        <th>Productos</th>
+                        <th>Acción</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach($bodegas as $bodega)
@@ -70,63 +71,23 @@
                             <td>{{$bodega->Nombre}}</td>
                             <td>{{$bodega->Ubicacion}}</td>
                             <td>
-                                <div class="btn-group">
-                                    <button type="button" role="button"  class="btn btn-warning" title="Mostrar Productos"
-                                        data-toggle="modal" data-target="#productos">
-                                            <i class="fas fa-eye" style="color: white"></i>Productos
-                                    </button>
-                                    <button type="button" role="button" class="btn btn-primary"
-                                        data-toggle="modal" data-target="#bodega{{$bodega->id}}">
-                                            Enviar productos
-                                    </button>
-                                </div>
+                                <button type="button" role="button"  class="btn btn-warning" title="Mostrar Productos"
+                                    data-toggle="modal" data-target="#productos{{ $bodega->id }}">
+                                        Mostrar <i class="fas fa-eye" style="color: white"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" role="button" class="btn btn-primary"
+                                    data-toggle="modal" data-target="#bodega{{$bodega->id}}">
+                                        Enviar productos
+                                </button>
                             </td>
                             @include('Abastecimiento.partials.bodegaDestino')
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            <div id="productos" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Lista de Productos</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            @if(!$bodega->productos->isEmpty())
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Codigo</th>
-                                            <th>Nombre</th>
-                                            <th>Stock</th>
-                                            <th>Calidad</th>
-                                            <th>Proveedor</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($bodega->productos as $producto)
-                                            <tr>
-                                                <td>{{ $producto->Codigo }}</td>
-                                                <td>{{ $producto->Nombre_producto }}</td>
-                                                <td>{{ $producto->pivot->Cantidad_almacenada }}</td>
-                                                <td>{{ $producto->Calidad }}</td>
-                                                <td>{{ $producto->proveedor->Nombre_proveedor }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            @else
-                                <p style="color: black">La bodega no tiene productos asignados</p>
-                            @endif
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Salir</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        @include('Abastecimiento.movimiento.partials.modalProductos')
         </div>
     </div>
 @endsection

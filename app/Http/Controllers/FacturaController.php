@@ -5,108 +5,68 @@ namespace App\Http\Controllers;
 use App\bodega;
 use App\factura;
 use App\proveedor;
+use App\producto;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\abastecimiento\factura\FacturaRequest;
 
 class FacturaController extends Controller
 {
 
     public function index()
     {
-        $facturas = factura::orderBy('id','ASC')->paginate();
+        $facturas = factura::all();
         $proveedores = proveedor::all();
         return view('Facturas.index_factura', compact('facturas', 'proveedores'));
     }
 
-    public function factura_oc($idoc,$idp)
+
+
+    public function create()
     {
-        $facturas = DB::select('SELECT id,Factura,Fecha_ingreso FROM facturas WHERE oc_id = ?',[$idoc]);
-        $proveedor = proveedor::find($idp);
-        return view('Facturas.index_factura', compact('facturas','proveedor','idoc'));
+        $proveedores = proveedor::all();
+        return view('Facturas.create', compact('proveedores'));
     }
 
-
-    public function create(Request $request)
+    public function store(FacturaRequest $request)
     {
-        $proveedor = proveedor::find($request->get('prov'));
-        if($request->get('oc_id') != null){
-            $oc_id = $request->get('oc_id');
-            return view('Facturas.create_factura',compact('proveedor','oc_id'));
-        }else{
-            return view('Facturas.create_factura',compact('proveedor'));
-        }
-    }
+        $productos = producto::all();
+        $codigo = ($productos->isEmpty())? 1111111111110  : $productos->last()->Codigo;
+        $factura = factura::create(
+            $request->input() + [
+                'Fecha_ingreso' => new DateTime('now'),
+                'Estado'        => 'Disponible'
+            ]);
+        foreach ($request->descP as $key => $desc) {
+            for ($i = 0 ; $i < $request->cantP[$key] ; $i++) { 
+                $codigo = $codigo + 1;
+                $producto = producto::create([
+                    'Codigo'          => $codigo,
+                    'Descripcion'     => $request->descP[$key],
+                    'Precio_producto' => $request->precioP[$key],
+                    'proveedor_id'    => $factura->proveedor->id,
+                    'factura_id'      => $factura->id
+                ]);
 
-    public function store(Request $request)
-    {
-        $proveedor = DB::select('SELECT id FROM proveedors WHERE Nombre_proveedor = ?',[$request->get('proveedor')]);
-        $idp = $proveedor[0]->id;
-        $date = new DateTime('now');
-        $file = $request->file('file');
-        $nombre = $file->getClientOriginalName();
-        \Storage::disk('local')->put($nombre,  \File::get($file));
-        $this->stockStore($request,$idp);
-        //Antes de guardar la factura se confirma si pertenece a una orden de compra o no
-        if($request->get('oc_id') != null){
-            $idoc = $request->get('oc_id');
-            DB::insert('INSERT INTO facturas (Factura,Fecha_ingreso,oc_id,proveedor_id)
-                            VALUES (?,?,?,?)',[$nombre,
-                                               $date,
-                                               $idoc,
-                                               $idp]);
-            return redirect()->route('factura.oc',compact('idoc','idp'));
-        }else{
-            DB::insert('INSERT INTO facturas (Factura,Fecha_ingreso,proveedor_id)
-                            VALUES (?,?,?)',[$nombre,
-                                             $date,
-                                             $idp]);
-            return redirect()->route('facturas.index');
-        }
-
-
-    }
-
-    public function stockStore(Request $request, $idp){
-        //Validar que siempre existan productos en facturas
-        $codigos = $request->get('codigo');
-        $nombres = $request->get('nom_producto');
-        $precios = $request->get('precio');
-        $cantidades = $request->get('cantidad');
-
-        for($i = 0;$i < sizeof($codigos); $i++){
-            //Si encuentra el codigo dentro de los productos entra a verificar si es del mismo proveedor
-            $pr = DB::select('SELECT * FROM bodegas WHERE Codigo = ? AND proveedor_id = ?',[$codigos[$i],$idp]);
-            $npr = DB::select('SELECT * FROM bodegas WHERE Codigo = ? AND NOT proveedor_id = ?',[$codigos[$i],$idp]);
-            //Si encuentra el producto ya en bodega central
-            if($pr != null && $npr == null){
-                $producto = bodega::where('Codigo', '=', $codigos[$i])->get()->first();
-                $cantidades[$i] = $producto->Cantidad + $cantidades[$i];
-                $disponible = $producto->Disponible + $cantidades[$i];
-                DB::update('UPDATE bodegas SET Cantidad = ?, Disponible = ? WHERE Codigo = ?',[$cantidades[$i],$disponible,$codigos[$i]]);
-            }elseif($npr != null){//Si encuentra el codigo pero no el proveedor
-                DB::insert('INSERT INTO bodegas (Codigo,Nombre_producto,Precio_producto,Cantidad,Disponible,proveedor_id)
-                            VALUES (?,?,?,?,?,?)',[$codigos[$i],
-                    $nombres[$i],
-                    $precios[$i],
-                    $cantidades[$i],
-                    $cantidades[$i],
-                    $idp]);
-            }else{//Si no encuentra nada del producto en la BDD
-                DB::insert('INSERT INTO bodegas (Codigo,Nombre_producto,Precio_producto,Cantidad,Disponible,proveedor_id)
-                            VALUES (?,?,?,?,?,?)',[$codigos[$i],
-                    $nombres[$i],
-                    $precios[$i],
-                    $cantidades[$i],
-                    $cantidades[$i],
-                    $idp]);
+                $documento = Storage::disk('factura')->putFile('/', $request->file('Documento'));
+                $producto->update(['Documento' => $documento]);
             }
         }
+
+        return redirect()
+            ->route('factura.index')
+            ->with('success', [
+                'titulo'  => 'Creación de Factura',
+                'mensaje' => 'Creación realizada de forma correcta',
+            ]);
     }
 
     public function show($id)
     {
-        //
+        $factura = factura::findOrFail($id);
+        return view('Facturas.show', compact('factura'));
     }
 
     public function edit($id)
@@ -123,4 +83,17 @@ class FacturaController extends Controller
     {
 
     }
+
+    public function factura_oc($idoc,$idp)
+    {
+        $facturas = DB::select('SELECT id,Factura,Fecha_ingreso FROM facturas WHERE oc_id = ?',[$idoc]);
+        $proveedor = proveedor::find($idp);
+        return view('Facturas.index_factura', compact('facturas','proveedor','idoc'));
+    }
+
+
+    public function stockStore(Request $request, $id){
+
+    }
+
 }

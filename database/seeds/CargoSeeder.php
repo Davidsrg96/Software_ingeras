@@ -19,8 +19,13 @@ class CargoSeeder extends Seeder
         ]);
 
         cargo::create([
-        	'Tipo_cargo'   => 'Jefe RR.HH',
+        	'Tipo_cargo'   => 'Gerente RR.HH',
         	'Descripcion'      => '',
+        ]);
+        
+        cargo::create([
+            'Tipo_cargo'   => 'Gerente Abastecimiento',
+            'Descripcion'      => '',
         ]);
     }
 }

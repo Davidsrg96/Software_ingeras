@@ -68,8 +68,8 @@ Route::prefix('admin')->group(function(){
 Route::prefix('abastecimiento')->group(function(){
 
 	//Rutas para Factura
-	Route::resource('facturas', 'FacturaController');
-	Route::get('facturas/ver/{oc}/{proveedor}',['as' =>'factura.oc', 'uses' => 'FacturaController@factura_oc']);
+	Route::resource('factura', 'FacturaController');
+	Route::get('factura/ver/{oc}/{proveedor}',['as' =>'factura.oc', 'uses' => 'FacturaController@factura_oc']);
 
 	//Rutas de Productos
 	Route::resource('producto', 'ProductoController');
@@ -131,6 +131,8 @@ Route::prefix('ajax')->namespace('ajax')->name('ajax.')->group(function(){
 				->name('departamento.personal.nombre');
 	Route::get('departamento/personal/rut/{id}','PersonalDeptoAjaxController@rut')
 				->name('departamento.personal.rut');
+
+	Route::get('factura/proveedor/{id}', 'FacturaAjaxController@getProveedor')->name('factura.proveedor');
 });
 Auth::routes();
 

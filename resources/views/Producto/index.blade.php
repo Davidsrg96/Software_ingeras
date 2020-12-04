@@ -47,14 +47,11 @@
                     role="button"><i class="fas fa-arrow-left"></i>
                          Regresar
                  </a>
-                <a type="button" class="btn btn-primary" href="{{ route('bodega.create') }}" role="button">
+                <a type="button" class="btn btn-primary" href="{{ route('producto.create') }}" role="button">
                     Ingresar Producto
                 </a>
                 <a type="button" class="btn btn-primary" href="{{ route('despacho.index') }}" role="button">
                     Ver Guias de Despacho
-                </a>
-                <a type="button" class="btn btn-primary" href="{{ route('facturas.index') }}" role="button">
-                    Facturas
                 </a>
             </div>
             <hr>
@@ -62,9 +59,8 @@
                 <thead>
                 <tr>
                     <th>Codigo</th>
-                    <th>Nombre del Producto</th>
-                    <th>Cantidad</th>
-                    <th>Disponible</th>
+                    <th>Descripción</th>
+                    <th>Tipo</th>
                     <th>Proveedor</th>
                     <th>Acción</th>
                 </tr>
@@ -72,21 +68,20 @@
                 <tbody>
                     @foreach($productos as $dato)
                         <tr>
-                            <td>{{$dato->Codigo}}</td>
-                            <td>{{$dato->Nombre_producto}}</td>
-                            <td>{{$dato->Cantidad}}</td>
-                            <td>{{$dato->Disponible}}</td>
+                            <td>{{ $dato->Codigo}}</td>
+                            <td>{{ $dato->Descripcion}}</td>
+                            <td>{{ ($dato->Tipo_producto)? $dato->Tipo_producto : 'Sin definir' }}</td>
                             <td>{{ ($dato->proveedor)? $dato->proveedor->Nombre_proveedor : 'Sin asignar' }}</td>
                             <td>
                                 <form
                                     method="POST"
-                                    action="{{ route('bodega.destroy', $dato->id) }}"
+                                    action="{{ route('producto.destroy', $dato->id) }}"
                                     style='display:inline-flex'>
                                         @csrf
                                         @method('DELETE')
                                         
                                     <div class="btn-group">
-                                        <a href="{{route('bodega.edit', $dato->id)}}"
+                                        <a href="{{route('producto.edit', $dato->id)}}"
                                             class="btn btn-primary" title="Editar Tipo Usuario">
                                                 <i class="fas fa-pencil-alt"></i>
                                         </a>

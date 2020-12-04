@@ -5,11 +5,8 @@
 @push('acciones')
 <script>
     $(document).ready(function (){
-        @if (old('Codigo'))
-            $("#Codigo").val('{{ old('Codigo') }}');
-        @endif
-        @if (old('Nombre_producto'))
-            $("#Nombre_producto").val('{{ old('Nombre_producto') }}');
+        @if (old('Descripcion'))
+            $("#Descripcion").val('{{ old('Descripcion') }}');
         @endif
         @if (old('Precio_producto'))
             $("#Precio_producto").val('{{ old('Precio_producto') }}');
@@ -21,12 +18,16 @@
             $("#proveedor_id").val('{{ old('proveedor_id') }}');
             $("#proveedor_id").change();
         @endif
+        @if (old('Tipo_producto'))
+            $("#Tipo_producto").val('{{ old('Tipo_producto') }}');
+            $("#Tipo_producto").change();
+        @endif
     });
 
-    $('#Nombre_producto').on('keyup', function(){
-        var tipo = document.getElementById('Nombre_producto').value;
+    $('#Descripcion').on('keyup', function(){
+        var tipo = document.getElementById('Descripcion').value;
         if( tipo.length  > 0){
-            document.getElementById('Nombre_producto').value = tipo.charAt(0).toUpperCase() + tipo.substr(1)
+            document.getElementById('Descripcion').value = tipo.charAt(0).toUpperCase() + tipo.substr(1)
         }
     });
     $('#Ubicacion').on('keyup', function(){
@@ -47,30 +48,18 @@
             <div class="row">
                 <div class="col-md">
                     <form  method="POST"
-                        action="{{ route('bodega.store') }}"
+                        action="{{ route('producto.store') }}"
                         enctype="multipart/form-data">
                         @csrf
                         <ul class="form-style-1">
-                            <div class="form-group{{ $errors->has('Codigo') ? ' has-error' : '' }}">
-                                <label>Codigo<span class="required">*</span></label>
-                                <input placeholder="Ingrese el Codigo del producto" type="text"
-                                    id="Codigo" name="Codigo" class="form-style-1">
-                                @if ($errors->has('Codigo'))
+                            <div class="form-group{{ $errors->has('Descripcion') ? ' has-error' : '' }}">
+                                <label>Descripción<span class="required">*</span></label>
+                                <input placeholder="Ingrese la descripción del producto" type="text"
+                                    id="Descripcion" name="Descripcion" class="form-style-1">
+                                @if ($errors->has('Descripcion'))
                                     <label>
                                         <span class="required">
-                                            <strong>{{ $errors->first('Codigo') }}</strong>
-                                        </span>
-                                    </label>
-                                @endif
-                            </div>
-                            <div class="form-group{{ $errors->has('Nombre_producto') ? ' has-error' : '' }}">
-                                <label>Nombre<span class="required">*</span></label>
-                                <input placeholder="Ingrese el nombre del producto" type="text"
-                                    id="Nombre_producto" name="Nombre_producto" class="form-style-1">
-                                @if ($errors->has('Nombre_producto'))
-                                    <label>
-                                        <span class="required">
-                                            <strong>{{ $errors->first('Nombre_producto') }}</strong>
+                                            <strong>{{ $errors->first('Descripcion') }}</strong>
                                         </span>
                                     </label>
                                 @endif
@@ -131,7 +120,7 @@
                                 @endif
                             </div>
                             <hr>
-                            <a href="{{ route('bodega.index') }}" class="btn btn-primary" >Atrás</a>
+                            <a href="{{ route('producto.index') }}" class="btn btn-primary" >Atrás</a>
                             <a style="background-color: #1c7430" href="#confirmation" class="btn btn-primary"
                                 data-toggle="modal">Agregar
                             </a>

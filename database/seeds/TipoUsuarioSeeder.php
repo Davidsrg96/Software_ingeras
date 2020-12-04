@@ -14,13 +14,8 @@ class TipoUsuarioSeeder extends Seeder
         ]);
 
         tipo_usuario::create([
-            'Tipo_usuario' => 'Funcionario',
+            'Tipo_usuario' => 'Proyecto',
             'Descripcion'  => 'Trabajador',
-        ]);
-
-        tipo_usuario::create([
-            'Tipo_usuario' => 'Gerente',
-            'Descripcion'  => 'Encargado de todo',
         ]);
         
         tipo_usuario::create([

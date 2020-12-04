@@ -7,8 +7,8 @@ use App\bodega;
 use App\proveedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\administracion\bodega\BodegaRequest;
-use App\Http\Requests\administracion\bodega\BodegaDeleteRequest;
+use App\Http\Requests\administracion\producto\ProductoRequest;
+use App\Http\Requests\administracion\producto\ProductoDeleteRequest;
 
 class ProductoController extends Controller
 {
@@ -25,9 +25,18 @@ class ProductoController extends Controller
     }
 
    
-    public function store(BodegaRequest $request)
+    public function store(ProductoRequest $request)
     {
-        producto::create($request->input());
+        $productos = producto::all();
+        $codigo = ($productos->isEmpty())? 1111111111110 : $productos->last()->Codigo;
+        for ($i = 0; $i < $request->Cantidad ; $i ++) {
+            $codigo = $codigo + 1;
+            producto::create(
+                $request->input() + [
+                    'Estado' => 'Disponible',
+                    'Codigo' => $codigo
+                ]);
+        }
         return redirect()
             ->route('producto.index')
             ->with('success', [
@@ -52,7 +61,7 @@ class ProductoController extends Controller
         return view('Producto.edit',compact('producto','proveedores'));
     }
 
-    public function update(BodegaRequest $request, $id)
+    public function update(ProductoRequest $request, $id)
     {
         producto::findOrFail($id)->update($request->input());
         return redirect()
@@ -63,7 +72,7 @@ class ProductoController extends Controller
             ]);
     }
 
-    public function destroy(BodegaDeleteRequest $request, $id)
+    public function destroy(ProductoDeleteRequest $request, $id)
     {
         producto::findOrFail($id)->delete();
         return redirect()

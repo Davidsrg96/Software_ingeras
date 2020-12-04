@@ -9,8 +9,7 @@ class CreateOrdenCompraProductoTable extends Migration
     public function up()
     {
         Schema::create('orden_compra_producto', function (Blueprint $table) {
-            $table->integer('Cantidad_producto');
-
+            $table->Increments('id');
             $table->integer('orden_compra_id')->unsigned()->nullable();
             $table->foreign('orden_compra_id')->references('id')
                 ->on('orden_de_compras')->onDelete('cascade');

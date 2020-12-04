@@ -40,15 +40,16 @@
     <div class="card">
         <div class="card-header">
             <h1 align="center"><font color="black">Proveedores</font></h1>
+        </div>
+        <div class="card-body">
             <div class="column" align="left" style="padding-left: 1.5%">
                 <a type="button" class="btn btn-primary" href="{{route('home.index')}}" role="button"><i class="fas fa-arrow-left"></i> Regresar</a>
-                <a href="{{route('proveedores.create')}}" type="button" class="btn btn-primary pull-right" >
+                <a href="{{route('proveedores.create')}}" type="button" class="btn btn-success pull-right" >
                     Agregar Usuario
                 </a>
             </div>
-        </div>
-        <div class="card-body">
-           <table class="table table-hover table-striped" id="tabla_proveedor">
+            <hr>
+            <table class="table table-hover table-striped" id="tabla_proveedor">
                 <thead>
                 <tr>
                     <th>Nombre</th>

@@ -12,23 +12,23 @@ class producto extends Model
 
     protected $fillable = [
         'Codigo',
-        'Nombre_producto',
+        'Descripcion',
         'Precio_producto',
-        'Cantidad',
+        'Estado',
         'Calidad',
-        'Disponible',
         'Tipo_producto',
         'proveedor_id',
+        'bodega_id',
+        'factura_id',
     ];
 
-    public function bodegas()
+    public function bodega()
     {
-        return $this->belongsToMany(
+        return $this->belongsTo(
             bodega::class,
-            'bodega_producto',
-            'producto_id',
-            'bodega_id'
-        )->withPivot('Cantidad_almacenada');
+            'bodega_id',
+            'id'
+        );
     }
 
     public function proveedor()
@@ -39,13 +39,12 @@ class producto extends Model
             'id'
         );
     }
-    public function facturas()
+    public function factura()
     {
-        return $this->belongsToMany(
-            departamento::class,
-            'factura_producto',
-            'producto_id',
-            'factura_id'
+        return $this->belongsTo(
+            factura::class,
+            'factura_id',
+            'id'
         );
     }
     public function ordenesCompra()
@@ -55,6 +54,16 @@ class producto extends Model
             'orden_compra_producto',
             'producto_id',
             'orden_compra_id'
+        );
+    }
+
+    public function seguimientos()
+    {
+        return $this->belongsToMany(
+            seguimiento::class,
+            'seguimiento_producto',
+            'producto_id',
+            'seguimiento_id'
         );
     }
 }

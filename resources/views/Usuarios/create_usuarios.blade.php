@@ -24,7 +24,7 @@
                 $("#Confiabilidad").val('{{ old('Confiabilidad') }}');
                 $("#Confiabilidad").change();
             @endif
-             @if (old('ciudad_id'))
+            @if (old('ciudad_id'))
                 $("#ciudad_id").val('{{ old('ciudad_id') }}');
                 $("#ciudad_id").change();
             @endif

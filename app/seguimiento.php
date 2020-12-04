@@ -4,46 +4,44 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class factura extends Model
+class seguimiento extends Model
 {
-    protected $table ='facturas';
+    protected $table ='seguimiento';
     protected $primarykey = 'id';
     public $timestamps = false;
 
     protected $fillable = [
-        'Numero',
-        'Fecha_ingreso',
         'Estado',
         'Observacion',
-        'Documento',
-        'orden_compra_id',
-        'proveedor_id',
+        'origen_id',
+        'destino_id',
     ];
 
-    public function proveedor()
+    public function origen()
     {
         return $this->belongsTo(
-            proveedor::class,
-            'proveedor_id',
+            bodega::class,
+            'origen_id',
             'id'
         );
     }
 
-    public function ordenCompra()
+    public function destino()
     {
         return $this->belongsTo(
-            orden_de_compra::class,
-            'orden_compra_id',
+            bodega::class,
+            'destino_id',
             'id'
         );
     }
 
     public function productos()
     {
-        return $this->hasMany(
+        return $this->belongsToMany(
             producto::class,
-            'factura_id',
-            'id'
+            'seguimiento_producto',
+            'seguimiento_id',
+            'producto_id'
         );
     }
 }

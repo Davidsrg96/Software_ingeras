@@ -64,6 +64,16 @@
                         </a></li>
                      </ul>
                   </li>
+                  <li><a class="dropdown-item" href="#">Producto &raquo </a>
+                     <ul class="submenu dropdown-menu">
+                        <li><a class="dropdown-item" href="#">
+                          Ordenes de Compra
+                        </a></li>
+                        <li><a class="dropdown-item" href="{{ route('factura.index')}}">
+                          Facturas
+                        </a></li>
+                     </ul>
+                  </li>
                 </ul>
             </li>
             <li class="nav-item"><a class="nav-link" href="{{ route('proyectos.index') }}">

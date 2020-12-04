@@ -36,11 +36,27 @@ class bodega extends Model
 
     public function productos()
     {
-        return $this->belongsToMany(
+        return $this->hasMany(
             producto::class,
-            'bodega_producto',
             'bodega_id',
-            'producto_id'
-        )->withPivot('Cantidad_almacenada');
+            'id'
+        );
+    }
+
+    public function rolOrigen()
+    {
+        $this->hasMany(
+            seguimiento::class,
+            'origen_id',
+            'id'
+        );
+    }
+    public function rolDestino()
+    {
+        $this->hasMany(
+            seguimiento::class,
+            'destino_id',
+            'id'
+        );
     }
 }

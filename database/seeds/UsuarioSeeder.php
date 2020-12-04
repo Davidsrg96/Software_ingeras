@@ -38,17 +38,5 @@ class UsuarioSeeder extends Seeder
             'ciudad_id'       => $ciudad->random()->id,
             'tipo_usuario_id' => $tiposUsuarios->random()->id,
         ]);
-        
-        $user = usuario::create([
-            'nombre'          => 'UsuarioFaker',
-            'apellido'        => 'Faker',
-            'rut'             => '111111-2',
-            'email'           => 'faker@gmail.com',
-            'password'        => 'faker123',
-            'ciudad_id'       => $ciudad->random()->id,
-            'tipo_usuario_id' => $tiposUsuarios->random()->id,
-        ]);
-
-        factory(usuario::class, 40)->create();
     }
 }
