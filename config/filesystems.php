@@ -67,7 +67,7 @@ return [
         'factura' => [
             'driver'     => 'local',
             'root'       => storage_path('app/public/documentos/facturas'),
-            'url'        => '/storage/documentos/facturas',
+            'url'        => env('APP_URL') . '/storage/documentos/facturas',
             'visibility' => 'public',
         ],
 

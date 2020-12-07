@@ -13,7 +13,7 @@ class CreateFacturasTable extends Migration
             $table->Increments('id');
             $table->bigInteger('Numero');
             $table->date('Fecha_ingreso');
-            $table->enum('Estado',['Gestionando','Completa','Incompleta']);
+            $table->string('Estado');
             $table->string('Observacion')->nullable();
             $table->string('Documento')->nullable();
 
