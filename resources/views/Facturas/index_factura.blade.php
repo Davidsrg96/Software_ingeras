@@ -48,7 +48,7 @@
 @section('cuerpo')
     <div class="card">
         <div class="card-header">
-            <h1 align="center"><font color="black">Facturas</font></h1>
+            <h1 align="center"><font color="black">Facturass</font></h1>
             <div class="column" align="left" style="padding-left: 1.5%">
             </div>
         </div>
