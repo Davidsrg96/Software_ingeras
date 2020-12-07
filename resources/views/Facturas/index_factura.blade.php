@@ -75,7 +75,7 @@
                             <tr>
                                 <td>{{ $factura->Numero }}</td>
                                 <td>{{ $factura->proveedor->Nombre_proveedor }}</td>
-                                <td>{{ date('d/m/Y', strtotime($factura->Fecha_ingreso)) }}</td>
+                                <td>{{ date('d-m-Y', strtotime($factura->Fecha_ingreso)) }}</td>
                                 <td>{{ $factura->Estado }}</td>
                                 <td>
                                     <button role="button"  class="btn btn-info btn-round" title="Mostrar Productos"
