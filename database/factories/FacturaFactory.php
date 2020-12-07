@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 use Illuminate\Support\Arr;
 
 $factory->define(factura::class, function (Faker $faker) {
-	$estado = Arr::random(['Gestionando','Incompleta','Completada']);
+	$estado = Arr::random(['Gestionando','Incompleta','Completa']);
     return [
         'Numero'        => $faker->unique()->numberBetween(1, 999999999),
 		'Fecha_ingreso' => $faker->dateTimeBetween('-5 years','-2 years'),
