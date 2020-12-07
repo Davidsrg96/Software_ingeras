@@ -37,7 +37,7 @@ class FacturaController extends Controller
         $factura = factura::create(
             $request->input() + [
                 'Fecha_ingreso' => new DateTime('now'),
-                'Estado'        => 'Disponible'
+                'Estado'        => 'Gestionando'
             ]);
         foreach ($request->descP as $key => $desc) {
             for ($i = 0 ; $i < $request->cantP[$key] ; $i++) { 
@@ -51,7 +51,7 @@ class FacturaController extends Controller
                 ]);
 
                 $documento = Storage::disk('factura')->putFile('/', $request->file('Documento'));
-                $producto->update(['Documento' => $documento]);
+                $factura->update(['Documento' => $documento]);
             }
         }
 
