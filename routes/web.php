@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,12 +13,22 @@
 |
 */
 
-Route::get('/', 'Auth\LoginController@formLogin')->name('fLogin');
-Route::post('login', 'Auth\LoginController@login')->name('login');
-Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('/', function () {
+    return view('welcome');
+});
 
-Route::get('home', 'HomeController@index')->name('home.index');
+Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();
 
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => 'auth'], function () {
+	Route::resource('user', 'UserController', ['except' => ['show']]);
+	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
+	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
+	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
+	Route::get('{page}', ['as' => 'page.index', 'uses' => 'PageController@index']);
+});
 
 //RUTAS PARA ADMINISTRACION
 
@@ -135,4 +147,3 @@ Route::prefix('ajax')->namespace('ajax')->name('ajax.')->group(function(){
 	Route::get('factura/proveedor/{id}', 'FacturaAjaxController@getProveedor')->name('factura.proveedor');
 });
 Auth::routes();
-

@@ -1,5 +1,8 @@
-@extends('layoutGeneral')
-@section('titulo', 'Editar Actividades Departamento')
+@extends('layouts.app', [
+    'namePage' => 'Editar Actividad Departamento',
+    'class' => 'sidebar-mini',
+    'activePage' => 'Departamentos',
+])
 @push('estilos')
     <!-- Autocomplete -->
     <link href="{{ asset('componentes/autocomplete/css/custom.css') }}" rel="stylesheet">
@@ -160,113 +163,120 @@
     </script>
 @endpush
 @section('cuerpo')
-    <div class="card">
-        <div class="card-header">
-            <h1 align="center"><font color="black">
-                Actividades del Departamento {{ $depto->Nombre_departamento }}
-            </font></h1>
-        </div>
-        <form
-            name="update"
-            method="POST"
-            action="{{ route('departamento.actividades.update', $depto->id) }}" 
-            class="form-horizontal form-label-left"
-            autocomplete="off"
-            enctype="multipart/form-data"
-            onsubmit="return listaActividades();">
-                @csrf
-                <div class="row" style="padding: 20px">
-                    <div class="col-md-5">
-                        <div class="card-body">
-                            <div class="form-group{{ $errors->has('Nombre_actividad') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">
-                                    Actividad<span class="required">*</span></label>
-                                </label>
-                                <div class="col-md-8">
-                                    <input placeholder="Ingrese nombre de actividad" id="Nombre_actividad" type="text" name="Nombre_actividad" class="form-control">
+    <div class="panel-header panel-header-sm"></div>
+    <div class="content">
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="title text-center">
+                        Actividades del Departamento {{ $depto->Nombre_departamento }}
+                    </h2>
+                </div>
+                <hr>
+                <form
+                    name="update"
+                    method="POST"
+                    action="{{ route('departamento.actividades.update', $depto->id) }}" 
+                    class="form-horizontal form-label-left"
+                    autocomplete="off"
+                    enctype="multipart/form-data"
+                    onsubmit="return listaActividades();">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="card-body">
+                                    <div class="form-group{{ $errors->has('Nombre_actividad') ? ' has-error' : '' }}">
+                                        <label class="col-md-4 control-label">
+                                            Actividad<span class="required">*</span></label>
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input placeholder="Ingrese nombre de actividad" id="Nombre_actividad" type="text" name="Nombre_actividad" class="form-control">
+                                        </div>
+                                        @if ($errors->has('Nombre_actividad'))
+                                            <span class="col-md-8 col-md-offset-4 help-block">
+                                                <strong>{{ $errors->first('Nombre_actividad') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <div class="form-group{{ $errors->has('Descripcion') ? ' has-error' : '' }}">
+                                        <label class="col-md-4 control-label">
+                                            Descripción<span class="required">*</span></label>
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input id="Descripcion" type="text" name="Descripcion" class="form-control" placeholder="Ingrese Descripcion">
+                                        </div>
+                                        @if ($errors->has('Descripcion'))
+                                            <span class="col-md-8 col-md-offset-4 help-block">
+                                                <strong>{{ $errors->first('Descripcion') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <div class="form-group{{ $errors->has('valorKPI') ? ' has-error' : '' }}">
+                                        <label class="col-md-4 control-label">
+                                            KPI<span class="required">*</span></label>
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input id="valorKPI" type="number" name="valorKPI" class="form-control"
+                                                placeholder="Ingrese valorKPI">
+                                        </div>
+                                        @if ($errors->has('valorKPI'))
+                                            <span class="col-md-8 col-md-offset-4 help-block">
+                                                <strong>{{ $errors->first('valorKPI') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <input hidden type="text" id="actividadID" value="0">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <a style="color: white" class="btn btn-warning btn-round"
+                                                onClick="agregarActividad();">
+                                                    Agregar
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="card-body text-center">
+                                        <a href="{{ route('departamentos.edit', $depto->id) }}" class="btn btn-primary" >Atrás</a>
+                                        <a href="#confirmation" class="btn btn-success"
+                                            data-toggle="modal">Editar
+                                        </a>
+                                    </div>
                                 </div>
-                                @if ($errors->has('Nombre_actividad'))
-                                    <span class="col-md-8 col-md-offset-4 help-block">
-                                        <strong>{{ $errors->first('Nombre_actividad') }}</strong>
-                                    </span>
-                                @endif
                             </div>
-                            <div class="form-group{{ $errors->has('Descripcion') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">
-                                    Descripción<span class="required">*</span></label>
-                                </label>
-                                <div class="col-md-8">
-                                    <input id="Descripcion" type="text" name="Descripcion" class="form-control" placeholder="Ingrese Descripcion">
-                                </div>
-                                @if ($errors->has('Descripcion'))
-                                    <span class="col-md-8 col-md-offset-4 help-block">
-                                        <strong>{{ $errors->first('Descripcion') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                            <div class="form-group{{ $errors->has('valorKPI') ? ' has-error' : '' }}">
-                                <label class="col-md-4 control-label">
-                                    KPI<span class="required">*</span></label>
-                                </label>
-                                <div class="col-md-8">
-                                    <input id="valorKPI" type="number" name="valorKPI" class="form-control"
-                                        placeholder="Ingrese valorKPI">
-                                </div>
-                                @if ($errors->has('valorKPI'))
-                                    <span class="col-md-8 col-md-offset-4 help-block">
-                                        <strong>{{ $errors->first('valorKPI') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                            <input hidden type="text" id="actividadID" value="0">
-                            <div class="form-group">
-                                <div class="col-md-4">
-                                    <a style="color: white" class="btn btn-warning" onClick="agregarActividad();">
-                                        Agregar
-                                    </a>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="card-body">
-                                <a href="{{ route('departamentos.edit', $depto->id) }}" class="btn btn-primary" >Atrás</a>
-                                <a href="#confirmation" class="btn btn-success"
-                                    data-toggle="modal">Editar
-                                </a>
+                            <div class="col-md-7">
+                                <div class="card-body">
+                                   <table class="table table-hover table-striped" id="actividadesTable">
+                                        <thead>
+                                        <tr>
+                                            <th>Actividad</th>
+                                            <th>Descripción</th>
+                                            <th>KPI</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($depto->actividades as $actividad)
+                                            <tr>
+                                                <td hidden>{{ $actividad->id }}</td>'
+                                                <td id="nombreAct">{{$actividad->Nombre_actividad}}</td>
+                                                <td id="descripcion">{{$actividad->Descripcion}}</td>
+                                                <td id="kpi">{{$actividad->KPI }}</td>
+                                                <td>
+                                                    <a class="borrar btn btn-danger" title="Eliminar Actividad">
+                                                        <i class="fas fa-trash-alt" style="color: white"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div> 
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-7">
-                        <div class="card-body">
-                           <table class="table table-hover table-striped" id="actividadesTable">
-                                <thead>
-                                <tr>
-                                    <th>Actividad</th>
-                                    <th>Descripción</th>
-                                    <th>KPI</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($depto->actividades as $actividad)
-                                    <tr>
-                                        <td hidden>{{ $actividad->id }}</td>'
-                                        <td id="nombreAct">{{$actividad->Nombre_actividad}}</td>
-                                        <td id="descripcion">{{$actividad->Descripcion}}</td>
-                                        <td id="kpi">{{$actividad->KPI }}</td>
-                                        <td>
-                                            <a class="borrar btn btn-danger" title="Eliminar Actividad">
-                                                <i class="fas fa-trash-alt" style="color: white"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div> 
-                    </div>
-                </div>
-                @include('pop-up')
-                @include('layouts.pop-up.error')
-        </form>
+                        @include('pop-up')
+                        @include('layouts.pop-up.error')
+                </form>
+            </div>
+        </div>
     </div>
 @endsection

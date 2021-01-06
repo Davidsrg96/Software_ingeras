@@ -1,27 +1,21 @@
-@extends('layoutGeneral')
-@section('titulo', 'Inicio')
+@extends('layouts.app', [
+    'namePage' => 'Dashboard',
+    'class' => 'login-page sidebar-mini ',
+    'activePage' => 'home',
+    'backgroundImage' => asset('now') . "/img/bg14.jpg",
+])
 @push('estilos')
+<style>
+  .main-panel>.content {
+    margin-top: 0px;
+}</style>
 @endpush
-@push('acciones')
-@endpush
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
-        </div>
+@section('cuerpo')
+  <div class="panel-header panel-header-sm">
+  </div>
+  <div class="content">
+    <div class="col-md-6 offset-3">
+      <img src="{{ asset('assets') }}/img/logo-footer.png">
     </div>
-</div>
+  </div>
 @endsection
