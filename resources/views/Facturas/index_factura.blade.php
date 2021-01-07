@@ -54,7 +54,7 @@
         <div class="row">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="title text-center">Facturass</h2>
+                    <h2 class="title text-center">Facturas</h2>
                 </div>
                 <hr>
                 <div class="card-body">

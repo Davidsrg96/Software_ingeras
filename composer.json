@@ -15,7 +15,8 @@
         "laravel-frontend-presets/now-ui-dashboard": "^1.0",
         "laravel/framework": "^7.29",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^2.5"
+        "laravel/ui": "^2.5",
+        "milon/barcode": "^7.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
