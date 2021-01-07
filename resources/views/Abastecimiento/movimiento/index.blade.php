@@ -1,5 +1,8 @@
-@extends('layoutGeneral')
-@section('titulo', 'Lista Bodegas')
+@extends('layouts.app', [
+    'namePage' => 'Lista Bodegas',
+    'class' => 'sidebar-mini',
+    'activePage' => 'Despacho',
+])
 @push('estilos')
 <style>
     .modal-body {
@@ -17,7 +20,7 @@
                     "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
                     "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
                     "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "lengthMenu": "",
                     "loadingRecords": "Cargando...",
                     "processing": "Procesando...",
                     "search": "Buscar:",
@@ -46,48 +49,53 @@
     </script>
 @endpush
 @section('cuerpo')
-    <div class="card">
-        <div class="card-header">
-            @include('error_formulario')
-            <h1 align="center"><font color="black">Bodegas</font></h1>
-        </div>
-        <div class="card-body col-md-10 offset-1">
-            <div align="left" style="padding-left: 1.5%">
-                <a type="button" class="btn btn-primary" href="{{ route('home.index') }}" role="button"><i class="fas fa-arrow-left"></i> Regresar</a>
+    <div class="panel-header panel-header-sm"></div>
+    <div class="content col-md-10 offset-1">
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    @include('error_formulario')
+                    <h2 class="title text-center">Bodegas</h2>
+                </div>
+                <hr>
+                <div class="card-body col-md-10 offset-1">
+                    <a type="button" class="btn btn-primary" href="{{ route('home') }}" role="button">
+                        <i class="fas fa-arrow-left"></i> Regresar
+                    </a>
+                    <table class="table table-hover table-striped" id="tabla_bodega">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Ubicación</th>
+                                <th>Productos</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($bodegas as $bodega)
+                                <tr>
+                                    <td>{{$bodega->Nombre}}</td>
+                                    <td>{{$bodega->Ubicacion}}</td>
+                                    <td>
+                                        <button type="button" role="button"  class="btn btn-warning" title="Mostrar Productos"
+                                            data-toggle="modal" data-target="#productos{{ $bodega->id }}">
+                                                Mostrar <i class="fas fa-eye" style="color: white"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" role="button" class="btn btn-primary"
+                                            data-toggle="modal" data-target="#bodega{{$bodega->id}}">
+                                                Enviar productos
+                                        </button>
+                                    </td>
+                                    @include('Abastecimiento.partials.bodegaDestino')
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @include('Abastecimiento.movimiento.partials.modalProductos')
+                </div>
             </div>
-            <hr>
-            <table class="table table-hover table-striped" id="tabla_bodega">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Ubicación</th>
-                        <th>Productos</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($bodegas as $bodega)
-                        <tr>
-                            <td>{{$bodega->Nombre}}</td>
-                            <td>{{$bodega->Ubicacion}}</td>
-                            <td>
-                                <button type="button" role="button"  class="btn btn-warning" title="Mostrar Productos"
-                                    data-toggle="modal" data-target="#productos{{ $bodega->id }}">
-                                        Mostrar <i class="fas fa-eye" style="color: white"></i>
-                                </button>
-                            </td>
-                            <td>
-                                <button type="button" role="button" class="btn btn-primary"
-                                    data-toggle="modal" data-target="#bodega{{$bodega->id}}">
-                                        Enviar productos
-                                </button>
-                            </td>
-                            @include('Abastecimiento.partials.bodegaDestino')
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @include('Abastecimiento.movimiento.partials.modalProductos')
         </div>
     </div>
 @endsection

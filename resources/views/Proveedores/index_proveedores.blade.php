@@ -1,5 +1,8 @@
-@extends('layoutGeneral')
-@section('titulo', 'Lista proveedores')
+@extends('layouts.app', [
+    'namePage' => 'Lista proveedores',
+    'class' => 'sidebar-mini',
+    'activePage' => 'Proveedores',
+])
 @push('estilos')
 @endpush
 @push('acciones')
@@ -11,7 +14,7 @@
                     "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
                     "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
                     "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "lengthMenu": "",
                     "loadingRecords": "Cargando...",
                     "processing": "Procesando...",
                     "search": "Buscar:",
@@ -37,67 +40,70 @@
     </script>
 @endpush
 @section('cuerpo')
-    <div class="card">
-        <div class="card-header">
-            <h1 align="center"><font color="black">Proveedores</font></h1>
-        </div>
-        <div class="card-body">
-            <div class="column" align="left" style="padding-left: 1.5%">
-                <a type="button" class="btn btn-primary" href="{{route('home.index')}}" role="button"><i class="fas fa-arrow-left"></i> Regresar</a>
-                <a href="{{route('proveedores.create')}}" type="button" class="btn btn-success pull-right" >
-                    Agregar Usuario
-                </a>
+    <div class="panel-header panel-header-sm"></div>
+    <div class="content">
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="title text-center">Proveedores</h2>
+                </div>
+                <hr>
+                <div class="card-body">
+                    <a type="button" class="btn btn-primary" href="{{route('home')}}" role="button">
+                        <i class="fas fa-arrow-left"></i> Regresar
+                    </a>
+                    <a href="{{route('proveedores.create')}}" type="button" class="btn btn-success" >
+                        Agregar Proveedor
+                    </a>
+                    <table class="table table-hover table-striped" id="tabla_proveedor">
+                        <thead>
+                        <tr>
+                            <th style="width: 30%">Nombre</th>
+                            <th>Rut</th>
+                            <th>Teléfono</th>
+                            <th>Correo</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($proveedores as $dato)
+                            <tr>
+                                <td>{{$dato->Nombre_proveedor}}</td>
+                                <td>{{$dato->Rut_proveedor}}</td>
+                                <td>{{$dato->Telefono}}</td>
+                                <td>{{$dato->Correo}}</td>
+                                <td>
+                                    <form
+                                        method="POST"
+                                        action="{{ route('proveedores.destroy', $dato->id) }}"
+                                        style='display:inline-flex'>
+                                            @csrf
+                                            @method('DELETE')
+                                            
+                                        <div class="btn-group">
+                                            <a href="{{route('proveedores.edit', $dato->id)}}"
+                                                class="btn btn-primary btn-round" title="Editar Usuario">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                            <a href="#"
+                                                class="btn btn-warning" title="Mostrar Usuario">
+                                                    <i class="fas fa-eye" style="color: white"></i>
+                                            </a>
+                                            <a href="" data-target="#del{{$dato->id}}" class="btn btn-danger btn-round" 
+                                                data-toggle="modal" title="Eliminar Usuario">
+                                                    <i class="fas fa-trash-alt" style="color: white"></i>
+                                            </a>
+                                        </div>
+                                        <!--pop up confirmacion -->
+                                        @include('layouts.pop-up.confirmacionDelete')
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <hr>
-            <table class="table table-hover table-striped" id="tabla_proveedor">
-                <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Rut</th>
-                    <th>Vendedor</th>
-                    <th>Teléfono</th>
-                    <th>Correo</th>
-                    <th>Acciones</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($proveedores as $dato)
-                    <tr>
-                        <td>{{$dato->Nombre_proveedor}}</td>
-                        <td>{{$dato->Rut_proveedor}}</td>
-                        <td>{{$dato->Nombre_vendedor}}</td>
-                        <td>{{$dato->Telefono}}</td>
-                        <td>{{$dato->Correo}}</td>
-                        <td>
-                            <form
-                                method="POST"
-                                action="{{ route('proveedores.destroy', $dato->id) }}"
-                                style='display:inline-flex'>
-                                    @csrf
-                                    @method('DELETE')
-                                    
-                                <div class="btn-group">
-                                    <a href="{{route('proveedores.edit', $dato->id)}}"
-                                        class="btn btn-primary" title="Editar Usuario">
-                                            <i class="fas fa-pencil-alt"></i>
-                                    </a>
-                                    <a href="{{route('proveedores.show', $dato->id)}}"
-                                        class="btn btn-warning" title="Mostrar Usuario">
-                                            <i class="fas fa-eye" style="color: white"></i>
-                                    </a>
-                                    <a href="" data-target="#del{{$dato->id}}" class="btn btn-danger" 
-                                        data-toggle="modal" title="Eliminar Usuario">
-                                            <i class="fas fa-trash-alt" style="color: white"></i>
-                                    </a>
-                                </div>
-                                <!--pop up confirmacion -->
-                                @include('layouts.pop-up.confirmacionDelete')
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
         </div>
     </div>
 @endsection

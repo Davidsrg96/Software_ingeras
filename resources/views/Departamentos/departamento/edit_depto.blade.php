@@ -75,7 +75,6 @@
                                         Editar Actividades
                                 </a>
                             </div>
-                        @include('pop-up')
                         </div>
                         <hr>
                         <div class="card-footer col-md-4 offset-4">
@@ -93,7 +92,7 @@
                                     </a>
                                 </div>
                             </div>
-                        @include('pop-up')
+                            @include('pop-up')
                         </div>
                 </form>
             </div>

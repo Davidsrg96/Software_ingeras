@@ -48,7 +48,7 @@
                 <hr>
                 <div class="card-body">
                     <a type="button" class="btn btn-primary" href="{{route('home')}}" role="button"><i class="fas fa-arrow-left"></i> Regresar</a>
-                    <a href="{{route('usuarios.create')}}" type="button" class="btn btn-primary" > Agregar Usuario</a>
+                    <a href="{{route('usuarios.create')}}" type="button" class="btn btn-success" > Agregar Usuario</a>
                     <table class="table table-hover table-striped" id="tabla_usuario">
                         <thead>
                         <tr>

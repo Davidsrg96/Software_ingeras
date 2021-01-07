@@ -1,5 +1,8 @@
-@extends('layoutGeneral')
-@section('titulo', 'Editar Producto')
+@extends('layouts.app', [
+    'namePage' => 'Crear producto',
+    'class' => 'sidebar-mini',
+    'activePage' => 'Productos',
+])
 @push('estilos')
 @endpush
 @push('acciones')
@@ -36,28 +39,29 @@
 </script>
 @endpush
 @section('cuerpo')
-    <div class="card" style="background-color: #FFFFFF;width: 100%">
-        <div class="card-header">
-            @include('error_formulario')
-            <h1 align="center">Editar Producto</h1>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md">
-                    <form  method="POST"
-                        action="{{ route('producto.update', $producto->id) }}"
-                        enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <ul class="form-style-1">
+    <div class="panel-header panel-header-sm"></div>
+    <div class="content col-md-10 offset-1">
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    @include('error_formulario')
+                    <h2 class="title text-center">Editar Producto</h2>
+                </div>
+                <hr>
+                <form  method="POST"
+                    action="{{ route('producto.update', $producto->id) }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                        <div class="card-body col-md-6 offset-3">
                             <div class="form-group{{ $errors->has('Codigo') ? ' has-error' : '' }}">
                                 <label>Codigo<span class="required">*</span></label>
                                 <input placeholder="Ingrese el codigo del producto" type="text"
-                                    id="Codigo" name="Codigo" class="form-style-1"
+                                    id="Codigo" name="Codigo" class="form-control"
                                     value="{{ $producto->Codigo }}">
                                 @if ($errors->has('Codigo'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Descripcion') }}</strong>
                                         </span>
                                     </label>
@@ -66,11 +70,11 @@
                             <div class="form-group{{ $errors->has('Descripcion') ? ' has-error' : '' }}">
                                 <label>Descripción<span class="required">*</span></label>
                                 <input placeholder="Ingrese la descripción del producto" type="text"
-                                    id="Descripcion" name="Descripcion" class="form-style-1"
+                                    id="Descripcion" name="Descripcion" class="form-control"
                                     value="{{ $producto->Descripcion }}">
                                 @if ($errors->has('Descripcion'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Descripcion') }}</strong>
                                         </span>
                                     </label>
@@ -79,11 +83,11 @@
                             <div class="form-group{{ $errors->has('Precio_producto') ? ' has-error' : '' }}">
                                 <label>Precio<span class="required">*</span></label>
                                 <input placeholder="Ingrese el precio del producto" type="number"
-                                    id="Precio_producto" name="Precio_producto" class="form-style-1"
+                                    id="Precio_producto" name="Precio_producto" class="form-control"
                                     value="{{ $producto->Precio_producto }}">
                                 @if ($errors->has('Precio_producto'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Precio_producto') }}</strong>
                                         </span>
                                     </label>
@@ -91,14 +95,14 @@
                             </div>
                             <div class="form-group{{ $errors->has('Tipo_producto') ? ' has-error' : '' }}">
                                 <label>Tipo de producto<span class="required">*</span></label>
-                                <select id="Tipo_producto" name="Tipo_producto">
+                                <select class="form-control" id="Tipo_producto" name="Tipo_producto">
                                     <option value{{ (!$producto->Tipo_producto) ? 'selected' : '' }}>-- Seleccione el tipo de producto --</option>
                                     <option value="Material" {{ ( $producto->Tipo_producto == 'Material') ? 'selected' : '' }}>Material</option>
                                     <option value="Herramienta" {{ ( $producto->Tipo_producto == 'Herramienta') ? 'selected' : ''}}>Herramienta</option>
                                 </select>
                                 @if ($errors->has('Tipo_producto'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Tipo_producto') }}</strong>
                                         </span>
                                     </label>
@@ -106,7 +110,7 @@
                             </div>
                             <div class="form-group{{ $errors->has('proveedor_id') ? ' has-error' : '' }}">
                                 <label>Proveedor</label><br>
-                                <select id="proveedor_id" name="proveedor_id">
+                                <select class="form-control" id="proveedor_id" name="proveedor_id">
                                     <option value>-- Seleccione un proveedor --</option>
                                     @foreach($proveedores as $proveedor)
                                         @if($producto->proveedor)
@@ -120,21 +124,32 @@
                                 </select>
                                 @if ($errors->has('proveedor_id'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('proveedor_id') }}</strong>
                                         </span>
                                     </label>
                                 @endif
                             </div>
-                            <hr>
-                            <a href="{{ route('producto.index') }}" class="btn btn-primary" >Atrás</a>
-                            <a style="background-color: #1c7430" href="#confirmation" class="btn btn-primary"
-                                data-toggle="modal">Agregar
-                            </a>
-                        </ul>
-                        @include('pop-up')
-                    </form>
-                </div>
+                        </div>
+                        <hr>
+                        <div class="card-footer col-md-4 offset-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="{{ route('producto.index') }}"
+                                        class="btn btn-danger btn-block">
+                                            Atrás
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="#confirmation" class="btn btn-success btn-block"
+                                        data-toggle="modal">
+                                            Editar
+                                    </a>
+                                </div>
+                            </div>
+                            @include('pop-up')
+                        </div>
+                </form>
             </div>
         </div>
     </div>

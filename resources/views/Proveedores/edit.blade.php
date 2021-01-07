@@ -1,5 +1,8 @@
-@extends('layoutGeneral')
-@section('titulo', 'Editar Proveedor')
+@extends('layouts.app', [
+    'namePage' => 'Editar Proveedor',
+    'class' => 'sidebar-mini',
+    'activePage' => 'Proveedores',
+])
 @push('estilos')
 @endpush
 @push('acciones')
@@ -80,28 +83,29 @@
 </script>
 @endpush
 @section('cuerpo')
-    <div class="card" style="background-color: #FFFFFF;width: 100%">
-        <div class="card-header">
-            @include('error_formulario')
-            <h1 align="center">Editar Proveedor</h1>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md">
-                    <form  method="POST"
-                        action="{{ route('proveedores.update', $proveedor->id) }}"
-                        enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <ul class="form-style-1">
+    <div class="panel-header panel-header-sm"></div>
+    <div class="content col-md-10 offset-1">
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    @include('error_formulario')
+                    <h2 class="title text-center">Editar Proveedor</h2>
+                </div>
+                <hr>
+                <form  method="POST"
+                    action="{{ route('proveedores.update', $proveedor->id) }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                        <div class="card-body col-md-6 offset-3">
                             <div class="form-group{{ $errors->has('Nombre_proveedor') ? ' has-error' : '' }}">
                                 <label>Nombre del proveedor<span class="required">*</span></label>
                                 <input placeholder="Ingrese el tipo de usuario" type="text"
-                                    id="Nombre_proveedor" name="Nombre_proveedor" class="form-style-1"
+                                    id="Nombre_proveedor" name="Nombre_proveedor" class="form-control"
                                     value="{{ $proveedor->Nombre_proveedor }}">
                                 @if ($errors->has('Nombre_proveedor'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Nombre_proveedor') }}</strong>
                                         </span>
                                     </label>
@@ -110,11 +114,11 @@
                             <div class="form-group{{ $errors->has('Rut_proveedor') ? ' has-error' : '' }}">
                                 <label>Rut del proveedor<span class="required">*</span></label>
                                 <input placeholder="Ingrese el rut del proveedor" type="text"
-                                    id="Rut_proveedor" name="Rut_proveedor" class="form-style-1"
+                                    id="Rut_proveedor" name="Rut_proveedor" class="form-control"
                                     value="{{ $proveedor->Rut_proveedor }}">
                                 @if ($errors->has('Rut_proveedor'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Rut_proveedor') }}</strong>
                                         </span>
                                     </label>
@@ -123,11 +127,11 @@
                             <div class="form-group{{ $errors->has('Nombre_vendedor') ? ' has-error' : '' }}">
                                 <label>Nombre del vendedor<span class="required">*</span></label>
                                 <input placeholder="Ingrese el Nombre del vendedor" type="text"
-                                    id="Nombre_vendedor" name="Nombre_vendedor" class="form-style-1"
+                                    id="Nombre_vendedor" name="Nombre_vendedor" class="form-control"
                                     value="{{ $proveedor->Nombre_vendedor }}">
                                 @if ($errors->has('Nombre_vendedor'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Nombre_vendedor') }}</strong>
                                         </span>
                                     </label>
@@ -136,11 +140,11 @@
                             <div class="form-group{{ $errors->has('Rubro') ? ' has-error' : '' }}">
                                 <label>Rubro de la empresa<span class="required">*</span></label>
                                 <input placeholder="Ingrese el rubro" type="text"
-                                    id="Rubro" name="Rubro" class="form-style-1"
+                                    id="Rubro" name="Rubro" class="form-control"
                                     value="{{ $proveedor->Rubro }}">
                                 @if ($errors->has('Rubro'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Rubro') }}</strong>
                                         </span>
                                     </label>
@@ -149,11 +153,11 @@
                             <div class="form-group{{ $errors->has('Direccion') ? ' has-error' : '' }}">
                                 <label>Dirección del establecimiento<span class="required">*</span></label>
                                 <input placeholder="Ingrese la dirección" type="text"
-                                    id="Direccion" name="Direccion" class="form-style-1"
+                                    id="Direccion" name="Direccion" class="form-control"
                                     value="{{ $proveedor->Direccion }}">
                                 @if ($errors->has('Direccion'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Direccion') }}</strong>
                                         </span>
                                     </label>
@@ -162,11 +166,11 @@
                             <div class="form-group{{ $errors->has('Telefono') ? ' has-error' : '' }}">
                                 <label>Telefono<span class="required">*</span></label>
                                 <input placeholder="Ingrese el Telefono" type="text"
-                                    id="Telefono" name="Telefono" class="form-style-1"
+                                    id="Telefono" name="Telefono" class="form-control"
                                     value="{{ $proveedor->Telefono }}">
                                 @if ($errors->has('Telefono'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Telefono') }}</strong>
                                         </span>
                                     </label>
@@ -176,26 +180,37 @@
                                 <label>Correo de contacto<span class="required">*</span></label>
                                 <div class="form-group has-feedback">
                                     <input placeholder="Ingrese el correo" type="text"
-                                        id="Correo" name="Correo" class="form-style-1"
+                                        id="Correo" name="Correo" class="form-control"
                                         value="{{ $proveedor->Correo }}">
                                 </div>
                                 @if ($errors->has('Correo'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Correo') }}</strong>
                                         </span>
                                     </label>
                                 @endif
                             </div>
-                            <hr>
-                            <a href="{{ route('proveedores.index') }}" class="btn btn-primary" >Atrás</a>
-                            <a style="background-color: #1c7430" href="#confirmation" class="btn btn-primary"
-                                data-toggle="modal">Agregar
-                            </a>
-                        </ul>
-                        @include('pop-up')
-                    </form>
-                </div>
+                        </div>
+                        <hr>
+                        <div class="card-footer col-md-4 offset-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="{{ route('proveedores.index') }}"
+                                        class="btn btn-danger btn-block">
+                                            Atrás
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="#confirmation" class="btn btn-success btn-block"
+                                        data-toggle="modal">
+                                            Editar
+                                    </a>
+                                </div>
+                            </div>
+                            @include('pop-up')
+                        </div>
+                </form>
             </div>
         </div>
     </div>

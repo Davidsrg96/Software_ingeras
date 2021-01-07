@@ -1,7 +1,13 @@
-@extends('layoutGeneral')
-@section('titulo', 'Lista Bodegas')
+@extends('layouts.app', [
+    'namePage' => 'Crear Factura',
+    'class' => 'sidebar-mini',
+    'activePage' => 'Facturas',
+])
 @push('estilos')
 <style>
+    .card{
+        background: #a9a9a9;
+    }
     input{
         width: 100%;
     }
@@ -183,96 +189,112 @@
     </script>
 @endpush
 @section('cuerpo')
-    <div class="card col-md-10 offset-1" style="background-color: #FFFFFF;width: 100%">
-            <div class="card-header">
-                @include('error_formulario')
-                <h1 align="center">Agregar Factura</h1>
-            </div>
-            <form
-                role="form"
-                method="POST"
-                action="{{action('FacturaController@store')}}"
-                enctype="multipart/form-data"
-                onsubmit="return listaProductos();">
-                @csrf
-                <div class="card-body">
-                    <table class="table table-hover table-striped" width="100%" id="tabla_factura">
-                        <!--Informacion del proveedor-->
-                        <tbody style="background-color: #a9a9a9">
-                        <tr>
-                            <td>N° Factura<span class="required">*</span></td>
-                            <td colspan="4"><input placeholder="N° de Factura..." type="number" id="Numero" name="Numero"></td>
-                        </tr>
-                        <tr>
-                            <td>Proveedor</td>
-                            <td colspan="4">
-                                <select id="proveedor_id" name="proveedor_id">
-                                    <option value>-- Seleccione un proveedor --</option>
-                                    @foreach($proveedores as $proveedor)
-                                        <option value={{$proveedor->id}}>{{ $proveedor->Nombre_proveedor}}</option>
-                                    @endforeach
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>RUT</td>
-                            <td colspan="4"><input id="rut" type="text" readonly></td>
-                        </tr>
-                        <tr>
-                            <td>Nombre del vendedor</td>
-                            <td colspan="4"><input id="nombre" type="text"></td>
-                        </tr>
-                        <tr>
-                            <td>Direccion</td>
-                            <td colspan="4"><input id="direccion" readonly></td>
-                        </tr>
-                        <tr>
-                            <td>Telefono</td>
-                            <td colspan="4"><input id="telefono" readonly></td>
-                        </tr>
-                        <tr>
-                            <td>Correo</td>
-                            <td colspan="4"><input id="correo" type="text"></td>
-                        </tr>
-                        <tr>
-                            <td>Rubro</td>
-                            <td colspan="4"><input id="rubro" type="text" readonly></td>
-                        </tr>
-                        <tr>
-                            <td>Documento</td>
-                            <td colspan="4"><input type="file" class="form-control" id="Documento"name="Documento"></td>
-                        </tr>
-                        <!--Informacion de los productos a ingresar-->
-                        <tr>
-                            <td colspan="5"><h1 align="center">Productos de la Factura</h1></td>
-                        </tr>
-                        <tr>
-                            <td>Descripción</td>
-                            <td>Precio</td>
-                            <td>Cantidad</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><input placeholder="Descripción del producto" type="text" id="desc"></td>
-                            <td><input placeholder="Precio del Producto" type="number" id="precio"></td>
-                            <td><input placeholder="Cantidad" type="number" id="cantidad"></td>
-                            <td><input type="button" class="btn btn-success" id="addProducto()"
-                                    onClick="addProducto()"value="+" /></td>
-                        </tr>
-                        </tbody>
+    <div class="panel-header panel-header-sm"></div>
+    <div class="content col-md-10 offset-1">
+        <div class="row">
+            <div class="card">
+                    <div class="card-header">
+                        @include('error_formulario')
+                        <h2 class="title text-center">Agregar Factura</h2>
+                    </div>
+                    <hr>
+                    <form
+                        role="form"
+                        method="POST"
+                        action="{{action('FacturaController@store')}}"
+                        enctype="multipart/form-data"
+                        onsubmit="return listaProductos();">
+                        @csrf
+                        <div class="card-body">
+                            <table class="table table-hover table-striped" width="100%" id="tabla_factura">
+                                <!--Informacion del proveedor-->
+                                <tbody style="background-color: #a9a9a9">
+                                <tr>
+                                    <td>N° Factura<span class="required">*</span></td>
+                                    <td colspan="4"><input placeholder="N° de Factura..." type="number" id="Numero"
+                                        name="Numero"></td>
+                                </tr>
+                                <tr>
+                                    <td>Proveedor</td>
+                                    <td colspan="4">
+                                        <select id="proveedor_id" name="proveedor_id">
+                                            <option value>-- Seleccione un proveedor --</option>
+                                            @foreach($proveedores as $proveedor)
+                                                <option value={{$proveedor->id}}>{{ $proveedor->Nombre_proveedor}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>RUT</td>
+                                    <td colspan="4"><input id="rut" type="text" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>Nombre del vendedor</td>
+                                    <td colspan="4"><input id="nombre" type="text" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>Direccion</td>
+                                    <td colspan="4"><input id="direccion" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>Telefono</td>
+                                    <td colspan="4"><input id="telefono" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>Correo</td>
+                                    <td colspan="4"><input id="correo" type="text" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>Rubro</td>
+                                    <td colspan="4"><input id="rubro" type="text" readonly></td>
+                                </tr>
+                                <tr>
+                                    <td>Documento</td>
+                                    <td colspan="4"><input class="form-control" type="file" class="form-control" id="Documento"name="Documento"></td>
+                                </tr>
+                                <!--Informacion de los productos a ingresar-->
+                                <tr>
+                                    <td colspan="5"><h1 align="center">Productos de la Factura</h1></td>
+                                </tr>
+                                <tr>
+                                    <td>Descripción</td>
+                                    <td>Precio</td>
+                                    <td>Cantidad</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><input placeholder="Descripción del producto" type="text" id="desc"></td>
+                                    <td><input placeholder="Precio del Producto" type="number" id="precio"></td>
+                                    <td><input placeholder="Cantidad" type="number" id="cantidad"></td>
+                                    <td><input type="button" class="btn btn-success" id="addProducto()"
+                                            onClick="addProducto()"value="+" /></td>
+                                </tr>
+                                </tbody>
 
-                    </table>
-                </div>
-                <div class="card-footer">
-                    <a href="{{ action('FacturaController@index') }}" class="btn btn-primary">
-                        Atrás
-                    </a>
-                    <a style="background-color: #1c7430" href="#confirmation" class="btn btn-primary" data-toggle="modal">
-                        Guardar
-                    </a>
-                    @include('pop-up')
-                    @include('layouts.pop-up.error')
-                </div>
-        </form>
+                            </table>
+                        </div>
+                        <hr>
+                        <div class="card-footer col-md-4 offset-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="{{ route('factura.index') }}"
+                                        class="btn btn-danger btn-block">
+                                            Atrás
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="#confirmation" class="btn btn-success btn-block"
+                                        data-toggle="modal">
+                                            Guardar
+                                    </a>
+                                </div>
+                            </div>
+                            @include('pop-up')
+                            @include('layouts.pop-up.error')
+                        </div>
+                </form>
+            </div>
+        </div>
     </div>
 @endsection

@@ -1,5 +1,8 @@
-@extends('layoutGeneral')
-@section('titulo', 'Editar Bodega')
+@extends('layouts.app', [
+    'namePage' => 'Editar Bodega',
+    'class' => 'sidebar-mini',
+    'activePage' => 'Bodegas',
+])
 @push('estilos')
 @endpush
 @push('acciones')
@@ -32,27 +35,28 @@
 </script>
 @endpush
 @section('cuerpo')
-    <div class="card" style="background-color: #FFFFFF;width: 100%">
-        <div class="card-header">
-            @include('error_formulario')
-            <h1 align="center">Editar Bodega</h1>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md">
-                    <form  method="POST"
-                        action="{{ route('bodega.update', $bodega->id) }}"
-                        enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <ul class="form-style-1">
+    <div class="panel-header panel-header-sm"></div>
+    <div class="content col-md-10 offset-1">
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    @include('error_formulario')
+                    <h2 class="title text-center">Editar Bodega</h2>
+                </div>
+                <hr>
+                <form  method="POST"
+                    action="{{ route('bodega.update', $bodega->id) }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                        <div class="card-body col-md-6 offset-3">
                             <div class="form-group{{ $errors->has('Nombre') ? ' has-error' : '' }}">
                                 <label>Nombre<span class="required">*</span></label>
                                 <input placeholder="Ingrese el nombre del Bodega" type="text"
-                                    id="Nombre" name="Nombre" class="form-style-1" value="{{ $bodega->Nombre }}">
+                                    id="Nombre" name="Nombre" class="form-control" value="{{ $bodega->Nombre }}">
                                 @if ($errors->has('Nombre'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Nombre') }}</strong>
                                         </span>
                                     </label>
@@ -61,11 +65,11 @@
                             <div class="form-group{{ $errors->has('Ubicacion') ? ' has-error' : '' }}">
                                 <label>Ubicación<span class="required">*</span></label>
                                 <input placeholder="Ingrese la ubicación" type="text"
-                                    id="Ubicacion" name="Ubicacion" class="form-style-1"
+                                    id="Ubicacion" name="Ubicacion" class="form-control"
                                     value="{{ $bodega->Ubicacion }}">
                                 @if ($errors->has('Ubicacion'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Ubicacion') }}</strong>
                                         </span>
                                     </label>
@@ -73,7 +77,7 @@
                             </div>
                             <div class="form-group{{ $errors->has('encargado_id') ? ' has-error' : '' }}">
                                 <label>Encargado</label><br>
-                                <select id="encargado_id" name="encargado_id">
+                                <select class="form-control" id="encargado_id" name="encargado_id">
                                     <option value>-- Seleccione un encargado --</option>
                                     @foreach($usuarios as $usuario)
                                         @if($bodega->encargado)
@@ -87,21 +91,32 @@
                                 </select>
                                 @if ($errors->has('encargado_id'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('encargado_id') }}</strong>
                                         </span>
                                     </label>
                                 @endif
                             </div>
-                            <hr>
-                            <a href="{{ route('bodega.index') }}" class="btn btn-primary" >Atrás</a>
-                            <a style="background-color: #1c7430" href="#confirmation" class="btn btn-primary"
-                                data-toggle="modal">Agregar
-                            </a>
-                        </ul>
-                        @include('pop-up')
-                    </form>
-                </div>
+                        </div>
+                        <hr>
+                        <div class="card-footer col-md-4 offset-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="{{ route('bodega.index') }}"
+                                        class="btn btn-danger btn-block">
+                                            Atrás
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="#confirmation" class="btn btn-success btn-block"
+                                        data-toggle="modal">
+                                            Editar
+                                    </a>
+                                </div>
+                            </div>
+                            @include('pop-up')
+                        </div>
+                </form>
             </div>
         </div>
     </div>

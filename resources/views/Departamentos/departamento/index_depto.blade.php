@@ -46,14 +46,13 @@
              <div class="card">
                 <div class="card-header">
                     <h2 class="title text-center">Departamentos</h2>
-                        
                 </div>
                 <hr>
                 <div class="card-body">
                     <a type="button" class="btn btn-primary" href="{{route('home')}}" role="button">
                         <i class="fas fa-arrow-left"></i>Regresar
                     </a>
-                    <a href="{{ route('departamentos.create') }}" type="button" class="btn btn-primary" >
+                    <a href="{{ route('departamentos.create') }}" type="button" class="btn btn-success" >
                         Agregar Departamento
                     </a>
                    <table class="table table-hover table-striped" id="tablaDepto">

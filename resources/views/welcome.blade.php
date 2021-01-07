@@ -5,6 +5,20 @@
     'backgroundImage' => asset('assets') . "/img/bg14.jpg",
 ])
 
+@push('acciones')
+  <script>
+    $(document).ready(function() {
+      demo.checkFullPageBackgroundImage();
+    });
+  </script>
+@endpush
+@push('estilos')
+  <style>
+    .wrapper {
+      height: 95vh;
+    }
+  </style>
+@endpush
 @section('cuerpo')
   <div class="content">
     <div class="container">
@@ -30,10 +44,3 @@
   </div>
 @endsection
 
-@push('acciones')
-  <script>
-    $(document).ready(function() {
-      demo.checkFullPageBackgroundImage();
-    });
-  </script>
-@endpush

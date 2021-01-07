@@ -1,5 +1,8 @@
-@extends('layoutGeneral')
-@section('titulo', 'Editar tipo de usuario')
+@extends('layouts.app', [
+    'namePage' => 'Editar tipo de usuario',
+    'class' => 'sidebar-mini',
+    'activePage' => 'Tipo usuario',
+])
 @push('estilos')
 @endpush
 @push('acciones')
@@ -28,28 +31,29 @@
 </script>
 @endpush
 @section('cuerpo')
-    <div class="card" style="background-color: #FFFFFF;width: 100%">
-        <div class="card-header">
-            @include('error_formulario')
-            <h1 align="center">Editar Tipo de Usuario</h1>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md">
-                    <form  method="POST"
-                        action="{{ route('tipo_usuario.update', $tipo->id) }}"
-                        enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <ul class="form-style-1">
+    <div class="panel-header panel-header-sm"></div>
+    <div class="content col-md-10 offset-1">
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    @include('error_formulario')
+                    <h2 class="title text-center">Editar Tipo de Usuario</h2>
+                </div>
+                <hr>
+                <form  method="POST"
+                    action="{{ route('tipo_usuario.update', $tipo->id) }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                        <div class="card-body col-md-6 offset-3">
                             <div class="form-group{{ $errors->has('Tipo_usuario') ? ' has-error' : '' }}">
                                 <label>Tipo de Usuario<span class="required">*</span></label>
                                 <input placeholder="Ingrese el tipo de usuario" type="text"
-                                    id="Tipo_usuario" name="Tipo_usuario" class="form-style-1"
+                                    id="Tipo_usuario" name="Tipo_usuario" class="form-control"
                                     value="{{ $tipo->Tipo_usuario }}">
                                 @if ($errors->has('Tipo_usuario'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Tipo_usuario') }}</strong>
                                         </span>
                                     </label>
@@ -57,24 +61,36 @@
                             </div>
                             <div class="form-group{{ $errors->has('Descripcion') ? ' has-error' : '' }}">
                                 <label>Descripcion<span class="required">*</span></label>
-                                <textarea class="form-style-1" id="Descripcion" name="Descripcion">{{ $tipo->Descripcion }}</textarea>
+                                <textarea class="form-control" id="Descripcion"
+                                    name="Descripcion">{{ $tipo->Descripcion }}</textarea>
                                 @if ($errors->has('Descripcion'))
                                     <label>
-                                        <span class="required">
+                                        <span class="required form-error">
                                             <strong>{{ $errors->first('Descripcion') }}</strong>
                                         </span>
                                     </label>
                                 @endif
                             </div>
-                            <hr>
-                            <a href="{{ route('tipo_usuario.index') }}" class="btn btn-primary" >Atrás</a>
-                            <a style="background-color: #1c7430" href="#confirmation" class="btn btn-primary"
-                                data-toggle="modal">Agregar
-                            </a>
-                        </ul>
-                        @include('pop-up')
-                    </form>
-                </div>
+                        </div>
+                        <hr>
+                        <dir class="card-footer col-md-4 offset-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="{{ route('tipo_usuario.index') }}"
+                                        class="btn btn-danger btn-block">
+                                            Atrás
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="#confirmation" class="btn btn-success btn-block"
+                                        data-toggle="modal">
+                                            Editar
+                                    </a>
+                                </div>
+                            </div>
+                            @include('pop-up')
+                        </dir>
+                </form>
             </div>
         </div>
     </div>

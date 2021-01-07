@@ -22,7 +22,7 @@
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse" id="usuario">
+        <div class="collapse @if ($activePage == 'Usuarios' || $activePage == 'Tipo usuario' || $activePage == 'Cargos') show @endif" id="usuario">
           <ul class="nav">
             <li class="@if ($activePage == 'Usuarios') active @endif">
               <a href="{{ route('usuarios.index') }}">
@@ -53,7 +53,7 @@
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse" id="departamento">
+        <div class="collapse @if ($activePage == 'Departamentos' || $activePage == 'Actividades') show @endif" id="departamento">
           <ul class="nav">
             <li class="@if ($activePage == 'Departamentos') active @endif">
               <a href="{{ route('departamentos.index') }}">
@@ -62,7 +62,7 @@
               </a>
             </li>
             <li class="@if ($activePage == 'Actividades') active @endif">
-              <a href="{{ route('departamento.actividad.index') }}">
+              <a href="#">
                 <i style="color: transparent;">-</i>
                 <p> {{ __("Actividades") }} </p>
               </a>
@@ -78,7 +78,7 @@
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse" id="almacenamiento">
+        <div class="collapse @if ($activePage == 'Bodegas' || $activePage == 'Productos') show @endif" id="almacenamiento">
           <ul class="nav">
             <li class="@if ($activePage == 'Bodegas') active @endif">
               <a href="{{ route('bodega.index') }}">
@@ -114,13 +114,13 @@
       </div>
       <li>
         <a data-toggle="collapse" href="#bodega">
-            <i class="fas fa-user-cog"></i>
+            <i class="fas fa-warehouse"></i>
           <p>
             {{ __("Bodega") }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse" id="bodega">
+        <div class="collapse @if ($activePage == 'Solicitudes' || $activePage == 'Despacho') show @endif" id="bodega">
           <ul class="nav">
             <li class="@if ($activePage == 'Solicitudes') active @endif">
               <a href="{{ route('solicitudes.index') }}">
@@ -139,13 +139,13 @@
       </li>
       <li>
         <a data-toggle="collapse" href="#producto">
-            <i class="fas fa-user-cog"></i>
+            <i class="fas fa-cogs"></i>
           <p>
             {{ __("Producto") }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse" id="producto">
+        <div class="collapse @if ($activePage == 'Orden de Compra' || $activePage == 'Factura') show @endif" id="producto">
           <ul class="nav">
             <li class="@if ($activePage == 'Orden de Compra') active @endif">
               <a href="#">

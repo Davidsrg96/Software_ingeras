@@ -5,10 +5,11 @@
     'backgroundImage' => asset('now') . "/img/bg14.jpg",
 ])
 @push('estilos')
-<style>
-  .main-panel>.content {
-    margin-top: 0px;
-}</style>
+  <style>
+    .main-panel>.content {
+      margin-top: 0px;
+    }
+  </style>
 @endpush
 @section('cuerpo')
   <div class="panel-header panel-header-sm">

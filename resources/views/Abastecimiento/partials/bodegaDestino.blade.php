@@ -12,8 +12,8 @@
                 @csrf
                     <div class="modal-body">
                         <div class="col-md-8 offset-2">
-                            <select class="required" id="bodega" name="bodegaID" style="width:100%;">
-                                <option value>-- Seleccione --</option>
+                            <select class="required form-control" id="bodega" name="bodegaID" style="width:100%;">
+                                <option value>-- Seleccione una bodega --</option>
                                 @foreach($bodegas as $dato)
                                     @if($bodega->id != $dato->id)
                                         <option value="{{$dato->id}}"> {{$dato->Nombre}}</option>
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-success">Aceptar</button>
                     </div>
             </form>
