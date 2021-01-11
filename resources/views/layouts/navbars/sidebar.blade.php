@@ -145,15 +145,15 @@
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse @if ($activePage == 'Orden de Compra' || $activePage == 'Factura') show @endif" id="producto">
+        <div class="collapse @if ($activePage == 'Orden de Compra' || $activePage == 'Facturas') show @endif" id="producto">
           <ul class="nav">
             <li class="@if ($activePage == 'Orden de Compra') active @endif">
-              <a href="#">
+              <a href="{{ route('orden_de_compra.index') }}">
                 <i class="fas fa-user" style="color: transparent;"></i>
                 <p> {{ __("Ordenes de Compra") }} </p>
               </a>
             </li>
-            <li class="@if ($activePage == 'Factura') active @endif">
+            <li class="@if ($activePage == 'Facturas') active @endif">
               <a href="{{ route('factura.index') }}">
                 <i style="color: transparent;">-</i>
                 <p> {{ __("Facturas") }} </p>

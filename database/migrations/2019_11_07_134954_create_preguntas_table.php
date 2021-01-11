@@ -11,7 +11,7 @@ class CreatePreguntasTable extends Migration
     {
         Schema::create('preguntas', function (Blueprint $table) {
             $table->Increments('id');
-            $table->string('Pregunta');
+            $table->string('Pregunta',500);
             $table->enum('Tipo_pregunta',['Usuario','Actividad','Bodega','Proyecto']);
             $table->timestamps();
         });

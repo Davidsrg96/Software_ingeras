@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-    'namePage' => 'Editar Factura',
+    'namePage' => 'Crear orden de compra',
     'class' => 'sidebar-mini',
-    'activePage' => 'Facturas',
+    'activePage' => 'Orden de Compra',
 ])
 @push('estilos')
 <style>
@@ -22,6 +22,7 @@
 @endpush
 @push('acciones')
     <script>
+
         //Toaster
         @if(Session::has('success'))
             mensajeEmergente('{{ Session::get('success')['titulo'] }}', '{{ Session::get('success')['mensaje'] }}');
@@ -32,7 +33,7 @@
 
          //boton eliminar fila de la lista
         $(document).on('click', '.borrar', function (event) {
-            if($("#tabla_factura tr").length > 1){
+            if($("#tabla_ordenCompra tr").length > 1){
                 $(this).closest('tr').remove();
             }
         });
@@ -51,7 +52,7 @@
                     '<td>' + cantidad +'</td>'+
                     '<td><a class="borrar btn btn-danger" title="Eliminar Producto" style="width:100%">-</a>';
                 //Se agrega la fila creada a la tabla
-                document.getElementById("tabla_factura").insertRow(-1).innerHTML = bodyTable;
+                document.getElementById("tabla_ordenCompra").insertRow(-1).innerHTML = bodyTable;
 
                 document.getElementById('cantidad').value = '';
                 document.getElementById('desc').value = '';
@@ -92,8 +93,8 @@
                                 return false;
                             }else{
                                 var flagExiste = false;
-                                for(var j = 12; j < document.getElementById("tabla_factura").rows.length; j++){
-                                    var desc = document.getElementById("tabla_factura").rows[j].cells[0].innerHTML;
+                                for(var j = 12; j < document.getElementById("tabla_ordenCompra").rows.length; j++){
+                                    var desc = document.getElementById("tabla_ordenCompra").rows[j].cells[0].innerHTML;
                                     if(document.getElementById("desc").value.toUpperCase() == desc.toUpperCase()){
                                         flagExiste = true;
                                         break;
@@ -115,10 +116,10 @@
 
         //funcion que crea la lista de actividades
         function listaProductos(){
-            for(var j = 12; j < document.getElementById("tabla_factura").rows.length; j++){
-                var descP = document.getElementById("tabla_factura").rows[j].cells[0].innerHTML;
-                var precioP = document.getElementById("tabla_factura").rows[j].cells[1].innerHTML;
-                var cantP = document.getElementById("tabla_factura").rows[j].cells[2].innerHTML;
+            for(var j = 12; j < document.getElementById("tabla_ordenCompra").rows.length; j++){
+                var descP = document.getElementById("tabla_ordenCompra").rows[j].cells[0].innerHTML;
+                var precioP = document.getElementById("tabla_ordenCompra").rows[j].cells[1].innerHTML;
+                var cantP = document.getElementById("tabla_ordenCompra").rows[j].cells[2].innerHTML;
                 $('<input>').attr({
                     type: 'hidden',
                     id: 'descP',
@@ -167,13 +168,12 @@
                     $('#correo').val('');
                 }
             });
+
             @if (old('Numero'))
                 $("#Numero").val('{{ old('Numero') }}');
             @endif
             @if (old('proveedor_id'))
                 $("#proveedor_id").val('{{ old('proveedor_id') }}');
-                $("#proveedor_id").change();
-            @else
                 $("#proveedor_id").change();
             @endif
             @if (old('descP'))
@@ -181,31 +181,10 @@
                     var bodyTable = '<td>' + '{{ old('descP')[$key] }}' +'</td>'+
                         '<td>' + '{{ old('precioP')[$key] }}' +'</td>'+
                         '<td>' + '{{ old('cantP')[$key] }}' +'</td>'+
-                        '<td><a class="borrar btn btn-danger" title="Eliminar Producto" style="width:100%">-</a></td>';
+                        '<td><a class="borrar btn btn-danger" title="Eliminar Producto" style="width:100%">-</a>';
                     //Se agrega la fila creada a la tabla
-                    document.getElementById("tabla_factura").insertRow(-1).innerHTML = bodyTable;
+                    document.getElementById("tabla_ordenCompra").insertRow(-1).innerHTML = bodyTable;
                 @endforeach
-            @else
-                var contador = 1;
-                @foreach($factura->productos as $key => $producto)
-                    @if($key > 0)
-                        @if( $factura->productos[$key-1]->Descripcion != $producto->Descripcion)
-                            var bodyTable ='<td>' + '{{ $factura->productos[$key-1]->Descripcion }}' +'</td>'+
-                            '<td>' + '{{ $factura->productos[$key-1]->Precio_producto }}' +'</td>'+
-                             '<td>' + contador +'</td>'+
-                            '<td><a class="borrar btn btn-danger" title="Eliminar Producto" style="width:100%">-</a></td>';
-                            document.getElementById("tabla_factura").insertRow(-1).innerHTML = bodyTable;
-                            contador = 1;
-                        @else
-                            contador++;
-                        @endif
-                    @endif
-                @endforeach
-                var bodyTable ='<td>' + '{{ $factura->productos[$key-1]->Descripcion }}' +'</td>'+
-                '<td>' + '{{ $factura->productos[$key-1]->Precio_producto }}' +'</td>'+
-                '<td>' + contador +'</td>'+
-                '<td><a class="borrar btn btn-danger" title="Eliminar Producto" style="width:100%">-</a></td>';
-                document.getElementById("tabla_factura").insertRow(-1).innerHTML = bodyTable;
             @endif
         });
     </script>
@@ -217,25 +196,24 @@
             <div class="card">
                     <div class="card-header">
                         @include('error_formulario')
-                        <h2 class="title text-center">Editar Factura</h2>
+                        <h2 class="title text-center">Agregar Orden de Compra</h2>
                     </div>
                     <hr>
                     <form
                         role="form"
                         method="POST"
-                        action="{{ route('factura.update', $factura->id) }}"
+                        action="{{ route('orden_de_compra.store') }}"
                         enctype="multipart/form-data"
                         onsubmit="return listaProductos();">
                         @csrf
-                        @method('PUT')
                         <div class="card-body">
-                            <table class="table table-hover table-striped" width="100%" id="tabla_factura">
+                            <table class="table table-hover table-striped" width="100%" id="tabla_ordenCompra">
                                 <!--Informacion del proveedor-->
                                 <tbody style="background-color: #a9a9a9">
                                 <tr>
-                                    <td>N° Factura<span class="required">*</span></td>
-                                    <td colspan="4"><input placeholder="N° de Factura..." type="number" id="Numero"
-                                        name="Numero" value="{{ $factura->Numero }}"></td>
+                                    <td>N° Orden de compra<span class="required">*</span></td>
+                                    <td colspan="4"><input placeholder="N° de orden_de_compra..." type="number" id="Numero"
+                                        name="Numero"></td>
                                 </tr>
                                 <tr>
                                     <td>Proveedor</td>
@@ -243,10 +221,7 @@
                                         <select id="proveedor_id" name="proveedor_id">
                                             <option value>-- Seleccione un proveedor --</option>
                                             @foreach($proveedores as $proveedor)
-                                                <option value="{{ $proveedor->id }}" 
-                                                    {{ ($factura->proveedor->id == $proveedor->id) ? 'selected' : '' }}>
-                                                        {{ $proveedor->Nombre_proveedor}}
-                                                </option>
+                                                <option value={{ $proveedor->id}} >{{ $proveedor->Nombre_proveedor}}</option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -261,7 +236,7 @@
                                 </tr>
                                 <tr>
                                     <td>Direccion</td>
-                                    <td colspan="4"><input id="direccion" readonly></td>
+                                    <td colspan="4"><input id="direccion" type="text" readonly></td>
                                 </tr>
                                 <tr>
                                     <td>Telefono</td>
@@ -296,13 +271,15 @@
                                     <td><input type="button" class="btn btn-success" id="addProducto()"
                                             onClick="addProducto()"value="+" /></td>
                                 </tr>
+                                </tbody>
+
                             </table>
                         </div>
                         <hr>
                         <div class="card-footer col-md-4 offset-4">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a href="{{ route('factura.index') }}"
+                                    <a href="{{ route('orden_de_compra.index') }}"
                                         class="btn btn-danger btn-block">
                                             Atrás
                                     </a>

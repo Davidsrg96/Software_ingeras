@@ -15,8 +15,9 @@ class CreateOrdenDeComprasTable extends Migration
     {
         Schema::create('orden_de_compras', function (Blueprint $table) {
             $table->Increments('id');
-            $table->string('Orden_De_compra');
-            $table->date('Fecha_ingreso')->nullable();
+            $table->bigInteger('Numero');
+            $table->date('Fecha_ingreso');
+            $table->string('Documento')->nullable();
 
             $table->integer('proveedor_id')->unsigned()->nullable();
             $table->foreign('proveedor_id')->references('id')

@@ -16,7 +16,7 @@ class CreateCualidadsTable extends Migration
         Schema::create('cualidads', function (Blueprint $table) {
             $table->Increments('id');
             $table->string('Nombre')->unique();
-            $table->string('Descripcion');
+            $table->string('Descripcion',500);
             $table->timestamps();
         });
     }

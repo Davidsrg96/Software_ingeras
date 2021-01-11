@@ -61,7 +61,7 @@
                 <hr>
                 <form
                     method="POST"
-                    action="{{route('usuarios.update', $usuario->id)}}"
+                    action="{{ route('usuarios.update', $usuario->id) }}"
                     enctype="multipart/form-data">
                     @csrf
                     @method('PUT')

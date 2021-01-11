@@ -71,7 +71,7 @@
                             </tbody>
                         </table>
                     @else
-                        <p style="color: black">La bodega no tiene productos asignados</p>
+                        <p style="color: black">La factura no tiene productos asignados</p>
                     @endif
                 </div>
                 <div class="modal-footer">

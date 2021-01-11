@@ -12,7 +12,7 @@ class CreateDepartamentosTable extends Migration
         Schema::create('departamento', function (Blueprint $table) {
             $table->Increments('id');
             $table->string('Nombre_departamento')->unique();
-            $table->string('Objetivo');
+            $table->string('Objetivo',500);
             $table->timestamps();
         });
     }

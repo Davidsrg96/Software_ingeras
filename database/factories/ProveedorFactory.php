@@ -10,7 +10,7 @@ $factory->define(proveedor::class, function (Faker $faker) {
 		'Nombre_proveedor' => $faker->unique()->company(),
 		'Rut_proveedor'    => $faker->numberBetween(5000000, 23000000) . '-' . $faker->randomDigitNot(0),
 		'Nombre_vendedor'  => $faker->name(),
-		'Direccion'        => $faker->address(),
+		'Direccion'        => $faker->streetAddress (),
 		'Telefono'         => $faker->phoneNumber(),
 		'Rubro'            => $faker->word(),
 		'Correo'           => $faker->email(),

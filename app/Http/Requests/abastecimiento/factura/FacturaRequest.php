@@ -18,7 +18,7 @@ class FacturaRequest extends FormRequest
             'Numero'       => 'required|numeric|min:0|unique:facturas,Numero,'. 
                                     $this->route('factura'). ',id,proveedor_id,' . $this->proveedor_id,
             'proveedor_id' => 'required',
-            'Documento'    => 'required|mimes:pdf',
+            'Documento'    => 'mimes:pdf',
             'descP'        => 'required',
         ];
     }
@@ -36,5 +36,16 @@ class FacturaRequest extends FormRequest
         return [
             'descP.required' => 'Debe ingresar productos',
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if(!$this->route('factura')){
+                if ($this->Documento == null || $this->Documento== "") {
+                     $validator->errors()->add('Documento', 'El campo Documento es requerido');
+                }
+            }
+        });
     }
 }

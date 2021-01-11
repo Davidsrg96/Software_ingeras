@@ -16,7 +16,7 @@ class CreateSolicitudsTable extends Migration
         Schema::create('solicituds', function (Blueprint $table) {
             $table->Increments('id');
             $table->string('Titulo');
-            $table->string('Mensaje');
+            $table->string('Mensaje',500);
             $table->enum('Status',['Pendiente','Aprobado','Declinado','Atrasado'])->default('Pendiente');
             $table->enum('Tipo_solicitud',['Solicitud a bodega','Solicitud de actividad','Solicitud a almacen'])->default('Solicitud de actividad');
             $table->date('Fecha_inicio');

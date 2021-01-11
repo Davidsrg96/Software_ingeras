@@ -71,12 +71,14 @@ class FacturaController extends Controller
 
     public function edit($id)
     {
-
+        $factura = factura::findOrFail($id);
+        $proveedores = proveedor::all();
+        return view('Facturas.edit', compact('factura', 'proveedores'));
     }
 
-    public function update(Request $request, $id)
+    public function update(FacturaRequest $request, $id)
     {
-
+        dd($request->all());
     }
 
     public function destroy($id)

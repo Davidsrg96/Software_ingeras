@@ -12,7 +12,7 @@ class TipoUsuario extends Migration
         Schema::create('tipo_usuario', function (Blueprint $table) {
             $table->Increments('id');
             $table->string('Tipo_usuario')->unique();
-            $table->string('Descripcion');
+            $table->string('Descripcion', 500);
             $table->timestamps();
         });
     }

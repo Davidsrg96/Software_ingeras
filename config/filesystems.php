@@ -72,6 +72,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'ordenCompra' => [
+            'driver'     => 'local',
+            'root'       => storage_path('app/public/documentos/ordenesCompra'),
+            'url'        => '/storage/documentos/ordenesCompra',
+            'visibility' => 'public',
+        ],
+
     ],
 
     /*

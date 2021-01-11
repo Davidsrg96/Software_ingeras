@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class orden_de_compra extends Model
 {
     protected $fillable = [
-        'Orden_De_compra',
-        'bodega_id',
+        'Numero',
+        'Documento',
+        'Fecha_ingreso',
         'proveedor_id',
     ];
 
@@ -32,11 +33,10 @@ class orden_de_compra extends Model
 
     public function productos()
     {
-        return $this->belongsToMany(
+        return $this->hasMany(
             producto::class,
-            'orden_compra_producto',
             'orden_compra_id',
-            'producto_id'
+            'id'
         );
     }
 }

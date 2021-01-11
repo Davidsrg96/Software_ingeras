@@ -20,6 +20,7 @@ class producto extends Model
         'proveedor_id',
         'bodega_id',
         'factura_id',
+        'orden_compra_id',
     ];
 
     public function bodega()
@@ -39,6 +40,7 @@ class producto extends Model
             'id'
         );
     }
+
     public function factura()
     {
         return $this->belongsTo(
@@ -47,13 +49,13 @@ class producto extends Model
             'id'
         );
     }
-    public function ordenesCompra()
+
+    public function ordenCompra()
     {
-        return $this->belongsToMany(
-            departamento::class,
-            'orden_compra_producto',
-            'producto_id',
-            'orden_compra_id'
+        return $this->belongsTo(
+            orden_de_compra::class,
+            'orden_compra_id',
+            'id'
         );
     }
 

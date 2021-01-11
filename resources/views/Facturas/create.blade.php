@@ -22,32 +22,6 @@
 @endpush
 @push('acciones')
     <script>
-        $('#proveedor_id').on('change', function(e){
-            var id = e.target.value;
-            if (id != 0) {
-                var url = '{{ route("ajax.factura.proveedor", ":id") }}';
-                url = url.replace(':id', id);
-                $.get(url, function(data) {
-                    if (Object.keys(data).length == 0) {
-                        $('#rut').val('Nada');
-                    } else {
-                        $('#rut').val(data.rut);
-                        $('#nombre').val(data.nombre);
-                        $('#direccion').val(data.direccion);
-                        $('#rubro').val(data.rubro);
-                        $('#telefono').val(data.telefono);
-                        $('#correo').val(data.correo);
-                    }
-                });
-            } else {
-                $('#rut').val('');
-                $('#nombre').val('');
-                $('#direccion').val('');
-                $('#rubro').val('');
-                $('#telefono').val('');
-                $('#correo').val('');
-            }
-        });
 
         //Toaster
         @if(Session::has('success'))
@@ -168,24 +142,51 @@
         }
 
         $(document).ready(function (){
-        @if (old('Numero'))
-            $("#Numero").val('{{ old('Numero') }}');
-        @endif
-        @if (old('proveedor_id'))
-            $("#proveedor_id").val('{{ old('proveedor_id') }}');
-            $("#proveedor_id").change();
-        @endif
-        @if (old('descP'))
-            @foreach(old('descP') as $key => $desc)
-                var bodyTable = '<td>' + '{{ old('descP')[$key] }}' +'</td>'+
-                    '<td>' + '{{ old('precioP')[$key] }}' +'</td>'+
-                    '<td>' + '{{ old('cantP')[$key] }}' +'</td>'+
-                    '<td><a class="borrar btn btn-danger" title="Eliminar Producto" style="width:100%">-</a>';
-                //Se agrega la fila creada a la tabla
-                document.getElementById("tabla_factura").insertRow(-1).innerHTML = bodyTable;
-            @endforeach
-        @endif
-    });
+            $('#proveedor_id').on('change', function(e){
+                var id = e.target.value;
+                if (id != 0) {
+                    var url = '{{ route("ajax.factura.proveedor", ":id") }}';
+                    url = url.replace(':id', id);
+                    $.get(url, function(data) {
+                        if (Object.keys(data).length == 0) {
+                            $('#rut').val('Nada');
+                        } else {
+                            $('#rut').val(data.rut);
+                            $('#nombre').val(data.nombre);
+                            $('#direccion').val(data.direccion);
+                            $('#rubro').val(data.rubro);
+                            $('#telefono').val(data.telefono);
+                            $('#correo').val(data.correo);
+                        }
+                    });
+                } else {
+                    $('#rut').val('');
+                    $('#nombre').val('');
+                    $('#direccion').val('');
+                    $('#rubro').val('');
+                    $('#telefono').val('');
+                    $('#correo').val('');
+                }
+            });
+
+            @if (old('Numero'))
+                $("#Numero").val('{{ old('Numero') }}');
+            @endif
+            @if (old('proveedor_id'))
+                $("#proveedor_id").val('{{ old('proveedor_id') }}');
+                $("#proveedor_id").change();
+            @endif
+            @if (old('descP'))
+                @foreach(old('descP') as $key => $desc)
+                    var bodyTable = '<td>' + '{{ old('descP')[$key] }}' +'</td>'+
+                        '<td>' + '{{ old('precioP')[$key] }}' +'</td>'+
+                        '<td>' + '{{ old('cantP')[$key] }}' +'</td>'+
+                        '<td><a class="borrar btn btn-danger" title="Eliminar Producto" style="width:100%">-</a>';
+                    //Se agrega la fila creada a la tabla
+                    document.getElementById("tabla_factura").insertRow(-1).innerHTML = bodyTable;
+                @endforeach
+            @endif
+        });
     </script>
 @endpush
 @section('cuerpo')
@@ -201,7 +202,7 @@
                     <form
                         role="form"
                         method="POST"
-                        action="{{action('FacturaController@store')}}"
+                        action="{{ route('factura.store') }}"
                         enctype="multipart/form-data"
                         onsubmit="return listaProductos();">
                         @csrf
@@ -220,7 +221,7 @@
                                         <select id="proveedor_id" name="proveedor_id">
                                             <option value>-- Seleccione un proveedor --</option>
                                             @foreach($proveedores as $proveedor)
-                                                <option value={{$proveedor->id}}>{{ $proveedor->Nombre_proveedor}}</option>
+                                                <option value={{ $proveedor->id}} >{{ $proveedor->Nombre_proveedor}}</option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -235,7 +236,7 @@
                                 </tr>
                                 <tr>
                                     <td>Direccion</td>
-                                    <td colspan="4"><input id="direccion" readonly></td>
+                                    <td colspan="4"><input id="direccion" type="text" readonly></td>
                                 </tr>
                                 <tr>
                                     <td>Telefono</td>

@@ -16,7 +16,7 @@ class CreateActividadProyectosTable extends Migration
         Schema::create('actividad_proyectos', function (Blueprint $table) {
             $table->Increments('id');
             $table->string('Nombre_actividad');
-            $table->string('Descripcion');
+            $table->string('Descripcion',500);
             $table->integer('Evaluacion')->default(0);
 
             $table->integer('cualidad_id')->unsigned()->nullable();

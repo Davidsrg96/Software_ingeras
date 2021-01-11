@@ -13,7 +13,7 @@ class CreateSeguimientoTable extends Migration
             $table->Increments('id');
             
             $table->enum('Estado',['Gestionando','En transito','Incompleto','Completado'])->default('Gestionando');
-            $table->string('Observacion')->nullable();
+            $table->string('Observacion',500)->nullable();
 
             $table->integer('origen_id')->unsigned()->nullable();
             $table->foreign('origen_id')->references('id')

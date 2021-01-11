@@ -12,7 +12,7 @@ class CreateProductoTable extends Migration
         Schema::create('producto', function (Blueprint $table) {
             $table->Increments('id');
             $table->bigInteger('Codigo');
-            $table->string('Descripcion');
+            $table->string('Descripcion',500);
             $table->bigInteger('Precio_producto');
             $table->enum('Estado',['Disponible','No disponible'])->default('Disponible');
             $table->integer('Calidad')->default(0);
@@ -29,6 +29,10 @@ class CreateProductoTable extends Migration
             $table->integer('factura_id')->unsigned()->nullable();
             $table->foreign('factura_id')->references('id')
                 ->on('facturas')->onDelete('cascade');
+
+            $table->integer('orden_compra_id')->unsigned()->nullable();
+            $table->foreign('orden_compra_id')->references('id')
+                ->on('orden_de_compras')->onDelete('cascade');
             $table->timestamps();
         });
     }

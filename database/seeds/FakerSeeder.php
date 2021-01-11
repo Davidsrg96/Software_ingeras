@@ -7,6 +7,7 @@ use App\producto;
 use App\tipo_usuario;
 use App\bodega;
 use App\factura;
+use App\orden_de_compra;
 
 class FakerSeeder extends Seeder
 {
@@ -52,6 +53,22 @@ class FakerSeeder extends Seeder
         foreach (bodega::all() as $bodega) {
         	$bodega->update(['encargado_id'=> $usuarios->random()->id]);
         }
+
+        //Ordenes de compra
+        $pcFctory = proveedor::where('Nombre_proveedor','PERSONAL COMPUTER FACTORY S.A.')->first();
+        orden_de_compra::create([
+            'Numero'        => '3649386',
+            'Fecha_ingreso' =>  '2019/01/23',
+            'Documento'     => 'factura -trancito 2020-0001-PC.pdf',
+            'proveedor_id'  => $pcFctory->id,
+        ]);
+
+        orden_de_compra::create([
+            'Numero'        => '3647369',
+            'Fecha_ingreso' => '2019/12/06',
+            'Documento'     => 'factura -trancito 2020-0002- redes.pdf',
+            'proveedor_id'  => $pcFctory->id,
+        ]);
 
     }
 }

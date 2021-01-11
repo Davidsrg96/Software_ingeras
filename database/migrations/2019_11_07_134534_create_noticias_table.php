@@ -16,7 +16,7 @@ class CreateNoticiasTable extends Migration
         Schema::create('noticias', function (Blueprint $table) {
             $table->Increments('id');
             $table->string('Titulo');
-            $table->string('Descripcion');
+            $table->string('Descripcion',500);
 
             $table->integer('imagen_id')->unsigned()->nullable();
             $table->foreign('imagen_id')->references('id')
