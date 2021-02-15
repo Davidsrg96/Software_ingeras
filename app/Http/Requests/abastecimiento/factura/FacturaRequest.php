@@ -3,6 +3,7 @@
 namespace App\Http\Requests\abastecimiento\factura;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\factura;
 
 class FacturaRequest extends FormRequest
 {
@@ -15,11 +16,13 @@ class FacturaRequest extends FormRequest
     public function rules()
     {
         return [
-            'Numero'       => 'required|numeric|min:0|unique:facturas,Numero,'. 
+            'Numero'          => 'required|numeric|min:0|unique:facturas,Numero,'. 
                                     $this->route('factura'). ',id,proveedor_id,' . $this->proveedor_id,
-            'proveedor_id' => 'required',
-            'Documento'    => 'mimes:pdf',
-            'descP'        => 'required',
+            'orden_compra_id' => 'nullable',
+            'proveedor_id'    => 'required',
+            'Documento'       => 'mimes:pdf',
+            'descP'           => 'required',
+            'Fecha_ingreso'   => 'required|date',
         ];
     }
 
@@ -46,6 +49,26 @@ class FacturaRequest extends FormRequest
                      $validator->errors()->add('Documento', 'El campo Documento es requerido');
                 }
             }
+            if($this->ordenRepetida()){
+                $validator->errors()->add('orden_compra_id', 'La orden de compra ya se encuentra asociada a otra factura');
+            }
         });
+    }
+
+    private function ordenRepetida()
+    {
+
+        $orden = factura::where('orden_compra_id', $this->orden_compra_id)->get();
+        if(!$orden->isEmpty() && $this->orden_compra_id){
+            if($this->route('factura')){
+                $factura = factura::findOrFail($this->route('factura'));
+                if( $factura->orden_compra_id != $orden->first()->orden_compra_id ){
+                    return true;
+                }
+            }else{
+                return true;
+            }
+        }
+        return false;
     }
 }

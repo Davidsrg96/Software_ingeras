@@ -39,7 +39,7 @@
 
             var contador = 1;
             @foreach($ordenes as $orden)
-                @if( $orden->productos->count() )
+                @if( !$orden->productos->isEmpty() )
                     @foreach($orden->productos as $key => $producto)
                         @if($key > 0)
                             @if( $orden->productos[$key-1]->Descripcion != $producto->Descripcion)
@@ -57,6 +57,7 @@
                     '<td>' + '{{ $orden->productos->last()->Descripcion }}' +'</td>'+
                     '<td>' + contador +'</td>';
                     document.getElementById("tabla_productos{{ $orden->id }}").insertRow(-1).innerHTML = bodyTable;
+                    contador = 1;
                 @endif
             @endforeach
         });
@@ -98,32 +99,40 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach( $ordenes as $orden )
+                            @foreach( $ordenes as $dato )
                                 <tr>
-                                    <td>{{ $orden->Numero }}</td>
-                                    <td>{{ $orden->proveedor->Nombre_proveedor }}</td>
-                                    <td>{{ date('d-m-Y', strtotime($orden->Fecha_ingreso)) }}</td>
+                                    <td>{{ $dato->Numero }}</td>
+                                    <td>{{ $dato->proveedor->Nombre_proveedor }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($dato->Fecha_ingreso)) }}</td>
                                     <td>
                                         <button role="button"  class="btn btn-info btn-round btn-block" title="Mostrar Productos"
-                                            data-toggle="modal" data-target="#productos{{ $orden->id }}">
-                                                {{ $orden->productos->count() }}
+                                            data-toggle="modal" data-target="#productos{{ $dato->id }}">
+                                                {{ $dato->productos->count() }}
                                         </button>
                                     </td>
                                     <td class="text-medio">
-                                         <div class="btn-group">
-                                            <a href="{{route('orden_de_compra.edit', $orden->id)}}"
-                                                class="btn btn-primary btn-round" title="Editar Usuario">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                            </a>
-                                            <a href="{{route('orden_de_compra.show', $orden->id)}}"
-                                                class="btn btn-warning" title="Mostrar Usuario">
-                                                    <i class="fas fa-eye" style="color: white"></i>
-                                            </a>
-                                            <a href="" data-target="#del{{$orden->id}}" class="btn btn-danger btn-round" 
-                                                data-toggle="modal" title="Eliminar Usuario">
-                                                    <i class="fas fa-trash-alt" style="color: white"></i>
-                                            </a>
-                                        </div>
+                                        <form
+                                            method="POST"
+                                            action="{{ route('orden_de_compra.destroy', $dato->id) }}"
+                                            style='display:inline-flex'>
+                                                @csrf
+                                                @method('DELETE')
+                                                <div class="btn-group">
+                                                    <a href="{{route('orden_de_compra.edit', $dato->id)}}"
+                                                        class="btn btn-primary btn-round" title="Editar Usuario">
+                                                            <i class="fas fa-pencil-alt"></i>
+                                                    </a>
+                                                    <a href="{{route('orden_de_compra.show', $dato->id)}}"
+                                                        class="btn btn-warning" title="Mostrar Usuario">
+                                                            <i class="fas fa-eye" style="color: white"></i>
+                                                    </a>
+                                                    <a href="" data-target="#del{{$dato->id}}" class="btn btn-danger btn-round" 
+                                                        data-toggle="modal" title="Eliminar Usuario">
+                                                            <i class="fas fa-trash-alt" style="color: white"></i>
+                                                    </a>
+                                                </div>
+                                                @include('layouts.pop-up.confirmacionDelete')
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

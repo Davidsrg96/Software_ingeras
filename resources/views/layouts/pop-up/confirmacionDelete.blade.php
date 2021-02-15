@@ -9,10 +9,16 @@
                 <p><font color="black">Si presiona cancelar, no se eliminaran los cambios</font> </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-                <button class="btn btn-primary btn-danger" type="submit">
-                    Eliminar
-                </button>
+                 <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-primary btn-danger" type="submit">
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

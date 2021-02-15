@@ -95,7 +95,7 @@
                             <div class="form-group{{ $errors->has('Tipo_producto') ? ' has-error' : '' }}">
                                 <label>Tipo de producto<span class="required">*</span></label>
                                 <select class="form-control" id="Tipo_producto" name="Tipo_producto">
-                                    <option value>-- Seleccione el tipo de producto --</option>
+                                    <option>-- Seleccione el tipo de producto --</option>
                                     <option value="Material">Material</option>
                                     <option value="Herramienta">Herramienta</option>
                                 </select>

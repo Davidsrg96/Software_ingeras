@@ -96,7 +96,7 @@
                             <div class="form-group{{ $errors->has('Tipo_producto') ? ' has-error' : '' }}">
                                 <label>Tipo de producto<span class="required">*</span></label>
                                 <select class="form-control" id="Tipo_producto" name="Tipo_producto">
-                                    <option value{{ (!$producto->Tipo_producto) ? 'selected' : '' }}>-- Seleccione el tipo de producto --</option>
+                                    <option value>-- Seleccione un tipo de producto --</option>
                                     <option value="Material" {{ ( $producto->Tipo_producto == 'Material') ? 'selected' : '' }}>Material</option>
                                     <option value="Herramienta" {{ ( $producto->Tipo_producto == 'Herramienta') ? 'selected' : ''}}>Herramienta</option>
                                 </select>

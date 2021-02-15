@@ -38,6 +38,29 @@
             });
         });
 
+        var contador = 1;
+        @foreach($facturas as $factura)
+            @if( !$factura->productos->isEmpty() )
+                @foreach($factura->productos as $key => $producto)
+                    @if($key > 0)
+                        @if( $factura->productos[$key-1]->Descripcion != $producto->Descripcion)
+                            var bodyTable ='<td>' + '{{ $factura->productos[$key-1]->Codigo }}' +'</td>'+
+                            '<td>' + '{{ $factura->productos[$key-1]->Descripcion }}' +'</td>'+
+                            '<td>' + contador +'</td>';
+                            document.getElementById("tabla_productos{{ $factura->id }}").insertRow(-1).innerHTML = bodyTable;
+                            contador = 1;
+                        @else
+                            contador++;
+                        @endif
+                    @endif
+                @endforeach
+                var bodyTable ='<td>' + '{{ $factura->productos->last()->Codigo }}' +'</td>'+
+                '<td>' + '{{ $factura->productos->last()->Descripcion }}' +'</td>'+
+                '<td>' + contador +'</td>';
+                document.getElementById("tabla_productos{{ $factura->id }}").insertRow(-1).innerHTML = bodyTable;
+                contador = 1;
+            @endif
+        @endforeach
 
         //Toaster
         @if(Session::has('success'))

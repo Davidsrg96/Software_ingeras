@@ -78,16 +78,17 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::prefix('abastecimiento')->group(function(){
 
-		//Rutas para Factura
-		Route::resource('factura', 'FacturaController');
-		Route::get('factura/ver/{oc}/{proveedor}',['as' =>'factura.oc', 'uses' => 'FacturaController@factura_oc']);
-
 		//Rutas de Productos
 		Route::resource('producto', 'ProductoController');
 		Route::post('producto/mover/{id}', ['as' =>'producto.mover', 'uses' => 'productoController@mover']);
 		
 		//Rutas de Orden de Compra
 		Route::resource('orden_de_compra', 'OrdenDeCompraController');
+
+		//Rutas de factura
+		Route::resource('factura', 'FacturaController');
+		Route::get('factura/validar/{factura}/show', 'FacturaController@validar')->name('factura.validar');
+		Route::put('factura/validar/{factura}', 'FacturaController@updateValidar')->name('factura.validar.update');
 
 		//Rutas de Guías de Despacho
 		Route::prefix('guia_despacho')->name('despacho.')->group(function(){
@@ -144,5 +145,6 @@ Route::group(['middleware' => 'auth'], function () {
 					->name('departamento.personal.rut');
 
 		Route::get('factura/proveedor/{id}', 'FacturaAjaxController@getProveedor')->name('factura.proveedor');
+		Route::get('factura/orden/{id}', 'FacturaAjaxController@getOrden')->name('factura.orden');
 	});
 });

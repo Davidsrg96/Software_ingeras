@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-    'namePage' => 'Crear orden de compra',
+    'namePage' => 'Editar orden de compra',
     'class' => 'sidebar-mini',
     'activePage' => 'Orden de Compra',
 ])
@@ -54,7 +54,7 @@
                 var bodyTable = '<td>' + desc.charAt(0).toUpperCase() + desc.substr(1) +'</td>'+
                     '<td>' + precio +'</td>'+
                     '<td><input type="number" id="cantP" name="cantP[]" value=1></td>'+
-                    '<td><a class="borrar btn btn-danger" title="Eliminar Producto" style="width:100%">-</a>';
+                    '<td><a class="borrar btn btn-danger letra" title="Eliminar Producto" style="width:100%">-</a>';
                 //Se agrega la fila creada a la tabla
                 document.getElementById("tabla_ordenCompra").insertRow(-1).innerHTML = bodyTable;
 
@@ -157,19 +157,56 @@
             @if (old('proveedor_id'))
                 $("#proveedor_id").val('{{ old('proveedor_id') }}');
                 $("#proveedor_id").change();
+            @else
+                $("#proveedor_id").change();
+            @endif
+            @if( old('Fecha_ingreso') )
+                $('#Fecha_ingreso').val('{{ old('Fecha_ingreso') }}');
             @endif
             @if (old('descP'))
                 @foreach(old('descP') as $key => $desc)
                     var bodyTable = '<td>' + '{{ old('descP')[$key] }}' +'</td>'+
-                        '<td>' + '{{ old('precioP')[$key] }}' +'</td>'+
-                        '<td><input type="number" id="cantP" name="cantP[]" value="{{ old('cantP')[$key] }}"></td>'+
-                        '<td><a class="borrar btn btn-danger" title="Eliminar Producto" style="width:100%">-</a>';
+                        '<td>' + '{{ old('precioP')[$key] }}' +'</td>'
+                         @if (!$factura || !$factura->productos->isEmpty() && $factura->productos->where('Descripcion', $ordenCompra->productos[$key-1]->Descripcion)->isEmpty())
+                                     +'<td><input type="number" id="cantP" name="cantP[]" value="' + '{{ old('cantP')[$key] }}' +'"></td>'+
+                                 @else
+                                     +'<td>No es posible eliminar</td>';
+                                @endif
+                        '<td><a class="borrar btn btn-danger letra" title="Eliminar Producto" style="width:100%">-</a></td>';
                     //Se agrega la fila creada a la tabla
                     document.getElementById("tabla_ordenCompra").insertRow(-1).innerHTML = bodyTable;
                 @endforeach
-            @endif
-            @if( old('Fecha_ingreso') )
-                $('#Fecha_ingreso').val('{{ old('Fecha_ingreso') }}');
+            @else
+                @if( !$ordenCompra->productos->isEmpty() )
+                    var contador = 1;
+                    @foreach($ordenCompra->productos as $key => $producto)
+                        @if($key > 0)
+                            @if( $ordenCompra->productos[$key-1]->Descripcion != $producto->Descripcion)
+                                var bodyTable ='<td>' + '{{ $ordenCompra->productos[$key-1]->Descripcion }}' +'</td>'+
+                                '<td>' + '{{ $ordenCompra->productos[$key-1]->Precio_producto }}' +'</td>'+
+                                '<td><input type="number" id="cantP" name="cantP[]" value =' + contador +'></td>'
+                                @if (!$factura || !$factura->productos->isEmpty() && $factura->productos->where('Descripcion', $ordenCompra->productos[$key-1]->Descripcion)->isEmpty())
+                                     +'<td><a class="borrar btn btn-danger letra" title="Eliminar Producto" style="width:100%">-</a></td>';
+                                 @else
+                                     +'<td>No es posible eliminar</td>';
+                                @endif
+                                document.getElementById("tabla_ordenCompra").insertRow(-1).innerHTML = bodyTable;
+                                contador = 1;
+                            @else
+                                contador++;
+                            @endif
+                        @endif
+                    @endforeach
+                    var bodyTable ='<td>' + '{{ $ordenCompra->productos->last()->Descripcion }}' +'</td>'+
+                    '<td>' + '{{ $ordenCompra->productos->last()->Precio_producto }}' +'</td>'+
+                    '<td><input type="number" id="cantP" name="cantP[]" value=' + contador +'></td>'
+                     @if (!$factura || !$factura->productos->isEmpty() && $factura->productos->where('Descripcion', $ordenCompra->productos->last()->Descripcion)->isEmpty())
+                         +'<td><a class="borrar btn btn-danger letra" title="Eliminar Producto" style="width:100%">-</a></td>';
+                    @else
+                        +'<td>No es posible eliminar</td>';
+                    @endif
+                    document.getElementById("tabla_ordenCompra").insertRow(-1).innerHTML = bodyTable;
+                @endif
             @endif
         });
     </script>
@@ -181,16 +218,17 @@
             <div class="card">
                     <div class="card-header">
                         @include('error_formulario')
-                        <h2 class="title text-center">Agregar Orden de Compra</h2>
+                        <h2 class="title text-center">Editar Orden de Compra</h2>
                     </div>
                     <hr>
                     <form
                         role="form"
                         method="POST"
-                        action="{{ route('orden_de_compra.store') }}"
+                        action="{{ route('orden_de_compra.update', $ordenCompra->id) }}"
                         enctype="multipart/form-data"
                         onsubmit="return listaProductos();">
                         @csrf
+                        @method('PUT')
                         <div class="card-body">
                             <table class="table table-hover table-striped" width="100%" id="tabla_ordenCompra">
                                 <!--Informacion del proveedor-->
@@ -198,19 +236,22 @@
                                 <tr>
                                     <td>N° Orden de compra<span class="required">*</span></td>
                                     <td><input placeholder="N° de orden_de_compra..." type="number" id="Numero"
-                                        name="Numero"></td>
+                                        name="Numero" value="{{ $ordenCompra->Numero }}"></td>
 
                                     <td style="width: 10%">Fecha<span class="required">*</span></td>
                                     <td style="width: 10%"><input type="date" id="Fecha_ingreso" name="Fecha_ingreso"
-                                        value="{{ $fecha }}"></td>
+                                        value="{{ $ordenCompra->Fecha_ingreso }}"></td>
                                 </tr>
                                 <tr>
                                     <td>Proveedor</td>
-                                    <td colspan="3">
+                                    <td colspan="4">
                                         <select id="proveedor_id" name="proveedor_id">
                                             <option value>-- Seleccione un proveedor --</option>
                                             @foreach($proveedores as $proveedor)
-                                                <option value={{ $proveedor->id}} >{{ $proveedor->Nombre_proveedor}}</option>
+                                                <option value="{{ $proveedor->id }}" 
+                                                    {{ ($ordenCompra->proveedor->id == $proveedor->id) ? 'selected' : '' }}>
+                                                        {{ $proveedor->Nombre_proveedor}}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -257,7 +298,7 @@
                                     <td><input placeholder="Descripción del producto" type="text" id="desc"></td>
                                     <td><input placeholder="Precio del Producto" type="number" id="precio"></td>
                                     <td></td>
-                                    <td><input type="button" class="btn btn-success" id="addProducto()"
+                                    <td><input type="button" class="btn btn-success letra" id="addProducto()"
                                         title="Agregar Producto" onClick="addProducto()"value="+" /></td>
                                 </tr>
                                 </tbody>

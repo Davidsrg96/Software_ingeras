@@ -1,7 +1,7 @@
 @extends('layouts.app', [
-    'namePage' => 'Mostrar Factura',
+    'namePage' => 'Mostrar Orden de Compra',
     'class' => 'sidebar-mini',
-    'activePage' => 'Facturas',
+    'activePage' => 'Orden Compra',
 ])
 @push('estilos')
 <style>
@@ -50,13 +50,6 @@
             ventanaImpresion.print();
             ventanaImpresion.close();
         }
-        //Toaster
-        @if(Session::has('success'))
-            mensajeEmergente('{{ Session::get('success')['titulo'] }}', '{{ Session::get('success')['mensaje'] }}');
-        @endif
-        @if(Session::has('fail'))
-            mensajeEmergente('{{ Session::get('fail')['titulo'] }}', '{{ Session::get('fail')['mensaje'] }}', 'error');
-        @endif
     </script>
 @endpush
 @section('cuerpo')
@@ -65,83 +58,65 @@
         <div class="row">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="title text-center">Factura N° {{ $factura->Numero }}</h2>
+                    <h2 class="title text-center">Orden de Compra N° {{ $orden->Numero }}</h2>
                 </div>
                 <hr>
                 <div class="card-body">
-                    <a type="button" class="btn btn-primary" href="{{ route('factura.index') }}" role="button">
+                    <a type="button" class="btn btn-primary" href="{{ route('orden_de_compra.index') }}" role="button">
                         <i class="fas fa-arrow-left"></i> Volver a la lista
                     </a>
-                    <a href="{{ route('factura.validar', $factura->id) }}" class="btn btn-warning">Validar Factura</a>
                     <div class="row">
                         <div class="card-body col-md-6">
                             <h4 class="espacioChico" align="center"><strong>Información General</strong></h4>
                             <div class="row">
                                 <div class="col-md-4 item"><strong>Número</strong></div>
-                                <div class="col-md-8 espacioChico">{{ $factura->Numero }}</div>
+                                <div class="col-md-8 espacioChico">{{ $orden->Numero }}</div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4 item"><strong>Fecha de ingreso</strong></div>
-                                <div class="col-md-8 espacioChico">{{ $factura->Fecha_ingreso }}</div>
+                                <div class="col-md-8 espacioChico">{{ $orden->Fecha_ingreso }}</div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4 item"><strong>Proveedor</strong></div>
-                                <div class="col-md-8 espacioChico">{{ $factura->proveedor->Nombre_proveedor }}</div>
+                                <div class="col-md-8 espacioChico">{{ $orden->proveedor->Nombre_proveedor }}</div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4 item"><strong>Estado</strong></div>
-                                <div class="col-md-8 espacioChico }}">{{ $factura->Estado }}</div>
-                            </div>
-                            @if($factura->Observacion)
-                                <div class="row">
-                                    <div class="col-md-4 item"><strong>Obseracion</strong></div>
-                                    <div class="col-md-8 espacioChico">{{ $factura->Observacion }}</div>
-                                </div>
-                            @endif
-                            @if(!$factura->productos->isEmpty())
+                            @if(!$orden->productos->isEmpty())
                                 <h4 class="espacioGrande espacioChico" align="center"><strong>Productos</strong></h4>
                                 <div class="btn-group col-md-6 offset-3">
                                     <button role="button" class="btn btn-info btn-round"
                                         title="Mostrar Productos" data-toggle="modal"
-                                        data-target="#productos{{ $factura->id }}">
-                                            {{ $factura->productos->count() }}
-                                    </button>
-                                    <button
-                                        class="btn btn-success btn-round" title="Imprimir"
-                                        onclick="javascript:window.imprimirDIV('codigos');">
-                                            <i class="fas fa-print" style="color: white"></i>
+                                        data-target="#productos{{ $orden->id }}">
+                                            {{ $orden->productos->count() }}
                                     </button>
                                 </div>
                             @endif
                         </div>
                         <div class="card-body col-md-6">
-                            <object data="{{ asset(Storage::disk('factura')->url($factura->Documento)) }}"
+                            <object data="{{ asset(Storage::disk('ordenCompra')->url($orden->Documento)) }}"
                                     type="application/pdf" 
                                     width="100%" 
                                     height="100%">
                             </object>
                         </div>
-                        <div id="productos{{ $factura->id }}" class="modal fade" role="dialog">
-                            <div class="modal-dialog modal-lg">
+                        <div id="productos{{ $orden->id }}" class="modal fade" role="dialog">
+                            <div class="modal-dialog modal-md">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title">Lista de Productos</h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body" id="codigoB">
-                                        @if(!$factura->productos->isEmpty())
+                                        @if(!$orden->productos->isEmpty())
                                             <table id="tabla_productos" class="table table-hover table-striped">
                                                 <thead>
                                                     <tr>
-                                                        <th>Codigo</th>
                                                         <th>Descripción</th>
                                                         <th>Precio</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($factura->productos as $producto)
+                                                    @foreach($orden->productos as $producto)
                                                         <tr>
-                                                            <td>{!!DNS1D::getBarcodeSVG($producto->Codigo, 'C128')!!}</td>
                                                             <td>{{ $producto->Descripcion }}</td>
                                                             <td>${{ $producto->Precio_producto }}</td>
                                                         </tr>
@@ -149,7 +124,7 @@
                                                 </tbody>
                                             </table>
                                         @else
-                                            <p style="color: black">La bodega no tiene productos asignados</p>
+                                            <p style="color: black">No hay productos asignados</p>
                                         @endif
                                     </div>
                                     <div class="modal-footer">
@@ -160,7 +135,6 @@
                         </div>
                     </div>
                 </div>
-                @include('Facturas.partials.codigoBarra')
             </div>
         </div>
     </div>

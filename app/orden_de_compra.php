@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class orden_de_compra extends Model
 {
+
+    protected $table ='orden_de_compras';
+    protected $primarykey = 'id';
+    public $timestamps = false;
+
     protected $fillable = [
         'Numero',
         'Documento',
@@ -24,9 +29,9 @@ class orden_de_compra extends Model
 
     public function facturas()
     {
-        return $this->hasMany(
+        return $this->hasOne(
             factura::class,
-            'oc_id',
+            'orden_compra_id',
             'id'
         );
     }

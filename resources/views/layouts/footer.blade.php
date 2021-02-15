@@ -3,23 +3,16 @@
     <nav>
       <ul>
         <li>
-          <a href="#">
-            {{__(" Creative Tim")}}
-          </a>
+          <a ></a>
         </li>
         <li>
-          <a href="#">
-            {{__(" About Us")}}
-          </a>
+          <a ></a>
         </li>
         <li>
-          <a href="#">
-            {{__(" Blog")}}
-          </a>
+          <a> </a>
         </li>
         <li>
-          <a href="#" >
-            {{__(" Updivision")}}</a>
+          <a ></a>
         </li>
       </ul>
     </nav>

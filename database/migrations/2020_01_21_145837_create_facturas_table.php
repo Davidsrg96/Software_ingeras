@@ -14,7 +14,7 @@ class CreateFacturasTable extends Migration
             $table->bigInteger('Numero');
             $table->date('Fecha_ingreso');
             $table->enum('Estado',['Gestionando','Completa','Incompleta']);
-            $table->string('Observacion')->nullable();
+            $table->string('Observacion',500)->nullable();
             $table->string('Documento')->nullable();
 
             $table->integer('orden_compra_id')->unsigned()->nullable();
