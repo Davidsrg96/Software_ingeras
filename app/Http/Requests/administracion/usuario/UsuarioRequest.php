@@ -19,7 +19,6 @@ class UsuarioRequest extends FormRequest
             'Nombre'          => 'required|alpha',
             'Apellido'        => 'required|alpha',
             'rutEs'           => 'required',
-            'Confiabilidad'   => 'nullable',
             'email'           => 'required|email|unique:usuario,email,' . $this->route('usuario'),
             'password'        => 'required_if:' . $this->route('usuario') . ',==,0',
             'Es_externo'      => 'required',

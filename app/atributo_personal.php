@@ -14,18 +14,8 @@ class atributo_personal extends Model
     protected  $fillable = [
         'Nombre_atributo',
         'Valor_atributo',
-        'usuario_id',
         'trabajador_id' ,
     ];
-
-    public function usuario()
-    {
-        return $this->belongsTo(
-            usuario::class,
-            'usuario_id',
-            'id'
-        );
-    }
 
     public function trabajador()
     {

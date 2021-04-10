@@ -23,6 +23,7 @@ class FacturaRequest extends FormRequest
             'Documento'       => 'mimes:pdf',
             'descP'           => 'required',
             'Fecha_ingreso'   => 'required|date',
+            'bodega'          => 'required',
         ];
     }
 

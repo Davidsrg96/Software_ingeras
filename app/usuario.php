@@ -9,6 +9,7 @@ use App\tipo_usuario;
 use App\cargo;
 use App\departamento;
 use App\ciudad;
+use App\trabajador;
 
 class usuario extends Authenticatable
 {
@@ -25,8 +26,6 @@ class usuario extends Authenticatable
         'password',
         'email',
         'Es_externo',
-        'Confiabilidad',
-        'Carga_proyecto',
         'ciudad_id',
         'cargo_id',
         'tipo_usuario_id',
@@ -71,19 +70,10 @@ class usuario extends Authenticatable
         );
     }
 
-    public function atributosPersonales()
+    public function trabajador()
     {
-        return $this->hasMany(
-            atributo_personal::class,
-            'usuario_id',
-            'id'
-        );
-    }
-
-    public function documentos()
-    {
-        return $this->hasMany(
-            documento::class,
+        return $this->hasOne(
+            trabajador::class,
             'usuario_id',
             'id'
         );

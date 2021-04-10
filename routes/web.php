@@ -144,7 +144,11 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('departamento/personal/rut/{id}','PersonalDeptoAjaxController@rut')
 					->name('departamento.personal.rut');
 
-		Route::get('factura/proveedor/{id}', 'FacturaAjaxController@getProveedor')->name('factura.proveedor');
+		Route::get('factura/proveedor/{id}', 'FacturaAjaxController@getProveedor')
+					->name('factura.proveedor');
 		Route::get('factura/orden/{id}', 'FacturaAjaxController@getOrden')->name('factura.orden');
+
+		Route::get('trabajador/usuario/{rut}', 'TrabajadorAjaxController@getUsuario')
+					->name('trabajador.usuario');
 	});
 });

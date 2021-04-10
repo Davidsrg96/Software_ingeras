@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             DepartamentoSeeder::class,
             TipoUsuarioSeeder::class,
             UsuarioSeeder::class,
-            TrabajadorSeeder::class,
             CargoSeeder::class,
             ActividadSeeder::class,
             BodegaSeeder::class,

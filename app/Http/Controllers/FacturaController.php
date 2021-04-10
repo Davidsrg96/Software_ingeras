@@ -32,7 +32,8 @@ class FacturaController extends Controller
         $proveedores = proveedor::all();
         $ordenes     = orden_de_compra::all();
         $fecha = explode(' ', Carbon::now()->toDateTimeString())[0];
-        return view('Facturas.create', compact('proveedores', 'ordenes','fecha'));
+        $bodegas = bodega::all();
+        return view('Facturas.create', compact('proveedores', 'ordenes','fecha', 'bodegas'));
     }
 
     public function store(FacturaRequest $request)
@@ -72,8 +73,9 @@ class FacturaController extends Controller
         $factura     = factura::findOrFail($id);
         $proveedores = proveedor::all();
         $ordenes     = orden_de_compra::all();
-        $fecha = explode(' ', Carbon::now()->toDateTimeString())[0];
-        return view('Facturas.edit', compact('factura', 'proveedores', 'ordenes', 'fecha'));
+        $fecha       = explode(' ', Carbon::now()->toDateTimeString())[0];
+        $bodegas     = bodega::all(); 
+        return view('Facturas.edit', compact('factura', 'proveedores', 'ordenes', 'fecha', 'bodegas'));
     }
 
     public function update(FacturaRequest $request, $id)
@@ -174,7 +176,10 @@ class FacturaController extends Controller
         $this->eliminarInexitentes($factura, $request);
         if($factura->orden_compra_id != $request->orden_compra_id){
             foreach ($factura->productos->where('orden_compra_id','<>',null) as $producto) {
-                $producto->update(['factura_id' => null]);
+                $producto->update([
+                    'factura_id' => null,
+                    'bodega_id' => null
+                ]);
             }
 
             $codigo = (producto::all()->isEmpty())? 1111111111110  : producto::all()->last()->Codigo;
@@ -197,7 +202,10 @@ class FacturaController extends Controller
                         $this->crearProducto($factura->id, $request, $codigo, $key);
                     }
                     foreach ($cantProductosO as $producto) {
-                        $producto->update(['factura_id' => $factura->id]);
+                        $producto->update([
+                            'factura_id' => $factura->id,
+                            'bodega_id'  => $bodega
+                        ]);
                     }
                 }else{
                     if ($cantProductosO >= $request->cantP[$key]) {
@@ -205,11 +213,17 @@ class FacturaController extends Controller
                             $producto->delete();
                         }
                         for ($i=0; $i < $request->cantP[$key] ; $i++) { 
-                            $cantProductosO[$key]->update(['factura_id' => $factura->id]);
+                            $cantProductosO[$key]->update([
+                                'factura_id' => $factura->id,
+                                'bodega_id'  => $bodega
+                            ]);
                         }
                     }else{
                         foreach ($cantProductosO as $producto) {
-                            $producto->update(['factura_id' => $factura->id]);
+                            $producto->update([
+                                'factura_id' => $factura->id,
+                                'bodega_id'  => $bodega
+                            ]);
                         }
                         for ($i=0; $i < $suma - $request->cantP[$key] ; $i++) { 
                             $cantProductosF[$key]->delete();
@@ -222,7 +236,10 @@ class FacturaController extends Controller
     private function editSinOrden($request, $factura)
     {
         foreach ($factura->productos->where('orden_compra_id','<>',null) as $producto) {
-            $producto->update(['factura_id' => null]);
+            $producto->update([
+                'factura_id' => null,
+                'bodega_id'  => null
+            ]);
         }
         $this->eliminarInexitentes($factura, $request);
         $codigo = (producto::all()->isEmpty())? 1111111111110  : producto::all()->last()->Codigo;
@@ -257,7 +274,10 @@ class FacturaController extends Controller
             }
             if(!$existe){
                 if($producto->orden_compra_id){
-                    $producto->update(['factura_id' => null]);
+                    $producto->update([
+                        'factura_id' => null,
+                        'bodega_id'  => null
+                    ]);
                 }else{
                     $producto->delete();
                 }
@@ -275,7 +295,8 @@ class FacturaController extends Controller
             'Descripcion'     => $request->descP[$key],
             'Precio_producto' => $request->precioP[$key],
             'proveedor_id'    => $request->proveedor_id,
-            'factura_id'      => $id
+            'factura_id'      => $id,
+            'bodega_id'       => $request->bodega,
         ]);
     }
 
