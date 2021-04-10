@@ -19,10 +19,6 @@ class UsuarioRequest extends FormRequest
             'Nombre'          => 'required|alpha',
             'Apellido'        => 'required|alpha',
             'rutEs'           => 'required',
-<<<<<<< HEAD
-            'Confiabilidad'   => 'required',
-=======
->>>>>>> parent of c4bc801 (Revert "a")
             'email'           => 'required|email|unique:usuario,email,' . $this->route('usuario'),
             'password'        => 'required_if:' . $this->route('usuario') . ',==,0',
             'Es_externo'      => 'required',

@@ -65,9 +65,6 @@
                                         <strong>{{ $errors->first('Nombre') }}</strong>
                                     </span>
                                 </label>
-<<<<<<< HEAD
-                            @endif
-=======
                                 <div class="form-check form-check-radio">
                                     <label class="form-check-label">
                                         <input class="form-check-input" type="radio" name="Es_externo" id="interno" value="1" >
@@ -138,7 +135,6 @@
                                     </label>
                                 @endif
                             </div>
->>>>>>> parent of c4bc801 (Revert "a")
                         </div>
                         <div class="form-group{{ $errors->has('Apellido') ? ' has-error' : '' }}">
                             <label>Apellido<span class="required">*</span></label>
