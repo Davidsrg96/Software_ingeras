@@ -1,14 +1,6 @@
 @extends('layoutGeneral')
 @section('titulo', 'Inicio')
 @push('estilos')
-<<<<<<< HEAD
-  <style>
-    .main-panel>.content {
-      margin-top: 0px;
-    }
-  </style>
-=======
->>>>>>> parent of 2c803cf (modificaciones)
 @endpush
 @push('acciones')
 @endpush

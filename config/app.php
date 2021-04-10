@@ -174,11 +174,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-<<<<<<< HEAD
-        LaravelFrontendPresets\NowUiPreset\NowUiPresetServiceProvider::class,
-=======
->>>>>>> parent of 2c803cf (modificaciones)
-        Milon\Barcode\BarcodeServiceProvider::class,
 
     ],
 

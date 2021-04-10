@@ -17,17 +17,7 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('home', 'HomeController@index')->name('home.index');
 
-<<<<<<< HEAD
-Route::group(['middleware' => 'auth'], function () {
-	Route::resource('user', 'UserController', ['except' => ['show']]);
-	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
-	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
-	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
-	Route::get('{page}', ['as' => 'page.index', 'uses' => 'PageController@index']);
-	
-	//RUTAS PARA ADMINISTRACION
-=======
->>>>>>> parent of 2c803cf (modificaciones)
+
 
 	Route::prefix('admin')->group(function(){
 		
@@ -145,9 +135,6 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('factura/proveedor/{id}', 'FacturaAjaxController@getProveedor')->name('factura.proveedor');
 		Route::get('factura/orden/{id}', 'FacturaAjaxController@getOrden')->name('factura.orden');
 	});
-});
-<<<<<<< HEAD
-=======
 
 //Rutas de Solicitudes
 Route::resource('solicitudes','SolicitudController');
@@ -197,4 +184,3 @@ Route::prefix('ajax')->namespace('ajax')->name('ajax.')->group(function(){
 });
 Auth::routes();
 
->>>>>>> parent of 2c803cf (modificaciones)
