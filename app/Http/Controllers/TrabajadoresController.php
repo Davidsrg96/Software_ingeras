@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\trabajador;
-use App\usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,24 +17,13 @@ class TrabajadoresController extends Controller
 
     public function create()
     {
-        $users = usuario::all();
-        foreach ($users as $usuario){
-            $usuarios[] = [
-                'id'           => $usuario->id,
-                'rut'          => $usuario->Rut,
-                'nombre'       => $usuario->getNombreCompleto(),
-                'ciudad'       => $usuario->ciudad->Nombre,
-                'correo'       => $usuario->email,
-                'tipo_usuario' => $usuario->tipo_usuario->Tipo_usuario,
-                'cargo'        => $usuario->cargo? $usuario->cargo->Tipo_cargo : 'Sin asignar',
-            ];
-        }
-        return view('Trabajadores.create', compact('usuarios'));
+        return view('Trabajadores.create');
     }
 
     public function store(Request $request)
     {
-        dd($request->all());
+        DB::insert('INSERT INTO trabajadors (Nombre,Rut)
+                            VALUES (?,?)',[$request->get('nombre'),$request->get('rut')]);
         return redirect()->route('trabajadores.index');
     }
 
@@ -47,20 +35,20 @@ class TrabajadoresController extends Controller
 
     public function edit($id)
     {
-        $trabajador = trabajador::findOrFail($id);
-        return view('Trabajadores.create',compact('trabajador'));
+        $t = trabajador::find($id);
+        return view('Trabajadores.create',compact('t'));
     }
 
     public function update(Request $request, $id)
     {
-        dd($id);
-
+        DB::update('UPDATE trabajadors SET Nombre = ?, Rut = ? WHERE id = ?',
+                            [$request->get('nombre'),$request->get('rut'),$id]);
         return redirect()->route('trabajadores.index');
     }
 
     public function destroy($id)
     {
-        dd($id);
+        DB::delete('DELETE FROM trabajadors WHERE id = ?',[$id]);
         return redirect()->route('trabajadores.index');
     }
 }

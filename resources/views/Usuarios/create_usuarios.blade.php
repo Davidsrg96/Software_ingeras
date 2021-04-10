@@ -23,6 +23,10 @@
             @if (old('email'))
                 $("#email").val('{{ old('email') }}');
             @endif
+            @if (old('Confiabilidad'))
+                $("#Confiabilidad").val('{{ old('Confiabilidad') }}');
+                $("#Confiabilidad").change();
+            @endif
             @if (old('ciudad_id'))
                 $("#ciudad_id").val('{{ old('ciudad_id') }}');
                 $("#ciudad_id").change();
@@ -140,6 +144,22 @@
                                     <label>
                                         <span class="required form-error">
                                             <strong>{{ $errors->first('Es_externo') }}</strong>
+                                        </span>
+                                    </label>
+                                @endif
+                            </div>
+                            <div class="form-group{{ $errors->has('Confiabilidad') ? ' has-error' : '' }}">
+                                <label>Confiabilidad<span class="required">*</span></label><br>
+                                <select class="form-control" id="Confiabilidad" name="Confiabilidad">
+                                    <option value>-- Seleccione un valor --</option>
+                                    @for( $i = 0; $i <= 5 ; $i++)
+                                        <option value={{$i}}>{{ $i}}</option>
+                                    @endfor
+                                </select>
+                                @if ($errors->has('Confiabilidad'))
+                                    <label>
+                                        <span class="required form-error">
+                                            <strong>{{ $errors->first('Confiabilidad') }}</strong>
                                         </span>
                                     </label>
                                 @endif

@@ -2,6 +2,7 @@ function autocomplete(inp, out, arr) {
 // function autocomplete(inp, arr) { -->eliminar
 	/*the autocomplete function takes two arguments,
 	the text field element and an array of possible autocompleted values:*/
+
 	var currentFocus;
 	/*execute a function when someone writes in the text field:*/
 	inp.addEventListener("input", function(e) {
@@ -19,22 +20,20 @@ function autocomplete(inp, out, arr) {
 		/*for each item in the array...*/
 		for (i = 0; i < arr.length; i++) {
 			/*check if the item starts with the same letters as the text field value:*/
-			if (arr[i].dato.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+			if (arr[i].nombre.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
 				/*create a DIV element for each matching element:*/
 				b = document.createElement("DIV");
 				/*make the matching letters bold:*/
-				b.innerHTML = "<strong>" + arr[i].dato.substr(0, val.length) + "</strong>";
-				b.innerHTML += arr[i].dato.substr(val.length);
+				b.innerHTML = "<strong>" + arr[i].nombre.substr(0, val.length) + "</strong>";
+				b.innerHTML += arr[i].nombre.substr(val.length);
 				/*insert a input field that will hold the current array item's value:*/
-				b.innerHTML += "<input type='hidden' id='" + arr[i].id + "' name='" + arr[i].dato + "'>";
+				b.innerHTML += "<input type='hidden' id='" + arr[i].id + "' name='" + arr[i].nombre + "'>";
 				/*execute a function when someone clicks on the item value (DIV element):*/
 				b.addEventListener("click", function(e) {
 					/*insert the value for the autocomplete text field:*/
-					var rutInput = this.getElementsByTagName("input")[0].name;
-					inp.value = rutInput;
-
+					var rutInput = this.getElementsByTagName("input")[0].name.split('{')[0];
+					inp.value = rutInput.substr(0, rutInput.length - 1);
 					out.value = this.getElementsByTagName("input")[0].id;
-
 					/*close the list of autocompleted values,
 					(or any other open lists of autocompleted values:*/
 					closeAllLists();

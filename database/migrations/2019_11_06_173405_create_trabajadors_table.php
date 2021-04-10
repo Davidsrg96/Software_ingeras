@@ -11,12 +11,8 @@ class CreateTrabajadorsTable extends Migration
     {
         Schema::create('trabajadors', function (Blueprint $table) {
             $table->Increments('id');
-            $table->integer('Confiabilidad')->default(0);
-            $table->integer('Carga_proyecto')->default(0);
-
-            $table->integer('usuario_id')->unsigned()->nullable();
-            $table->foreign('usuario_id')->references('id')
-                ->on('cargos')->onDelete('cascade');
+            $table->string('Rut')->unique();
+            $table->string('Nombre');
 
             $table->timestamps();
         });

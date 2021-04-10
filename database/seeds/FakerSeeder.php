@@ -1,13 +1,12 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\usuario;
+use App\proveedor;
+use App\producto;
+use App\tipo_usuario;
 use App\bodega;
 use App\factura;
-use App\usuario;
-use App\producto;
-use App\proveedor;
-use App\trabajador;
-use App\tipo_usuario;
 use App\orden_de_compra;
 
 class FakerSeeder extends Seeder
@@ -71,8 +70,5 @@ class FakerSeeder extends Seeder
             'proveedor_id'  => $pcFctory->id,
         ]);
 
-        trabajador::create([
-            'usuario_id' => 1
-        ]);
     }
 }

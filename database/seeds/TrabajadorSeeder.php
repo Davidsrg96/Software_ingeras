@@ -9,5 +9,10 @@ class TrabajadorSeeder extends Seeder
 
     public function run()
     {
+    	$user = usuario::all()->first();
+    	trabajador::create([
+        	'nombre'   => $user->Nombre,
+        	'rut'      => $user->Rut,
+        ]);
     }
 }

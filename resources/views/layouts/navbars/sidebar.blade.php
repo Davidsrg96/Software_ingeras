@@ -70,7 +70,7 @@
           </ul>
         </div>
       </li>
-      <li>
+       <li>
         <a data-toggle="collapse" href="#almacenamiento">
             <i class="fas fa-archive"></i>
           <p>
@@ -95,24 +95,17 @@
           </ul>
         </div>
       </li>
+      <li class="@if ($activePage == 'Trabajadores') active @endif">
+        <a href="{{ route('trabajadores.index') }}">
+          <i class="now-ui-icons education_paper"></i>
+          <p>{{ __('Trabajadores') }}</p>
+        </a>
+      </li>
       <li class="@if ($activePage == 'Proveedores') active @endif">
         <a href="{{ route('proveedores.index') }}">
           <i class="far fa-handshake"></i>
           <p>{{ __('Proveedores') }}</p>
         </a>
-      </li>
-      <div class="subtitulo-div">
-        <p class="text-center subtitulo-nav">
-          {{ __('Recursos Humanos') }}
-        </p>
-      </div>
-      <li>
-        <li class="@if ($activePage == 'Trabajadores') active @endif">
-          <a href="{{ route('trabajadores.index') }}">
-            <i class="now-ui-icons education_paper"></i>
-            <p>{{ __('Trabajadores') }}</p>
-          </a>
-        </li>
       </li>
       <div class="subtitulo-div">
         <p class="text-center subtitulo-nav">

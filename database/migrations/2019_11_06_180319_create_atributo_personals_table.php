@@ -18,6 +18,9 @@ class CreateAtributoPersonalsTable extends Migration
             $table->string('Nombre_atributo');
             $table->string('Valor_atributo');
 
+            $table->integer('usuario_id')->unsigned()->nullable();
+            $table->foreign('usuario_id')->references('id')
+                ->on('usuario')->onDelete('cascade');
             $table->integer('trabajador_id')->unsigned()->nullable();
             $table->foreign('trabajador_id')->references('id')
                 ->on('trabajadors')->onDelete('cascade');

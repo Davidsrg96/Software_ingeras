@@ -39,7 +39,7 @@
 @endpush
 @section('cuerpo')
     <div class="panel-header panel-header-sm"></div>
-    <div class="content col-md-8 offset-2">
+    <div class="content col-md-10 offset-1">
         <div class="row">
             <div class="card">
                 <div class="card-header">
@@ -47,52 +47,56 @@
                 </div>
                 <hr>
                 <div class="card-body">
-                    <a type="button" class="btn btn-primary" href="{{route('home')}}"
-                        role="button"><i class="fas fa-arrow-left"></i> Regresar
-                    </a>
-                    <a href="{{route('trabajadores.create')}}" type="button" class="btn btn-success" >
-                        Ingresar Trabajador
-                    </a>
                     <table class="table-striped table-hover table" id="tabla_trabajadores">
                         <thead>
                         <tr>
+                            <th width="20px">ID</th>
                             <th>Nombre</th>
                             <th>Rut</th>
                             <th>Acción</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($trabajadores as $dato)
+                        @foreach($trabajadores as $t)
                             <tr>
-                                <td>{{ $dato->usuario->getNombreCompleto() }}</td>
-                                <td>{{ $dato->usuario->Rut }}</td>
+                                <td>{{$t->id}}</td>
+                                <td>{{$t->Nombre}}</td>
+                                <td>{{$t->Rut}}</td>
                                 <td>
-                                    <form
-                                        method="POST"
-                                        action="{{ route('trabajadores.destroy', $dato->id) }}"
-                                        style='display:inline-flex'>
-                                            @csrf
-                                            @method('DELETE')
-                                            
-                                        <div class="btn-group">
-                                            <a href="{{route('trabajadores.edit', $dato->id)}}"
-                                                class="btn btn-primary btn-round" title="Editar Usuario">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                            </a>
-                                            <a href="{{route('trabajadores.show', $dato->id)}}"
-                                                class="btn btn-warning" title="Mostrar Usuario">
-                                                    <i class="fas fa-eye" style="color: white"></i>
-                                            </a>
-                                            <a href="" data-target="#del{{$dato->id}}" class="btn btn-danger btn-round" 
-                                                data-toggle="modal" title="Eliminar Usuario">
-                                                    <i class="fas fa-trash-alt" style="color: white"></i>
-                                            </a>
-                                        </div>
-                                        <!--pop up confirmacion -->
-                                        @include('layouts.pop-up.confirmacionDelete')
-                                    </form>
+                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        Acción <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#" class=" btn btn-primary" title="Editar tipo de usuario">
+                                                <i class="fas fa-pencil-alt"></i>Editar</a>
+                                        </li>
+                                        <li>
+                                            <a data-target="#del{{$t->id}}" class="btn btn-danger active" data-toggle="modal" title="Eliminar Producto">
+                                                <i class="fas fa-trash-alt"></i>Eliminar</a>
+                                        </li>
+                                    </ul>
                                 </td>
                             </tr>
+                            <!--pop up confirmacion -->
+                            <div class="modal fade" id="del{{$t->id}}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Confirmacion</h5>
+                                            <button tyle="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><font color="black">Si presiona cancelar, no se eliminaran los cambios</font> </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                                            <a href="{{action('TrabajadoresController@destroy',$t->id)}}"  class="btn btn-primary">Eliminar</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                         </tbody>
                     </table>
