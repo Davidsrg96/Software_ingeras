@@ -9,16 +9,8 @@
                 <p><font color="black">Si presiona cancelar, los cambios seran descartados</font> </p>
             </div>
             <div class="modal-footer">
-                <div>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">
-                        Cancelar
-                    </button>
-                </div>
-                <div>
-                    <button type="submit"  value="store" class="btn btn-success">
-                        Guardar Cambios
-                    </button>
-                </div>
+                <button style="background-color: #971000" type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                <button style="background-color: #1c7430" type="submit"  value="store" class="btn btn-primary">Guardar Cambios</button>
             </div>
         </div>
     </div>

@@ -1,8 +1,5 @@
-@extends('layouts.app', [
-    'namePage' => 'Editar Personal Departamento',
-    'class' => 'sidebar-mini',
-    'activePage' => 'Departamentos',
-])
+@extends('layoutGeneral')
+@section('titulo', 'Editar Personal Departamento')
 @push('estilos')
     <!-- Autocomplete -->
     <link href="{{ asset('componentes/autocomplete/css/custom.css') }}" rel="stylesheet">
@@ -146,105 +143,98 @@
     </script>
 @endpush
 @section('cuerpo')
-    <div class="panel-header panel-header-sm"></div>
-    <div class="content">
-        <div class="row">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="title text-center">
-                        Personal del Departamento {{ $depto->Nombre_departamento }}
-                    </h2>
-                </div>
-                <hr>
-                <form
-                    name="update"
-                    method="POST"
-                    action="{{ route('departamento.personal.update', $depto->id) }}" 
-                    class="form-horizontal form-label-left"
-                    autocomplete="off"
-                    enctype="multipart/form-data"
-                    onsubmit="return listaPersonal();">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div class="card-body">
-                                    <div class="form-group{{ $errors->has('Nombre') ? ' has-error' : '' }}">
-                                        <label class="col-md-4 control-label">
-                                            Nombre<span class="required">*</span></label>
-                                        </label>
-                                        <div class="col-md-8">
-                                            <input placeholder="Ingrese nombre del usuario" id="Nombre" type="text" 
-                                                class="form-control">
-                                        </div>
-                                        @if ($errors->has('Nombre'))
-                                            <span class="col-md-8 col-md-offset-4 help-block">
-                                                <strong>{{ $errors->first('Nombre') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group{{ $errors->has('Rut') ? ' has-error' : '' }}">
-                                        <label class="col-md-4 control-label">
-                                            Rut<span class="required">*</span></label>
-                                        </label>
-                                        <div class="col-md-8">
-                                            <input id="Rut" type="text" class="form-control" placeholder="Ingrese Rut">
-                                        </div>
-                                        @if ($errors->has('Rut'))
-                                            <span class="col-md-8 col-md-offset-4 help-block">
-                                                <strong>{{ $errors->first('Rut') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                    <input hidden type="text" id="usuarioID" value="0">
-                                    <div class="form-group">
-                                        <div class="col-md-4">
-                                            <a style="color: white" class="btn btn-warning btn-round"
-                                                onClick="agregarActividad();">
-                                                    Agregar
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="card-body text-center">
-                                        <a href="{{ route('departamentos.edit', $depto->id) }}" class="btn btn-primary" >Atrás</a>
-                                        <a href="#confirmation" class="btn btn-success"
-                                            data-toggle="modal">Editar
-                                        </a>
-                                    </div>
+    <div class="card">
+        <div class="card-header">
+            <h1 align="center"><font color="black">
+                Personal del Departamento {{ $depto->Nombre_departamento }}
+            </font></h1>
+        </div>
+        <form
+            name="update"
+            method="POST"
+            action="{{ route('departamento.personal.update', $depto->id) }}" 
+            class="form-horizontal form-label-left"
+            autocomplete="off"
+            enctype="multipart/form-data"
+            onsubmit="return listaPersonal();">
+                @csrf
+                <div class="row" style="padding: 20px">
+                    <div class="col-md-5">
+                        <div class="card-body">
+                            <div class="form-group{{ $errors->has('Nombre') ? ' has-error' : '' }}">
+                                <label class="col-md-4 control-label">
+                                    Nombre<span class="required">*</span></label>
+                                </label>
+                                <div class="col-md-8">
+                                    <input placeholder="Ingrese nombre del usuario" id="Nombre" type="text" 
+                                        class="form-control">
+                                </div>
+                                @if ($errors->has('Nombre'))
+                                    <span class="col-md-8 col-md-offset-4 help-block">
+                                        <strong>{{ $errors->first('Nombre') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group{{ $errors->has('Rut') ? ' has-error' : '' }}">
+                                <label class="col-md-4 control-label">
+                                    Rut<span class="required">*</span></label>
+                                </label>
+                                <div class="col-md-8">
+                                    <input id="Rut" type="text" class="form-control" placeholder="Ingrese Rut">
+                                </div>
+                                @if ($errors->has('Rut'))
+                                    <span class="col-md-8 col-md-offset-4 help-block">
+                                        <strong>{{ $errors->first('Rut') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <input hidden type="text" id="usuarioID" value="0">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <a style="color: white" class="btn btn-warning" onClick="agregarActividad();">
+                                        Agregar
+                                    </a>
                                 </div>
                             </div>
-                            <div class="col-md-7">
-                                <div class="card-body">
-                                   <table class="table table-hover table-striped" id="personalTable">
-                                        <thead>
-                                        <tr>
-                                            <th>Rut</th>
-                                            <th>Nombre</th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($depto->personal as $usuario)
-                                            <tr>
-                                                <td hidden>{{ $usuario->id }}</td>'
-                                                <td id="descripcion">{{$usuario->Rut}}</td>
-                                                <td id="nombreAct">{{$usuario->Nombre}}</td>
-                                                <td>
-                                                    <a class="borrar btn btn-danger" title="Eliminar Usuario">
-                                                        <i class="fas fa-trash-alt" style="color: white"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div> 
+                            <hr>
+                            <div class="card-body">
+                                <a href="{{ route('departamentos.edit', $depto->id) }}" class="btn btn-primary" >Atrás</a>
+                                <a href="#confirmation" class="btn btn-success"
+                                    data-toggle="modal">Editar
+                                </a>
                             </div>
                         </div>
-                        @include('pop-up')
-                        @include('layouts.pop-up.error')
-                </form>
-            </div>
-        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                           <table class="table table-hover table-striped" id="personalTable">
+                                <thead>
+                                <tr>
+                                    <th>Rut</th>
+                                    <th>Nombre</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($depto->personal as $usuario)
+                                    <tr>
+                                        <td hidden>{{ $usuario->id }}</td>'
+                                        <td id="descripcion">{{$usuario->Rut}}</td>
+                                        <td id="nombreAct">{{$usuario->Nombre}}</td>
+                                        <td>
+                                            <a class="borrar btn btn-danger" title="Eliminar Usuario">
+                                                <i class="fas fa-trash-alt" style="color: white"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div> 
+                    </div>
+                </div>
+                @include('pop-up')
+                @include('layouts.pop-up.error')
+        </form>
     </div>
 @endsection

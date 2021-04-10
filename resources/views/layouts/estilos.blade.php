@@ -1,60 +1,45 @@
- <!--     Fonts and icons     -->
-<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<!-- CSS Files -->
-<link href="{{ asset('assets') }}/css/bootstrap.min.css" rel="stylesheet" />
-<link href="{{ asset('assets') }}/css/now-ui-dashboard.css?v=1.3.0" rel="stylesheet" />
-<!-- CSS Just for demo purpose, don't include it in your project -->
-<link href="{{ asset('assets') }}/demo/demo.css" rel="stylesheet" />
-<!-- Data Tables -->
+
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
+<link rel="stylesheet" type="text/css" href="{{ asset('/componentes/bootstrap/css/bootstrap.min.css') }}">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+<link type="text/css" href="{{ asset('css/layout-style.css') }}" rel="stylesheet">
+
 <!-- Toastr -->
 <link href="{{ asset('/componentes/toastr/css/toastr.min.css') }}" rel="stylesheet">
-<script>
-  // Facebook Pixel Code Don't Delete
-  ! function(f, b, e, v, n, t, s) {
-    if (f.fbq) return;
-    n = f.fbq = function() {
-      n.callMethod ?
-        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-    };
-    if (!f._fbq) f._fbq = n;
-    n.push = n;
-    n.loaded = !0;
-    n.version = '2.0';
-    n.queue = [];
-    t = b.createElement(e);
-    t.async = !0;
-    t.src = v;
-    s = b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t, s)
-  }(window,
-    document, 'script', '//connect.facebook.net/en_US/fbevents.js');
-  try {
-    fbq('init', '111649226022273');
-    fbq('track', "PageView");
-  } catch (err) {
-    console.log('Facebook Track Error:', err);
-  }
-</script>
-<style>
-  .required{
-    color: red;
-  }
-  .form-error{
-    font-size: 0.8em;
-  }
 
-  .subtitulo-nav{ 
-    font-size: 1em;
-    margin: 20px 20px;
-    padding: 0.7rem;
-    color: #FFFFFF;
-    line-height: 20px;
-  }
-  .subtitulo-div{
-    margin-top: 20px;
-    position: relative;
-    z-index: 4;
-  }
+<style>
+
+	/*Dropdawn header*/
+	.dropdown-menu .dropdown-toggle:after{
+		border-top: .3em solid transparent;
+	    border-right: 0;
+	    border-bottom: .3em solid transparent;
+	    border-left: .3em solid;
+	}
+	.dropdown-menu .dropdown-menu{
+		margin-left:0; margin-right: 0;
+	}
+	.dropdown-menu li{
+		position: relative;
+	}
+	.nav-item .submenu{ 
+		display: none;
+		position: absolute;
+		left:100%; top:-7px;
+	}
+	.nav-item .submenu-left{ 
+		right:100%; left:auto;
+	}
+	.dropdown-menu > li:hover{ background-color: #f1f1f1 }
+	.dropdown-menu > li:hover > .submenu{
+		display: block;
+	}
+	.btn-round {
+        border-radius: 20px;
+        width: 80%;
+    }
 </style>
