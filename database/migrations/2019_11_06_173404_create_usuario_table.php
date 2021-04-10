@@ -18,8 +18,6 @@ class CreateUsuarioTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('Es_externo')->default(false);
-            $table->integer('Confiabilidad')->default(0);
-            $table->integer('Carga_proyecto')->default(0);
 
             $table->integer('ciudad_id')->unsigned()->nullable();
             $table->foreign('ciudad_id')->references('id')

@@ -12,8 +12,9 @@ class trabajador extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'Rut',
-        'Nombre',
+        'Confiabilidad',
+        'Carga_proyecto',
+        'usuario_id'
     ];
 
     public function atributosPersonales()
@@ -30,6 +31,15 @@ class trabajador extends Model
         return $this->hasMany(
             documento::class,
             'trabajador_id',
+            'id'
+        );
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(
+            usuario::class,
+            'usuario_id',
             'id'
         );
     }

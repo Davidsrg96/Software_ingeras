@@ -13,18 +13,8 @@ class documento extends Model
 
     protected $fillable = [
         'Documento',
-        'usuario_id',
         'trabajador_id',
     ];
-
-    public function usuario()
-    {
-        return $this->belongsTo(
-            usuario::class,
-            'usuario_id',
-            'id'
-        );
-    }
 
     public function trabajador()
     {

@@ -20,10 +20,6 @@
             @if (old('email'))
                 $("#email").val('{{ old('email') }}');
             @endif
-            @if (old('Confiabilidad'))
-                $("#Confiabilidad").val('{{ old('Confiabilidad') }}');
-                $("#Confiabilidad").change();
-            @endif
             @if (old('ciudad_id'))
                 $("#ciudad_id").val('{{ old('ciudad_id') }}');
                 $("#ciudad_id").change();
@@ -69,7 +65,80 @@
                                         <strong>{{ $errors->first('Nombre') }}</strong>
                                     </span>
                                 </label>
+<<<<<<< HEAD
                             @endif
+=======
+                                <div class="form-check form-check-radio">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="Es_externo" id="interno" value="1" >
+                                        Interno
+                                        <span class="form-check-sign"></span>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-radio">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="radio" name="Es_externo" id="externo" value="0" >
+                                        Externo
+                                        <span class="form-check-sign"></span>
+                                    </label>
+                                </div>
+                                @if ($errors->has('Es_externo'))
+                                    <label>
+                                        <span class="required form-error">
+                                            <strong>{{ $errors->first('Es_externo') }}</strong>
+                                        </span>
+                                    </label>
+                                @endif
+                            </div>
+                            <div class="form-group{{ $errors->has('ciudad_id') ? ' has-error' : '' }}">
+                                <label>Ciudad<span class="required">*</span></label><br>
+                                <select class="form-control" id="ciudad_id" name="ciudad_id">
+                                    <option value>-- Seleccione una ciudad --</option>
+                                    @foreach($ciudades as $ciudad)
+                                        <option value={{$ciudad->id}}>{{ $ciudad->Nombre}}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('ciudad_id'))
+                                    <label>
+                                        <span class="required form-error">
+                                            <strong>{{ $errors->first('ciudad_id') }}</strong>
+                                        </span>
+                                    </label>
+                                @endif
+                            </div>
+                            <div class="form-group{{ $errors->has('tipo_usuario_id') ? ' has-error' : '' }}">
+                                <label>Tipo de Usuario<span class="required">*</span></label><br>
+                                <select class="form-control" id="tipo_usuario_id" name="tipo_usuario_id">
+                                    <option value>-- Seleccione un tipo de usuario --</option>
+                                    @foreach($tipos as $tipo)
+                                        <option value={{$tipo->id}}>{{ $tipo->Tipo_usuario}}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('tipo_usuario_id'))
+                                    <label>
+                                        <span class="required form-error">
+                                            <strong>{{ $errors->first('tipo_usuario_id') }}</strong>
+                                        </span>
+                                    </label>
+                                @endif
+                            </div>
+                            <div class="form-group{{ $errors->has('cargo_id') ? ' has-error' : '' }}">
+                                <label>Cargo<span class="required">*</span></label><br>
+                                <select class="form-control" id="cargo_id" name="cargo_id">
+                                    <option value>-- Seleccione un cargo --</option>
+                                    @foreach($cargos as $cargo)
+                                        <option value={{$cargo->id}}>{{$cargo->Tipo_cargo}}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('cargo_id'))
+                                    <label>
+                                        <span class="required form-error">
+                                            <strong>{{ $errors->first('cargo_id') }}</strong>
+                                        </span>
+                                    </label>
+                                @endif
+                            </div>
+>>>>>>> parent of c4bc801 (Revert "a")
                         </div>
                         <div class="form-group{{ $errors->has('Apellido') ? ' has-error' : '' }}">
                             <label>Apellido<span class="required">*</span></label>

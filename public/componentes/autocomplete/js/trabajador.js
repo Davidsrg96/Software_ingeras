@@ -19,14 +19,14 @@ function autocomplete(inp, out, arr) {
 		/*for each item in the array...*/
 		for (i = 0; i < arr.length; i++) {
 			/*check if the item starts with the same letters as the text field value:*/
-			if (arr[i].dato.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+			if (arr[i].rut.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
 				/*create a DIV element for each matching element:*/
 				b = document.createElement("DIV");
 				/*make the matching letters bold:*/
-				b.innerHTML = "<strong>" + arr[i].dato.substr(0, val.length) + "</strong>";
-				b.innerHTML += arr[i].dato.substr(val.length);
+				b.innerHTML = "<strong>" + arr[i].rut.substr(0, val.length) + "</strong>";
+				b.innerHTML += arr[i].rut.substr(val.length);
 				/*insert a input field that will hold the current array item's value:*/
-				b.innerHTML += "<input type='hidden' id='" + arr[i].id + "' name='" + arr[i].dato + "'>";
+				b.innerHTML += "<input type='hidden' id='" + arr[i].id + "' name='" + arr[i].rut + "'>";
 				/*execute a function when someone clicks on the item value (DIV element):*/
 				b.addEventListener("click", function(e) {
 					/*insert the value for the autocomplete text field:*/
@@ -34,6 +34,12 @@ function autocomplete(inp, out, arr) {
 					inp.value = rutInput;
 
 					out.value = this.getElementsByTagName("input")[0].id;
+
+					document.getElementById("Nombre").value       =  arr[out.value-1].nombre
+					document.getElementById("Ciudad").value       =  arr[out.value-1].ciudad
+					document.getElementById("Correo").value       =  arr[out.value-1].correo
+					document.getElementById("Cargo").value        =  arr[out.value-1].cargo
+					document.getElementById("Tipo_usuario").value =  arr[out.value-1].tipo_usuario
 
 					/*close the list of autocompleted values,
 					(or any other open lists of autocompleted values:*/

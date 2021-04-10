@@ -27,6 +27,12 @@
         padding: 5px 0px;
         font-weight: 600;
     }
+    .modal-dialog{
+        position: absolute;
+    }
+    .selectBodega{
+        position: relative;
+    }
 </style>
 @endpush
 @push('acciones')
@@ -201,6 +207,9 @@
                 $("#orden_compra_id").val('{{ old('orden_compra_id') }}');
                 $('#proveedor_id').attr("disabled", true);
             @endif
+            @if (old('bodega'))
+                $('select#bodega').val('{{ old('bodega') }}').trigger('change');
+            @endif
         });
 
         function contarProductos(id)
@@ -350,14 +359,14 @@
                                 </a>
                             </div>
                             <div class="col-md-6">
-                                <a href="#confirmation" class="btn btn-success btn-block"
-                                    data-toggle="modal">
+                                <a href="#selectBodega" class="btn btn-success btn-block"
+                                    data-toggle="modal" id="abrirModal">
                                         Guardar
                                 </a>
                             </div>
                         </div>
-                        @include('pop-up')
                         @include('layouts.pop-up.error')
+                        @include('Facturas.partials.elegirBodega')
                     </div>
                 </form>
             </div>

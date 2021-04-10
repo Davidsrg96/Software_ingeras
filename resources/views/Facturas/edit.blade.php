@@ -258,6 +258,15 @@
                     $('#proveedor_id').attr("disabled", false);
                 @endif
             @endif
+            @if (old('bodega'))
+                $('select#bodega').val('{{ old('bodega') }}').trigger('change');
+            @else
+                @foreach($bodegas as $bodega)
+                    @if($bodega->id == $factura->productos->first()->bodega_id)
+                        $('select#bodega').val('{{ $bodega->id }}').trigger('change');
+                    @endif
+                @endforeach
+            @endif
         });
     </script>
 @endpush
@@ -380,13 +389,13 @@
                                     </a>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="#confirmation" class="btn btn-success btn-block"
+                                    <a href="#selectBodega" class="btn btn-success btn-block"
                                         data-toggle="modal">
                                             Guardar
                                     </a>
                                 </div>
                             </div>
-                            @include('pop-up')
+                            @include('Facturas.partials.elegirBodegaEdit')
                             @include('layouts.pop-up.error')
                         </div>
                 </form>
