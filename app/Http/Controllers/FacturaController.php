@@ -40,14 +40,31 @@ class FacturaController extends Controller
         $factura = factura::create(
             $request->input() + [
                 'Fecha_ingreso' => new DateTime('now'),
-                'Estado'        => 'Gestionando'
+                'Estado'        => 'Disponible'
             ]);
+<<<<<<< HEAD
         
         if ( $request->orden_compra_id ) {
             $this->createConOrden($request, $factura);
 
         }else{
             $this->createSinOrden($request, $factura);
+=======
+        foreach ($request->descP as $key => $desc) {
+            for ($i = 0 ; $i < $request->cantP[$key] ; $i++) { 
+                $codigo = $codigo + 1;
+                $producto = producto::create([
+                    'Codigo'          => $codigo,
+                    'Descripcion'     => $request->descP[$key],
+                    'Precio_producto' => $request->precioP[$key],
+                    'proveedor_id'    => $factura->proveedor->id,
+                    'factura_id'      => $factura->id
+                ]);
+
+                $documento = Storage::disk('factura')->putFile('/', $request->file('Documento'));
+                $producto->update(['Documento' => $documento]);
+            }
+>>>>>>> parent of acb987d (Update FacturaController.php)
         }
 
         $documento = Storage::disk('factura')->putFile('/', $request->file('Documento'));
